@@ -32,8 +32,8 @@ public final class Assets{
 	//loads all of the assets into memory
 	public static void load(){
 		atlas = new TextureAtlas("atlases/atlas.pac");
-		music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.ogg"));
-		music_Exploration.setLooping(true);
+		//music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.ogg"));
+		//music_Exploration.setLooping(true);
 		ShaderProgram.pedantic = false;
 		vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
 		findTextureRegions();
@@ -88,11 +88,11 @@ public final class Assets{
 	
 	//loads all of the sounds
 	private static void loadSounds(){
-		sound_Door = Gdx.audio.newSound(Gdx.files.internal("sounds/door.ogg"));
-		sound_EidolonDeath = Gdx.audio.newSound(Gdx.files.internal("sounds/eidolon_death.ogg"));
-		sound_EidolonHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/eidolon_hurt.ogg"));
+		sound_Door = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/door.ogg"));
+		sound_EidolonDeath = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/eidolon_death.ogg"));
+		sound_EidolonHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/eidolon_hurt.ogg"));
 		sound_InsertSunstone = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));
-		sound_SwordSwing = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_swing.ogg"));
+		sound_SwordSwing = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/sword_swing.ogg"));
 	}
 
 	//creates an animation for a being

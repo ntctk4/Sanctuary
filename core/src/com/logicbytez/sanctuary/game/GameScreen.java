@@ -69,8 +69,9 @@ public class GameScreen implements Screen{
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());
 			players.first().setTouchPads(touchPads);
 		}
-		music = Assets.music_Exploration;
-		music.play();
+		Assets.sound_InsertSunstone.play();
+		//music = Assets.music_Exploration;
+		//music.play();
 	}
 
 	@Override
