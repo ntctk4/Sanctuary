@@ -54,9 +54,7 @@ public class GameScreen implements Screen{
 	@Override
 	//initializes the rest of the objects
 	public void show(){
-		//shader = Assets.vignette;
-		batch.setColor(1, 1, 1, 0);
-		//batch.setShader(shader);
+		
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
@@ -70,6 +68,12 @@ public class GameScreen implements Screen{
 			players.first().setTouchPads(touchPads);
 		}
 		Assets.sound_InsertSunstone.play();
+		//shader = Assets.vignette;
+		//batch.setColor(1, 1, 1, 0);
+		//if(!shader.isCompiled()) {
+		//	System.out.println(shader.getLog());
+		//}
+		//batch.setShader(shader);
 		//music = Assets.music_Exploration;
 		//music.play();
 	}

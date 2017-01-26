@@ -21,7 +21,7 @@ public final class Assets{
 	public static ShaderProgram vignette;
 	public static Sound sound_Door, sound_EidolonDeath, sound_EidolonHurt, sound_InsertSunstone, sound_SwordSwing;
 	private static TextureAtlas atlas;
-	public static TextureRegion texture_Altar, texture_Carpet, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
+	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
 	public static TiledMap room_Up, room_Down, room_Left, room_Right, room_Sanctuary;
