@@ -54,9 +54,9 @@ public class GameScreen implements Screen{
 	@Override
 	//initializes the rest of the objects
 	public void show(){
-		shader = Assets.vignette;
+		//shader = Assets.vignette;
 		batch.setColor(1, 1, 1, 0);
-		batch.setShader(shader);
+		//batch.setShader(shader);
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
@@ -232,9 +232,9 @@ public class GameScreen implements Screen{
 	@Override
 	//resizes the vignette to the screen
 	public void resize(int width, int height){
-		shader.begin();
-		shader.setUniformf("u_resolution", width, height);
-		shader.end();
+		//shader.begin();
+		//shader.setUniformf("u_resolution", width, height);
+		//shader.end();
 	}
 
 	@Override

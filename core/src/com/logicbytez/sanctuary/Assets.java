@@ -34,8 +34,8 @@ public final class Assets{
 		atlas = new TextureAtlas("atlases/atlas.pac");
 		//music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.ogg"));
 		//music_Exploration.setLooping(true);
-		ShaderProgram.pedantic = false;
-		vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
+		//ShaderProgram.pedantic = false;
+		//vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
 		findTextureRegions();
 		generateFonts();
 		loadRooms();
@@ -122,7 +122,7 @@ public final class Assets{
 		sound_EidolonHurt.dispose();
 		sound_InsertSunstone.dispose();
 		sound_SwordSwing.dispose();
-		vignette.dispose();
+		//vignette.dispose();
 		for(int i = 1; i < 16; i++){
 			hallways.get(i).dispose();
 		}

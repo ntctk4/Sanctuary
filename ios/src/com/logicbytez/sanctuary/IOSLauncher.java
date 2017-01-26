@@ -13,7 +13,9 @@ public class IOSLauncher extends IOSApplication.Delegate {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         config.orientationLandscape = true;
         config.orientationPortrait = false;
-        return new IOSApplication(new Main(false, false), config);
+        config.useAccelerometer = false;
+        config.useCompass = false;
+        return new IOSApplication(new Main(false, true), config);
     }
 
     public static void main(String[] argv) {
