@@ -69,7 +69,7 @@ public class Eidolon extends Being{
 	private boolean follow(float delta, Rectangle playerBox){
 		if(box.overlaps(playerBox)){
 			if(!attacking){
-				Assets.sound_SwordSwing.play();
+				Assets.sound_PlayerHurt.play();
 				attacking = true;
 				frameTimer = 0;
 				sprite.setRegion(animationAttack.getKeyFrame(0));
@@ -94,16 +94,17 @@ public class Eidolon extends Being{
 	public void takeDamage(int damage){
 		if(health > 0){
 			super.takeDamage(damage);
+			long id = Assets.sound_EidolonHurt.play();
+			float randomize = MathUtils.randomTriangular() / 4;
+			Assets.sound_SwordSlash.play();
 			if(health < 1){
-				long id = Assets.sound_EidolonDeath.play();
-				Assets.sound_EidolonDeath.setPitch(id, 1 + MathUtils.randomTriangular() / 2);
+				Assets.sound_EidolonHurt.setPitch(id, randomize + .5f);
 				flat = true;
 				frameTimer = 0;
 				sprite.rotate(MathUtils.random(90, 180));
 				sprite.setColor(.75f, .75f, .75f, 1);
 			}else{
-				long id = Assets.sound_EidolonHurt.play();
-				Assets.sound_EidolonHurt.setPitch(id, 1 + MathUtils.randomTriangular() / 4);
+				Assets.sound_EidolonHurt.setPitch(id, randomize + 1);
 				speed += MathUtils.random(1, 10);
 			}
 		}

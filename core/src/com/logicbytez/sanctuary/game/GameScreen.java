@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -35,7 +34,7 @@ public class GameScreen implements Screen{
 	private Main game;
 	private Music music;
 	private OrthographicCamera camera, display;
-	private ShaderProgram shader;
+	//private ShaderProgram shader;
 	private ShapeRenderer boxRenderer;
 	private SpriteBatch batch;
 	private Touchpad touchPads;
@@ -54,28 +53,26 @@ public class GameScreen implements Screen{
 	@Override
 	//initializes the rest of the objects
 	public void show(){
-		
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
 		display = new OrthographicCamera(view.x * 2, view.y * 2);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
-		labyrinth = new Labyrinth(10, entities, this);
+		labyrinth = new Labyrinth(3, entities, this);
 		tileRenderer = new TileRenderer(batch, labyrinth.getCurrentRoom().getMap());
 		if(touchScreen){
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());
 			players.first().setTouchPads(touchPads);
 		}
-		Assets.sound_InsertSunstone.play();
-		//shader = Assets.vignette;
-		//batch.setColor(1, 1, 1, 0);
-		//if(!shader.isCompiled()) {
-		//	System.out.println(shader.getLog());
-		//}
-		//batch.setShader(shader);
-		//music = Assets.music_Exploration;
-		//music.play();
+		batch.setColor(1, 1, 1, 0);
+		/*shader = Assets.vignette;
+		if(!shader.isCompiled()) {
+			System.out.println(shader.getLog());
+		}
+		batch.setShader(shader);
+		music = Assets.music_Exploration;
+		music.play();*/
 	}
 
 	@Override
@@ -236,9 +233,9 @@ public class GameScreen implements Screen{
 	@Override
 	//resizes the vignette to the screen
 	public void resize(int width, int height){
-		//shader.begin();
-		//shader.setUniformf("u_resolution", width, height);
-		//shader.end();
+		/*shader.begin();
+		shader.setUniformf("u_resolution", width, height);
+		shader.end();*/
 	}
 
 	@Override

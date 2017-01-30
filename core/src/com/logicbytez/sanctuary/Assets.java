@@ -19,7 +19,7 @@ public final class Assets{
 	public static BitmapFont font25, font50;
 	public static Music music_Exploration;
 	public static ShaderProgram vignette;
-	public static Sound sound_Door, sound_EidolonDeath, sound_EidolonHurt, sound_InsertSunstone, sound_SwordSwing;
+	public static Sound sound_Door, sound_EidolonHurt, sound_InsertSunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
@@ -32,10 +32,10 @@ public final class Assets{
 	//loads all of the assets into memory
 	public static void load(){
 		atlas = new TextureAtlas("atlases/atlas.pac");
-		//music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.ogg"));
-		//music_Exploration.setLooping(true);
-		//ShaderProgram.pedantic = false;
-		//vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
+		/*music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.ogg"));
+		music_Exploration.setLooping(true);
+		ShaderProgram.pedantic = false;
+		vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));*/
 		findTextureRegions();
 		generateFonts();
 		loadRooms();
@@ -88,11 +88,12 @@ public final class Assets{
 	
 	//loads all of the sounds
 	private static void loadSounds(){
-		sound_Door = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/door.ogg"));
-		sound_EidolonDeath = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/eidolon_death.ogg"));
-		sound_EidolonHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/eidolon_hurt.ogg"));
+		sound_Door = Gdx.audio.newSound(Gdx.files.internal("sounds/door.wav"));
+		sound_EidolonHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/eidolon_hurt.wav"));
 		sound_InsertSunstone = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));
-		sound_SwordSwing = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));//internal("sounds/sword_swing.ogg"));
+		sound_PlayerHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/player_hurt.wav"));
+		sound_SwordSlash = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_slash.wav"));
+		sound_SwordSwing = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_swing.wav"));
 	}
 
 	//creates an animation for a being
@@ -118,9 +119,10 @@ public final class Assets{
 		room_Right.dispose();
 		room_Sanctuary.dispose();
 		sound_Door.dispose();
-		sound_EidolonDeath.dispose();
 		sound_EidolonHurt.dispose();
 		sound_InsertSunstone.dispose();
+		sound_PlayerHurt.dispose();
+		sound_SwordSlash.dispose();
 		sound_SwordSwing.dispose();
 		//vignette.dispose();
 		for(int i = 1; i < 16; i++){
