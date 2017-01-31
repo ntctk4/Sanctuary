@@ -52,23 +52,30 @@ pad_straight
   orig: 135, 135
   offset: 0, 0
   index: -1
-player_blue
+pedestal_stone
   rotate: false
-  xy: 1, 35
-  size: 105, 38
-  orig: 105, 38
+  xy: 1, 41
+  size: 112, 32
+  orig: 112, 32
   offset: 0, 0
   index: -1
-player_red
+player_blue
   rotate: false
   xy: 903, 205
   size: 105, 38
   orig: 105, 38
   offset: 0, 0
   index: -1
+player_red
+  rotate: false
+  xy: 1, 1
+  size: 105, 38
+  orig: 105, 38
+  offset: 0, 0
+  index: -1
 pause_bar
   rotate: false
-  xy: 108, 68
+  xy: 115, 68
   size: 124, 5
   orig: 124, 5
   offset: 0, 0
@@ -117,16 +124,9 @@ obelisk
   index: -1
 pedestal_crystal
   rotate: false
-  xy: 1, 1
-  size: 16, 32
-  orig: 16, 32
-  offset: 0, 0
-  index: -1
-pedestal_stone
-  rotate: false
   xy: 903, 121
-  size: 16, 32
-  orig: 16, 32
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
 health_indicator

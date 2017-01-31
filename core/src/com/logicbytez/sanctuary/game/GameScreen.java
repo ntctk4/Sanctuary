@@ -53,6 +53,12 @@ public class GameScreen implements Screen{
 	@Override
 	//initializes the rest of the objects
 	public void show(){
+		batch.setColor(1, 1, 1, 0);
+		/*shader = Assets.vignette;
+		batch.setShader(shader);
+		if(!shader.isCompiled()) {
+			System.out.println(shader.getLog());
+		}*/
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
@@ -65,14 +71,8 @@ public class GameScreen implements Screen{
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());
 			players.first().setTouchPads(touchPads);
 		}
-		batch.setColor(1, 1, 1, 0);
-		/*shader = Assets.vignette;
-		if(!shader.isCompiled()) {
-			System.out.println(shader.getLog());
-		}
-		batch.setShader(shader);
 		music = Assets.music_Exploration;
-		music.play();*/
+		music.play();
 	}
 
 	@Override

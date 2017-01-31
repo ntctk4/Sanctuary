@@ -95,18 +95,19 @@ public class Eidolon extends Being{
 		if(health > 0){
 			super.takeDamage(damage);
 			long id = Assets.sound_EidolonHurt.play();
-			float randomize = MathUtils.randomTriangular() / 4;
+			float pitch = MathUtils.randomTriangular() / 4;
 			Assets.sound_SwordSlash.play();
 			if(health < 1){
-				Assets.sound_EidolonHurt.setPitch(id, randomize + .5f);
 				flat = true;
 				frameTimer = 0;
+				pitch += .5;
 				sprite.rotate(MathUtils.random(90, 180));
 				sprite.setColor(.75f, .75f, .75f, 1);
 			}else{
-				Assets.sound_EidolonHurt.setPitch(id, randomize + 1);
 				speed += MathUtils.random(1, 10);
+				pitch++;
 			}
+			Assets.sound_EidolonHurt.setPitch(id, pitch);
 		}
 	}
 }

@@ -23,7 +23,7 @@ public final class Assets{
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
-	public static TextureRegion texture_PauseBar, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
+	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
 	public static TiledMap room_Up, room_Down, room_Left, room_Right, room_Sanctuary;
 
 	//never instantiate this class
@@ -32,10 +32,11 @@ public final class Assets{
 	//loads all of the assets into memory
 	public static void load(){
 		atlas = new TextureAtlas("atlases/atlas.pac");
-		/*music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.ogg"));
+		music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.mp3"));
 		music_Exploration.setLooping(true);
-		ShaderProgram.pedantic = false;
-		vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));*/
+		music_Exploration.setVolume(.25f);
+		//ShaderProgram.pedantic = false;
+		//vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
 		findTextureRegions();
 		generateFonts();
 		loadRooms();
@@ -54,6 +55,8 @@ public final class Assets{
 		texture_PadOutline = atlas.findRegion("pad_outline");
 		texture_PadStraight = atlas.findRegion("pad_straight");
 		texture_PauseBar = atlas.findRegion("pause_bar");
+		texture_PedestalCrystal = atlas.findRegion("pedestal_crystal");
+		texture_PedestalStone = atlas.findRegion("pedestal_stone");
 		texture_PlayerBlue = atlas.findRegion("player_blue");
 		texture_PlayerRed = atlas.findRegion("player_red");
 		texture_Portal = atlas.findRegion("portal");
@@ -112,7 +115,7 @@ public final class Assets{
 		atlas.dispose();
 		font25.dispose();
 		font50.dispose();
-		//music_Exploration.dispose();
+		music_Exploration.dispose();
 		room_Up.dispose();
 		room_Down.dispose();
 		room_Left.dispose();
