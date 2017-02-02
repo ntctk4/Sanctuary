@@ -29,6 +29,7 @@ public class GameScreen implements Screen{
 	private Activity activity;
 	private Array<Player> players;
 	private Array<Entity> entities;
+	private Display hud;
 	private Labyrinth labyrinth;
 	private TileRenderer tileRenderer;
 	private Main game;
@@ -63,6 +64,7 @@ public class GameScreen implements Screen{
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
 		display = new OrthographicCamera(view.x * 2, view.y * 2);
+		hud = new Display(batch, view);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
 		labyrinth = new Labyrinth(3, entities, this);
@@ -162,6 +164,7 @@ public class GameScreen implements Screen{
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
 		}
+		hud.update();
 		if(testing){
 			testing();
 		}else{
