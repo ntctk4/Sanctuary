@@ -4,14 +4,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Being;
 
 public class Eidolon extends Being{
+	private boolean random, stuck;
 	private int deathFrame = MathUtils.random(7);
 	private float colorTimer = 0;
 	private Animation<TextureRegion> animationDead;
+	private Vector2 oldPosition;
 
 	//calculates an initial position, then spawns the enemy
 	public Eidolon(GameScreen game){
@@ -22,6 +25,7 @@ public class Eidolon extends Being{
 		attackPower = 1;
 		colorable = false;
 		health = 3;
+		oldPosition = new Vector2();
 		speed = MathUtils.random(25, 50);
 		sprite = new Sprite(animationMove.getKeyFrame(0));
 		sprite.setColor(colorTimer, colorTimer, colorTimer, 1);
@@ -49,6 +53,36 @@ public class Eidolon extends Being{
 					getGame().getPlayers().get(1).takeDamage(attackPower); //put this in middle or end of animation?
 				}
 			}
+			if(center.equals(oldPosition) && !attacking){
+				if(!stuck){
+					random = MathUtils.randomBoolean();
+					stuck = true;
+				}
+				if(move.x > 0 || move.x < 0){
+					if(center.x != oldPosition.x){
+						stuck = false;
+						random = MathUtils.randomBoolean();
+					}else if(random){
+						System.out.println("UP: " + move.x + " , " + move.y);
+						move.y = speed * delta;
+					}else{
+						System.out.println("DOWN: " + move.x + " , " + move.y);
+						move.y = -speed * delta;
+					}
+				}else if(move.y > 0 || move.y < 0){
+					if(center.y != oldPosition.y){
+						stuck = false;
+						random = MathUtils.randomBoolean();
+					}else if(random){
+						System.out.println("LEFT: " + move.x + " , " + move.y);
+						move.x = -speed * delta;
+					}else{
+						System.out.println("RIGHT: " + move.x + " , " + move.y);
+						move.x = speed * delta;
+					}
+				}
+			}
+			oldPosition.set(center);
 		}else{
 			colorable = true;
 		}
