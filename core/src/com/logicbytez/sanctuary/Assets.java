@@ -22,7 +22,7 @@ public final class Assets{
 	public static Sound sound_Door, sound_EidolonHurt, sound_InsertSunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
-	public static TextureRegion texture_DisplaySunstone;
+	public static TextureRegion texture_HudSunstone, texture_HudCrystal;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
 	public static TiledMap room_Up, room_Down, room_Left, room_Right, room_Sanctuary;
@@ -48,10 +48,11 @@ public final class Assets{
 	private static void findTextureRegions(){
 		texture_Altar = atlas.findRegion("altar");
 		texture_Column = atlas.findRegion("column");
-		texture_DisplaySunstone = atlas.findRegion("sunstone");
 		texture_Door = atlas.findRegion("door");
 		texture_Eidolon = atlas.findRegion("eidolon");
 		texture_HealthIndicator = atlas.findRegion("health_indicator");
+		texture_HudCrystal = atlas.findRegion("HudCrystal");
+		texture_HudSunstone = atlas.findRegion("HudSunstone");
 		texture_PadButton = atlas.findRegion("pad_button");
 		texture_PadDiagonal = atlas.findRegion("pad_diagonal");
 		texture_PadOutline = atlas.findRegion("pad_outline");

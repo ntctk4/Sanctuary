@@ -29,7 +29,7 @@ public class GameScreen implements Screen{
 	private Activity activity;
 	private Array<Player> players;
 	private Array<Entity> entities;
-	private Display hud;
+	private HeadUpDisplay hud;
 	private Labyrinth labyrinth;
 	private TileRenderer tileRenderer;
 	private Main game;
@@ -64,7 +64,7 @@ public class GameScreen implements Screen{
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
 		display = new OrthographicCamera(view.x * 2, view.y * 2);
-		hud = new Display(batch, view);
+		hud = new HeadUpDisplay(batch, view);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
 		labyrinth = new Labyrinth(3, entities, this);
@@ -164,6 +164,8 @@ public class GameScreen implements Screen{
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
 		}
+		//hud.setSunstones(the number of sunstones the player has);
+		//hud.setCrystals(the number of crystals the player has);
 		hud.update();
 		if(testing){
 			testing();
