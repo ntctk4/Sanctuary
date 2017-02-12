@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -35,7 +36,7 @@ public class GameScreen implements Screen{
 	private Main game;
 	private Music music;
 	private OrthographicCamera camera, display;
-	//private ShaderProgram shader;
+	private ShaderProgram shader;
 	private ShapeRenderer boxRenderer;
 	private SpriteBatch batch;
 	private Touchpad touchPads;
@@ -55,11 +56,11 @@ public class GameScreen implements Screen{
 	//initializes the rest of the objects
 	public void show(){
 		batch.setColor(1, 1, 1, 0);
-		/*shader = Assets.vignette;
+		shader = Assets.vignette;
 		batch.setShader(shader);
 		if(!shader.isCompiled()) {
 			System.out.println(shader.getLog());
-		}*/
+		}
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
@@ -236,9 +237,9 @@ public class GameScreen implements Screen{
 	@Override
 	//resizes the vignette to the screen
 	public void resize(int width, int height){
-		/*shader.begin();
+		shader.begin();
 		shader.setUniformf("u_resolution", width, height);
-		shader.end();*/
+		shader.end();
 	}
 
 	@Override

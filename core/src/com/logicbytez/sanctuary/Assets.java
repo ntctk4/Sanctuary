@@ -36,8 +36,8 @@ public final class Assets{
 		music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.mp3"));
 		music_Exploration.setLooping(true);
 		music_Exploration.setVolume(.25f);
-		//ShaderProgram.pedantic = false;
-		//vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
+		ShaderProgram.pedantic = false;
+		vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
 		findTextureRegions();
 		generateFonts();
 		loadRooms();
@@ -132,7 +132,7 @@ public final class Assets{
 		sound_PlayerHurt.dispose();
 		sound_SwordSlash.dispose();
 		sound_SwordSwing.dispose();
-		//vignette.dispose();
+		vignette.dispose();
 		for(int i = 1; i < 16; i++){
 			hallways.get(i).dispose();
 		}
