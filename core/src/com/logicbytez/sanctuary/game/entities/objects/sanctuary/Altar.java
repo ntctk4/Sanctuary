@@ -9,6 +9,7 @@ public class Altar extends Entity{
 	int sunstonesInserted;
 	MapObject object;
 	
+	//creates the sun altar by setting up its data
 	public Altar(GameScreen game, MapObject object){
 		super(game, object);
 		this.object = object;
@@ -22,10 +23,11 @@ public class Altar extends Entity{
 		sprite.setPosition(box.x, box.y);
 	}
 
+	//places a sunstone from the player into the sun altar
 	public void insertSunstone(){
-		//should only be able to insert sunstones if the player has at least one
-		if(sunstonesInserted < 10){
+		if(sunstonesInserted < 10 && game.getHud().getSunstones() > 0){
 			Assets.sound_InsertSunstone.play();
+			game.getHud().subSunstone();
 			object.getProperties().put("Type", ++sunstonesInserted);
 			sprite.setRegion(animation.getKeyFrame(sunstonesInserted));
 		}

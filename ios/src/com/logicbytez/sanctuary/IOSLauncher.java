@@ -1,7 +1,6 @@
 package com.logicbytez.sanctuary;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
-import org.robovm.apple.glkit.GLKViewDrawableColorFormat;
 import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;

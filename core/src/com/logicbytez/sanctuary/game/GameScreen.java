@@ -164,8 +164,6 @@ public class GameScreen implements Screen{
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
 		}
-		//hud.setSunstones(the number of sunstones the player has);
-		//hud.setCrystals(the number of crystals the player has);
 		hud.update();
 		if(testing){
 			testing();
@@ -289,6 +287,11 @@ public class GameScreen implements Screen{
 	//returns the array of entities
 	public Array<Entity> getEntities(){
 		return entities;
+	}
+	
+	//returns the head-up display
+	public HeadUpDisplay getHud(){
+		return hud;
 	}
 
 	//returns the array of players

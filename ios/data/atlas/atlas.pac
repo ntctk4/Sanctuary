@@ -73,7 +73,7 @@ player_red
   orig: 105, 38
   offset: 0, 0
   index: -1
-HudCrystal
+hud_crystal
   rotate: false
   xy: 227, 86
   size: 58, 57
@@ -94,7 +94,7 @@ eidolon
   orig: 63, 48
   offset: 0, 0
   index: -1
-HudSunstone
+hud_sunstone
   rotate: false
   xy: 903, 104
   size: 58, 49

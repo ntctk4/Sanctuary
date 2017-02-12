@@ -79,6 +79,7 @@ public class Door extends Entity{
 				opening = false;
 				getGame().switchStopped();
 				teleportPlayers(delta);
+				getGame().updateCamera(delta);
 			}
 			sprite.setRegion(animation.getKeyFrame(frameTimer));
 		}else if(direction == Direction.DOWN){
@@ -131,6 +132,5 @@ public class Door extends Entity{
 				players.first().setPosition(x, roomSizeY / 2 - 16);
 			}
 		}
-		getGame().updateCamera(delta);
 	}
 }
