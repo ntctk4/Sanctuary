@@ -48,13 +48,13 @@ public abstract class Being extends Entity{
 		if(facing){
 			sprite.flip(true, false);
 		}
-		center.x = sprite.getX() + sprite.getWidth() / 2;
-		center.y = sprite.getY() + sprite.getHeight() / 2;
 		move.setZero();
 	}
 
 	//returns the center of the sprite
 	public Vector2 getCenter(){
+		center.x = sprite.getX() + sprite.getWidth() / 2;
+		center.y = sprite.getY() + sprite.getHeight() / 2;
 		return center;
 	}
 
