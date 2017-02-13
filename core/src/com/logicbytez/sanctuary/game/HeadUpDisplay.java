@@ -26,24 +26,14 @@ public class HeadUpDisplay{
 		//Assets.fontHud.draw(batch, "Wave Incoming!", view.x - 160, view.y - 12);
 	}
 	
-	//gives one light crystal to the player
-	public void addCrystal(){
-		crystals++;
+	//gives or takes one light crystal
+	public void addCrystal(boolean add){
+		crystals += add ? 1 : -1;
 	}
 	
-	//gives one sunstone to the player
-	public void addSunstone(){
-		stones++;
-	}
-	
-	//takes one light crystal from the player
-	public void subCrystal(){
-		crystals--;
-	}
-	
-	//takes one sunstone from the player
-	public void subSunstone(){
-		stones--;
+	//gives or takes one sunstone
+	public void addSunstone(boolean add){
+		stones += add ? 1 : -1;
 	}
 	
 	//returns amount of player light crystals

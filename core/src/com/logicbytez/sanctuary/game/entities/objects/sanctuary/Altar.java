@@ -27,7 +27,7 @@ public class Altar extends Entity{
 	public void insertSunstone(){
 		if(sunstonesInserted < 10 && game.getHud().getSunstones() > 0){
 			Assets.sound_InsertSunstone.play();
-			game.getHud().subSunstone();
+			game.getHud().addSunstone(false);
 			object.getProperties().put("Type", ++sunstonesInserted);
 			sprite.setRegion(animation.getKeyFrame(sunstonesInserted));
 		}
