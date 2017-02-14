@@ -131,6 +131,10 @@ public final class Assets{
 		room_Antechamber_Down.dispose();
 		room_Antechamber_Left.dispose();
 		room_Antechamber_Right.dispose();
+		room_Pedestal_Up.dispose();
+		room_Pedestal_Down.dispose();
+		room_Pedestal_Left.dispose();
+		room_Pedestal_Right.dispose();
 		room_Sanctuary.dispose();
 		sound_Door.dispose();
 		sound_EidolonHurt.dispose();

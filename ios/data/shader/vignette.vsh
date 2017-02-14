@@ -10,4 +10,8 @@ void main(){
 	v_color = a_color;
 	v_texCoord0 = a_texCoord0;
 	gl_Position = u_projTrans * vec4(a_position, 1.0);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> branch 'master' of https://github.com/strothmannsm/Sanctuary.git
