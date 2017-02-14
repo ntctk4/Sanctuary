@@ -20,9 +20,11 @@ public class Labyrinth{
 	private GameScreen game;
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
+	private int pedestals;
 
 	//creates the entire level of a labyrinth
-	public Labyrinth(int roomAmount, Array<Entity> entities, GameScreen game){
+	public Labyrinth(int roomAmount, Array<Entity> entities, GameScreen game, int pedestals){
+		this.pedestals = pedestals;
 		this.entities = entities;
 		this.game = game;
 		int index = 2;
@@ -44,9 +46,36 @@ public class Labyrinth{
 				rooms.swap(index++, nodeIndex);
 			}
 		}
+		for(Room room : rooms)
+		{
+			if(room.getMap().equals(Assets.hallways.get(1)))
+			{
+				room.switchTypePedestal(1);
+				pedestals--;
+			}
+			else if(room.getMap().equals(Assets.hallways.get(2)))
+			{
+				room.switchTypePedestal(2);
+				pedestals--;
+			}
+			else if(room.getMap().equals(Assets.hallways.get(4)))
+			{
+				room.switchTypePedestal(4);
+				pedestals--;
+			}
+			else if(room.getMap().equals(Assets.hallways.get(8)))
+			{
+				room.switchTypePedestal(8);
+				pedestals--;
+			}
+			if(pedestals == 0)
+			{
+				break;
+			}
+		}
 		currentRoom.setMap(Assets.room_Sanctuary);
 		rooms.peek().addEntity(new Portal(game));
-		rooms.peek().switchType();
+		rooms.peek().switchTypeAntechamber();
 		updateCurrentRoom(0, 0);
 	}
 

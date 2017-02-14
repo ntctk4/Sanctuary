@@ -81,7 +81,7 @@ public class Room{
 	}
 
 	//changes the map from a hallway to a room
-	public void switchType(){
+	public void switchTypeAntechamber(){
 		switch(convertBinaryToDecimal(doors)){
 		case 8:
 			map = Assets.room_Antechamber_Up;
@@ -95,5 +95,25 @@ public class Room{
 		case 1:
 			map = Assets.room_Antechamber_Left;
 		}
+	}
+	
+	public void switchTypePedestal(int roomType){
+		switch(roomType){
+		case 1:
+			map = Assets.room_Pedestal_Left;
+			break;
+		case 2:
+			map = Assets.room_Pedestal_Down;
+			break;
+		case 4:
+			map = Assets.room_Pedestal_Right;
+			break;
+		case 8:
+			map = Assets.room_Pedestal_Up;
+		
+		
+		
+		
+	}
 	}
 }

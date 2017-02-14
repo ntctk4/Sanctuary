@@ -68,7 +68,7 @@ public class GameScreen implements Screen{
 		hud = new HeadUpDisplay(batch, view);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
-		labyrinth = new Labyrinth(3, entities, this);
+		labyrinth = new Labyrinth(10, entities, this, 3);
 		tileRenderer = new TileRenderer(batch, labyrinth.getCurrentRoom().getMap());
 		if(touchScreen){
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());
