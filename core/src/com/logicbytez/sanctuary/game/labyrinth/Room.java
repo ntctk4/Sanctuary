@@ -84,16 +84,16 @@ public class Room{
 	public void switchType(){
 		switch(convertBinaryToDecimal(doors)){
 		case 8:
-			map = Assets.room_Up;
+			map = Assets.room_Antechamber_Up;
 			break;
 		case 4:
-			map = Assets.room_Right;
+			map = Assets.room_Antechamber_Right;
 			break;
 		case 2:
-			map = Assets.room_Down;
+			map = Assets.room_Antechamber_Down;
 			break;
 		case 1:
-			map = Assets.room_Left;
+			map = Assets.room_Antechamber_Left;
 		}
 	}
 }

@@ -26,8 +26,8 @@ public final class Assets{
 	//use these assets, want to use the animate method from assests around 103
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
-	public static TiledMap room_Up, room_Down, room_Left, room_Right, room_Sanctuary;
-	public static TiledMap pedestal_Up, pedestal_Down, pedestal_Left, pedestal_Right;
+	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
+	public static TiledMap room_Pedestal_Up, room_Pedestal_Down, room_Pedestal_Left, room_Pedestal_Right;
 	
 	//never instantiate this class
 	private Assets(){}
@@ -89,22 +89,14 @@ public final class Assets{
 		for(int i = 1; i < 16; i++){
 			hallways.add(new TmxMapLoader().load("maps/hallways/hallway_" + i + ".tmx"));
 		}
-		//1 = left
-		//2 = down
-		//4 = right
-		//8 = down
-		hallways.set(1, new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx"));
-		hallways.set(2, new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx"));
-		hallways.set(4, new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx"));
-		hallways.set(8, new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx"));
-		room_Up = new TmxMapLoader().load("maps/antechamber/room_antechamber_up.tmx");
-		room_Down = new TmxMapLoader().load("maps/antechamber/room_antechamber_down.tmx");
-		room_Left = new TmxMapLoader().load("maps/antechamber/room_antechamber_left.tmx");
-		room_Right = new TmxMapLoader().load("maps/antechamber/room_antechamber_right.tmx");
-		pedestal_Up = new TmxMapLoader().load("maps/pedestals/pedestal_up.tmx");
-		pedestal_Down = new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx");
-		pedestal_Left = new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx");
-		pedestal_Right = new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx");
+		room_Antechamber_Up = new TmxMapLoader().load("maps/antechamber/room_antechamber_up.tmx");
+		room_Antechamber_Down = new TmxMapLoader().load("maps/antechamber/room_antechamber_down.tmx");
+		room_Antechamber_Left = new TmxMapLoader().load("maps/antechamber/room_antechamber_left.tmx");
+		room_Antechamber_Right = new TmxMapLoader().load("maps/antechamber/room_antechamber_right.tmx");
+		room_Pedestal_Up = new TmxMapLoader().load("maps/pedestals/pedestal_up.tmx");
+		room_Pedestal_Down = new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx");
+		room_Pedestal_Left = new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx");
+		room_Pedestal_Right = new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx");
 		room_Sanctuary = new TmxMapLoader().load("maps/room_sanctuary.tmx");
 	}
 	
@@ -135,10 +127,10 @@ public final class Assets{
 		font25.dispose();
 		font50.dispose();
 		music_Exploration.dispose();
-		room_Up.dispose();
-		room_Down.dispose();
-		room_Left.dispose();
-		room_Right.dispose();
+		room_Antechamber_Up.dispose();
+		room_Antechamber_Down.dispose();
+		room_Antechamber_Left.dispose();
+		room_Antechamber_Right.dispose();
 		room_Sanctuary.dispose();
 		sound_Door.dispose();
 		sound_EidolonHurt.dispose();

@@ -36,6 +36,8 @@ public class Eidolon extends Being{
 	//controls the movement of the enemy
 	public void update(float delta){
 		if(health > 0 && !getGame().isStopped()){
+			center.x = sprite.getX() + sprite.getWidth() / 2;
+			center.y = sprite.getY() + sprite.getHeight() / 2;
 			if(colorTimer < 1){
 				colorTimer += delta;
 				if(colorTimer >= 1){
