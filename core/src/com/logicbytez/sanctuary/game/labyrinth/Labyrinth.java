@@ -10,6 +10,7 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
 import com.logicbytez.sanctuary.game.entities.objects.antechamber.Portal;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal;
 
 public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
@@ -115,6 +116,8 @@ public class Labyrinth{
 					entities.add(new Altar(game, object));
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
+				}else if(object.getName().equals("pedestal")){
+					entities.add(new Pedestal(game, object));
 				}else{
 					entities.add(new Entity(game, object));
 				}

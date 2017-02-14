@@ -23,10 +23,12 @@ public final class Assets{
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
 	public static TextureRegion texture_HudCrystal, texture_HudSunstone;
+	//use these assets, want to use the animate method from assests around 103
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
 	public static TiledMap room_Up, room_Down, room_Left, room_Right, room_Sanctuary;
-
+	public static TiledMap pedestal_Up, pedestal_Down, pedestal_Left, pedestal_Right;
+	
 	//never instantiate this class
 	private Assets(){}
 
@@ -87,10 +89,22 @@ public final class Assets{
 		for(int i = 1; i < 16; i++){
 			hallways.add(new TmxMapLoader().load("maps/hallways/hallway_" + i + ".tmx"));
 		}
+		//1 = left
+		//2 = down
+		//4 = right
+		//8 = down
+		hallways.set(1, new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx"));
+		hallways.set(2, new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx"));
+		hallways.set(4, new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx"));
+		hallways.set(8, new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx"));
 		room_Up = new TmxMapLoader().load("maps/antechamber/room_antechamber_up.tmx");
 		room_Down = new TmxMapLoader().load("maps/antechamber/room_antechamber_down.tmx");
 		room_Left = new TmxMapLoader().load("maps/antechamber/room_antechamber_left.tmx");
 		room_Right = new TmxMapLoader().load("maps/antechamber/room_antechamber_right.tmx");
+		pedestal_Up = new TmxMapLoader().load("maps/pedestals/pedestal_up.tmx");
+		pedestal_Down = new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx");
+		pedestal_Left = new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx");
+		pedestal_Right = new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx");
 		room_Sanctuary = new TmxMapLoader().load("maps/room_sanctuary.tmx");
 	}
 	
