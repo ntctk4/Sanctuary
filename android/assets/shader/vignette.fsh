@@ -1,4 +1,4 @@
-precision mediump float;
+//precision mediump float;
 uniform vec2 u_resolution;
 uniform sampler2D u_sampler;
 varying vec4 v_color;
