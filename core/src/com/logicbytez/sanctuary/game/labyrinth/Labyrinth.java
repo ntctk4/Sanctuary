@@ -46,28 +46,11 @@ public class Labyrinth{
 				rooms.swap(index++, nodeIndex);
 			}
 		}
+		
+		//creates pedestal rooms
 		for(Room room : rooms)
 		{
-			if(room.getMap().equals(Assets.hallways.get(1)))
-			{
-				room.switchTypePedestal(1);
-				pedestals--;
-			}
-			else if(room.getMap().equals(Assets.hallways.get(2)))
-			{
-				room.switchTypePedestal(2);
-				pedestals--;
-			}
-			else if(room.getMap().equals(Assets.hallways.get(4)))
-			{
-				room.switchTypePedestal(4);
-				pedestals--;
-			}
-			else if(room.getMap().equals(Assets.hallways.get(8)))
-			{
-				room.switchTypePedestal(8);
-				pedestals--;
-			}
+			createPedestalRoom(room);
 			if(pedestals == 0)
 			{
 				break;
@@ -165,5 +148,31 @@ public class Labyrinth{
 	//returns the size of every room
 	public Vector2 getRoomSize(){
 		return roomSize;
+	}
+	
+	//puts pedestal rooms in the labyrinth
+	public void createPedestalRoom(Room room)
+	{
+		if(room.getMap().equals(Assets.hallways.get(1)))
+		{
+			room.switchTypePedestal(1);
+			pedestals--;
+		}
+		else if(room.getMap().equals(Assets.hallways.get(2)))
+		{
+			room.switchTypePedestal(2);
+			pedestals--;
+		}
+		else if(room.getMap().equals(Assets.hallways.get(4)))
+		{
+			room.switchTypePedestal(4);
+			pedestals--;
+		}
+		else if(room.getMap().equals(Assets.hallways.get(8)))
+		{
+			room.switchTypePedestal(8);
+			pedestals--;
+		}
+		
 	}
 }

@@ -7,22 +7,32 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Pedestal extends Entity{
 	
-	int sunstonesInserted;
+	int sunstone;
 	MapObject object;
 	
 	public Pedestal(GameScreen game, MapObject object){
-		super(game);
+		super(game, object);
 		this.object = object;
 		impede = true;
-		animation = Assets.animate(11, 1, 0, Assets.texture_PedestalStone);
+		animation = Assets.animate(7, 1, 0, Assets.texture_PedestalStone);
 		Object type = object.getProperties().get("Type");
 		if(type != null){
-			sunstonesInserted = (Integer)type;
+			sunstone = (Integer)type;
 		}
-		sprite = new Sprite(animation.getKeyFrame(sunstonesInserted));
+		sprite = new Sprite(animation.getKeyFrame(sunstone));
 		sprite.setPosition(box.x, box.y);
 		//This needs to be implemented!
 		//There will be two types of these.
 		//This might have to be split into two classes.
+	}
+	
+	public void takeSunstone()
+	{
+		if(sunstone < 1 && game.getHud().getSunstones() > 0){
+			Assets.sound_InsertSunstone.play();
+			game.getHud().addSunstone(true);
+			object.getProperties().put("Type", ++sunstone);
+			sprite.setRegion(animation.getKeyFrame(sunstone));
+		}
 	}
 }

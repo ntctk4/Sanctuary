@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
 import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.input.Gamepad;
@@ -95,6 +96,9 @@ public class Activity{
 			if(entity != player && player.getBox().overlaps(entity.getBox())){
 				if(button == Gamepad.A && entity.getClass() == Altar.class){
 					((Altar)entity).insertSunstone();			
+					break;
+				}else if(button == Gamepad.A && entity.getClass() == Pedestal.class){
+					((Pedestal)entity).takeSunstone();
 					break;
 				}else if(button == Gamepad.A && entity.getClass() == Door.class){
 					((Door)entity).open();
