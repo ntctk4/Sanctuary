@@ -1,7 +1,7 @@
 name=atlas
 filename=atlas.pac
 input=input
-output=output
+output=..\android\assets\atlas
 
 alias=true
 alphaThreshold=0
