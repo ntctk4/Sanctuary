@@ -48,7 +48,7 @@ public class Eidolon extends Being{
 			}
 			nearestPlayer = getGame().getPlayers().first();
 			if(getGame().getPlayers().size > 1 && getGame().getPlayers().get(1).getHealth() > 0){
-				if(distance(getGame().getPlayers().first()) > distance(getGame().getPlayers().get(1))){
+				if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(getGame().getPlayers().get(1))){
 					nearestPlayer = getGame().getPlayers().get(1);
 				}
 			}

@@ -103,17 +103,23 @@ public class GameScreen implements Screen{
 			entity.update(delta);
 		}
 		if(players.size > 1){
-			for(Player player : players){
-				player.contain(camera, view);
+			if(players.first().getHealth() > 0 && players.get(1).getHealth() > 0){
+				for(Player player : players){
+					player.contain(camera, view);
+				}
 			}
 		}
 	}
 
 	//updates the camera and its center
 	public void updateCamera(float delta){
-		if(players.size > 1){
-			cameraCenter.set(players.first().getCenter().add(players.get(1).getCenter()).scl(.5f));
-		}else{
+		if(players.size > 1 && players.get(1).getHealth() > 0){
+			if(players.first().getHealth() > 0){
+				cameraCenter.set(players.first().getCenter().add(players.get(1).getCenter()).scl(.5f));
+			}else{
+				cameraCenter.set(players.get(1).getCenter());
+			}
+		}else if(players.first().getHealth() > 0){
 			cameraCenter.set(players.first().getCenter());
 		}
 		if(shakeTimer > 0){
@@ -152,12 +158,14 @@ public class GameScreen implements Screen{
 			Assets.font25.draw(batch, "return", -35, 0);
 			Assets.font25.draw(batch, "exit", -20, -70);
 			batch.draw(Assets.texture_PauseBar, -62, 43);
-		}else if(players.first().getHealth() <= 0){ //only works for player 1
-			batch.setColor(1, 1, 1, 1);
-			Assets.font50.draw(batch, "game over", -70, 10);
-			batch.setColor(.25f, .25f, .25f, 1);
-			stopped = true;
-			touchScreen = false;
+		}else if(players.first().getHealth() <= 0){
+			if(players.size < 2 || (players.size > 1 && players.get(1).getHealth() <= 0)){
+				batch.setColor(1, 1, 1, 1);
+				Assets.font50.draw(batch, "game over", -100, 50);
+				batch.setColor(.25f, .25f, .25f, 1);
+				stopped = true;
+				touchScreen = false;
+			}
 		}else if(touchScreen){
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);

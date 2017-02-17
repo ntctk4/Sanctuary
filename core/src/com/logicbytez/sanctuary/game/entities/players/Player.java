@@ -58,7 +58,9 @@ public class Player extends Being{
 		}else{
 			move.setZero();
 		}
-		super.update(delta);
+		if(health > 0){
+			super.update(delta);
+		}
 		healthIndicator.update(delta);
 	}
 
@@ -143,5 +145,8 @@ public class Player extends Being{
 		super.takeDamage(damage);
 		getGame().shakeScreen(.25f, 50);
 		healthIndicator.set(health, maxHealth);
+		if(health <= 0){
+			sprite.setRegion(Assets.texture_Gravestone);
+		}
 	}
 }
