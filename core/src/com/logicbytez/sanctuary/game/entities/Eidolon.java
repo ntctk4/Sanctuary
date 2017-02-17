@@ -8,12 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Being;
+import com.logicbytez.sanctuary.game.entities.players.Player;
 
 public class Eidolon extends Being{
-	private boolean randomDirection, stuck, stuckDirection;
+	private boolean playerDirection, stuck, stuckDirection;
 	private int deathFrame = MathUtils.random(7);
 	private float colorTimer = 0;
 	private Animation<TextureRegion> animationDead;
+	private Player nearestPlayer;
 	private Vector2 oldPosition;
 
 	//calculates an initial position, then spawns the enemy
@@ -44,21 +46,22 @@ public class Eidolon extends Being{
 				}
 				sprite.setColor(colorTimer, colorTimer, colorTimer, 1);
 			}
-			if(getGame().getPlayers().first().getHealth() > 0 && (getGame().getPlayers().size < 2 || getGame().getPlayers().get(1).getHealth() < 1 || distance(getGame().getPlayers().first()) < distance(getGame().getPlayers().get(1)))){
-				if(follow(delta, getGame().getPlayers().first().getBox())){
-					getGame().getPlayers().first().takeDamage(attackPower);
-				}
-			}else if(getGame().getPlayers().size > 1 && getGame().getPlayers().get(1).getHealth() > 0){
-				if(follow(delta, getGame().getPlayers().get(1).getBox())){
-					getGame().getPlayers().get(1).takeDamage(attackPower);
+			nearestPlayer = getGame().getPlayers().first();
+			if(getGame().getPlayers().size > 1 && getGame().getPlayers().get(1).getHealth() > 0){
+				if(distance(getGame().getPlayers().first()) > distance(getGame().getPlayers().get(1))){
+					nearestPlayer = getGame().getPlayers().get(1);
 				}
 			}
-			if(!attacking && (move.isZero() || !stuck)){
-				if(move.x == 0 || move.y == 0){
-					stuckDirection = move.y == 0 ? true : false;
-					randomDirection = MathUtils.randomBoolean();
-					stuck = true;
+			if(follow(delta, nearestPlayer.getBox())){
+				nearestPlayer.takeDamage(attackPower);
+			}
+			if(!attacking && !stuck && (move.x == 0 || move.y == 0)){
+				if(stuckDirection = move.y == 0 ? true : false){
+					playerDirection = getCenter().y < nearestPlayer.getCenter().y ? true : false;
+				}else{
+					playerDirection = getCenter().x > nearestPlayer.getCenter().x ? true : false;
 				}
+				stuck = true;
 			}
 			if(stuck){
 				center.x = sprite.getX() + sprite.getWidth() / 2;
@@ -66,7 +69,7 @@ public class Eidolon extends Being{
 				if(stuckDirection){
 					if(center.x != oldPosition.x){
 						stuck = false;
-					}else if(randomDirection){
+					}else if(playerDirection){
 						move.y = speed * delta;
 					}else{
 						move.y = -speed * delta;
@@ -74,7 +77,7 @@ public class Eidolon extends Being{
 				}else{
 					if(center.y != oldPosition.y){
 						stuck = false;
-					}else if(randomDirection){
+					}else if(playerDirection){
 						move.x = -speed * delta;
 					}else{
 						move.x = speed * delta;
