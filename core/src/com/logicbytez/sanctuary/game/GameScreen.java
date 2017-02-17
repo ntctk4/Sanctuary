@@ -58,9 +58,6 @@ public class GameScreen implements Screen{
 		batch.setColor(1, 1, 1, 0);
 		shader = Assets.vignette;
 		batch.setShader(shader);
-		if(!shader.isCompiled()) {
-			System.out.println(shader.getLog());
-		}
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
@@ -68,7 +65,7 @@ public class GameScreen implements Screen{
 		hud = new HeadUpDisplay(batch, view);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
-		labyrinth = new Labyrinth(10, entities, this, 3);
+		labyrinth = new Labyrinth(3, entities, this, 3);
 		tileRenderer = new TileRenderer(batch, labyrinth.getCurrentRoom().getMap());
 		if(touchScreen){
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());

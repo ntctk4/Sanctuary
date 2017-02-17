@@ -10,7 +10,7 @@ import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Being;
 
 public class Eidolon extends Being{
-	private boolean random, stuck;
+	private boolean randomDirection, stuck, stuckDirection;
 	private int deathFrame = MathUtils.random(7);
 	private float colorTimer = 0;
 	private Animation<TextureRegion> animationDead;
@@ -36,8 +36,6 @@ public class Eidolon extends Being{
 	//controls the movement of the enemy
 	public void update(float delta){
 		if(health > 0 && !getGame().isStopped()){
-			center.x = sprite.getX() + sprite.getWidth() / 2;
-			center.y = sprite.getY() + sprite.getHeight() / 2;
 			if(colorTimer < 1){
 				colorTimer += delta;
 				if(colorTimer >= 1){
@@ -48,38 +46,37 @@ public class Eidolon extends Being{
 			}
 			if(getGame().getPlayers().first().getHealth() > 0 && (getGame().getPlayers().size < 2 || getGame().getPlayers().get(1).getHealth() < 1 || distance(getGame().getPlayers().first()) < distance(getGame().getPlayers().get(1)))){
 				if(follow(delta, getGame().getPlayers().first().getBox())){
-					getGame().getPlayers().first().takeDamage(attackPower); //put this in middle or end of animation?
+					getGame().getPlayers().first().takeDamage(attackPower);
 				}
 			}else if(getGame().getPlayers().size > 1 && getGame().getPlayers().get(1).getHealth() > 0){
 				if(follow(delta, getGame().getPlayers().get(1).getBox())){
-					getGame().getPlayers().get(1).takeDamage(attackPower); //put this in middle or end of animation?
+					getGame().getPlayers().get(1).takeDamage(attackPower);
 				}
 			}
-			if(center.equals(oldPosition) && !attacking){
-				if(!stuck){
-					random = MathUtils.randomBoolean();
+			if(!attacking && (move.isZero() || !stuck)){
+				if(move.x == 0 || move.y == 0){
+					stuckDirection = move.y == 0 ? true : false;
+					randomDirection = MathUtils.randomBoolean();
 					stuck = true;
 				}
-				if(move.x > 0 || move.x < 0){
+			}
+			if(stuck){
+				center.x = sprite.getX() + sprite.getWidth() / 2;
+				center.y = sprite.getY() + sprite.getHeight() / 2;
+				if(stuckDirection){
 					if(center.x != oldPosition.x){
 						stuck = false;
-						random = MathUtils.randomBoolean();
-					}else if(random){
-						System.out.println("UP: " + move.x + " , " + move.y);
+					}else if(randomDirection){
 						move.y = speed * delta;
 					}else{
-						System.out.println("DOWN: " + move.x + " , " + move.y);
 						move.y = -speed * delta;
 					}
-				}else if(move.y > 0 || move.y < 0){
+				}else{
 					if(center.y != oldPosition.y){
 						stuck = false;
-						random = MathUtils.randomBoolean();
-					}else if(random){
-						System.out.println("LEFT: " + move.x + " , " + move.y);
+					}else if(randomDirection){
 						move.x = -speed * delta;
 					}else{
-						System.out.println("RIGHT: " + move.x + " , " + move.y);
 						move.x = speed * delta;
 					}
 				}

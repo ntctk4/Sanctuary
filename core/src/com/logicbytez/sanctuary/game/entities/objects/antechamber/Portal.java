@@ -29,7 +29,7 @@ public class Portal extends Entity{
 		if(!getGame().isStopped()){
 			if(enemyAmount < 10 && spawnTimer > 10){
 				spawnTimer = 0;
-				if(enemyAmount < 1){ //TESTING: set 1 back to 10
+				if(enemyAmount < 10){
 					Eidolon enemy = new Eidolon(getGame());
 					enemyAmount++;
 					getGame().getLabyrinth().getCurrentRoom().addEntity(enemy);
