@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="20" tilewidth="16" tileheight="16" backgroundcolor="#000000" nextobjectid="13">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="20" tilewidth="16" tileheight="16" backgroundcolor="#000000" nextobjectid="3">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="48" columns="4">
   <image source="../tileset.png" width="64" height="192"/>
   <tile id="0">
@@ -135,16 +135,16 @@
  </tileset>
  <layer name="background1" width="18" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFpAAOJMyGhpHl8AFJIOYEYi4CGKRGhgRzeNEwKeag68WFR6I5yECDAr2E3DZqDvXNUcRijsoAmqMKxGpArA7FILYGHvUA7vkIvQ==
+   eJztkssKgCAQRRUqKxcGroI2Qa///8JGcOAioia0KuFs7sycxThCfOtJog9oKuZbYiBGjyZUoU/CvI54OFcZ10x00G8COHc9S4HHetzs5DGQl3isyHtsxrNGPAjWtgcedIV5yrMTBxB6sHYlPPh4V+hJ7eT31Hn4BtCT+uu3PXxLpyd3Mzf6FAre
   </data>
  </layer>
  <layer name="background2" width="18" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFxAJGJLYqFnkNJDYLleyUGDVnwM0BxbUaFEsSkNfAIj8Khg9QAmJlOtoHAB1SAks=
+   eJxjYBgFo2AUEAsksYjJ0N0Vo2CggBIQK9PRPgCiRAB7
   </data>
  </layer>
  <objectgroup name="objects">
-  <object id="1" name="door" type="DOWN" x="128" y="296" width="32" height="8"/>
-  <object id="10" name="pedestal" type="DOWN" x="129" y="128" width="31" height="30"/>
+  <object id="1" name="pedestal" x="128" y="112" width="32" height="32"/>
+  <object id="2" name="door" type="DOWN" x="128" y="296" width="32" height="8"/>
  </objectgroup>
 </map>

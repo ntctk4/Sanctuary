@@ -68,6 +68,7 @@ public class TitleScreen implements Screen{
 				game.setScreen(game.gameScreen);
 			}
 		}
+		Assets.font50.setColor(1, 1, 1, 1); //resets font
 	}
 
 	@Override

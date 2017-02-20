@@ -58,9 +58,6 @@ public class GameScreen implements Screen{
 		batch.setColor(1, 1, 1, 0);
 		shader = Assets.vignette;
 		batch.setShader(shader);
-		if(!shader.isCompiled()) {
-			System.out.println(shader.getLog());
-		}
 		boxRenderer = new ShapeRenderer();
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
@@ -68,7 +65,7 @@ public class GameScreen implements Screen{
 		hud = new HeadUpDisplay(batch, view);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
-		labyrinth = new Labyrinth(10, entities, this, 3);
+		labyrinth = new Labyrinth(entities, this);
 		tileRenderer = new TileRenderer(batch, labyrinth.getCurrentRoom().getMap());
 		if(touchScreen){
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());
@@ -106,17 +103,23 @@ public class GameScreen implements Screen{
 			entity.update(delta);
 		}
 		if(players.size > 1){
-			for(Player player : players){
-				player.contain(camera, view);
+			if(players.first().getHealth() > 0 && players.get(1).getHealth() > 0){
+				for(Player player : players){
+					player.contain(camera, view);
+				}
 			}
 		}
 	}
 
 	//updates the camera and its center
 	public void updateCamera(float delta){
-		if(players.size > 1){
-			cameraCenter.set(players.first().getCenter().add(players.get(1).getCenter()).scl(.5f));
-		}else{
+		if(players.size > 1 && players.get(1).getHealth() > 0){
+			if(players.first().getHealth() > 0){
+				cameraCenter.set(players.first().getCenter().add(players.get(1).getCenter()).scl(.5f));
+			}else{
+				cameraCenter.set(players.get(1).getCenter());
+			}
+		}else if(players.first().getHealth() > 0){
 			cameraCenter.set(players.first().getCenter());
 		}
 		if(shakeTimer > 0){
@@ -155,12 +158,14 @@ public class GameScreen implements Screen{
 			Assets.font25.draw(batch, "return", -35, 0);
 			Assets.font25.draw(batch, "exit", -20, -70);
 			batch.draw(Assets.texture_PauseBar, -62, 43);
-		}else if(players.first().getHealth() <= 0){ //only works for player 1
-			batch.setColor(1, 1, 1, 1);
-			Assets.font50.draw(batch, "game over", -70, 10);
-			batch.setColor(.25f, .25f, .25f, 1);
-			stopped = true;
-			touchScreen = false;
+		}else if(players.first().getHealth() <= 0){
+			if(players.size < 2 || (players.size > 1 && players.get(1).getHealth() <= 0)){
+				batch.setColor(1, 1, 1, 1);
+				Assets.font50.draw(batch, "game over", -100, 50);
+				batch.setColor(.25f, .25f, .25f, 1);
+				stopped = true;
+				touchScreen = false;
+			}
 		}else if(touchScreen){
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
@@ -177,7 +182,7 @@ public class GameScreen implements Screen{
 	public float alphaRatio(){
 		float ratio = players.first().getSprite().getY();
 		if(players.size > 1){
-			Math.min(ratio, players.get(1).getSprite().getY());
+			ratio = Math.min(ratio, players.get(1).getSprite().getY());
 		}
 		ratio = (ratio - 16) / 32;
 		return ratio > 1 ? 1 : ratio > .5 ? ratio : .5f;
@@ -186,9 +191,9 @@ public class GameScreen implements Screen{
 	//displays testing information and draws the invisible boundaries
 	private void testing(){
 		float m1 = java.lang.Runtime.getRuntime().totalMemory(), m2 = java.lang.Runtime.getRuntime().maxMemory();
-		Assets.font25.draw(batch, Float.toString(Math.round(m1 / m2 * 10000) / 100f) + "%", 5 - view.x, view.y - 5);
-		Assets.font25.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 5 - view.x, view.y - 30);
-		Assets.font25.draw(batch, Integer.toString(batch.renderCalls), 5 - view.x, view.y - 55);
+		Assets.font25.draw(batch, Integer.toString(batch.renderCalls), 5 - view.x, -view.y + 75);
+		Assets.font25.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 5 - view.x, -view.y + 50);
+		Assets.font25.draw(batch, Float.toString(Math.round(m1 / m2 * 10000) / 100f) + "%", 5 - view.x, -view.y + 25);
 		batch.end();
 		boxRenderer.setProjectionMatrix(camera.combined);
 		boxRenderer.begin(ShapeType.Line);
@@ -204,16 +209,20 @@ public class GameScreen implements Screen{
 			if(culling(entity.getBox())){
 				if(entity.getClass() == Eidolon.class){
 					boxRenderer.setColor(1, 0, 0, 1);
-					drawBox(entity.getCollisionBox());
+					drawBox(entity.getBox());
 					boxRenderer.setColor(.5f, 0, 0, 1);
 				}else if(entity.getClass() == Player.class){
 					boxRenderer.setColor(0, 1, 0, 1);
-					drawBox(entity.getCollisionBox());
+					drawBox(entity.getBox());
 					boxRenderer.setColor(0, .5f, 0, 1);
 				}else{
+					if(entity.getBox() != entity.getCollisionBox()){
+						boxRenderer.setColor(.5f, .5f, 0, 1);
+						drawBox(entity.getBox());
+					}
 					boxRenderer.setColor(1, 1, 0, 1);
 				}
-				drawBox(entity.getBox());
+				drawBox(entity.getCollisionBox());
 			}
 		}
 		boxRenderer.end();

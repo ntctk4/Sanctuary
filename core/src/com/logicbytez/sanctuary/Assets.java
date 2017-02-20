@@ -21,7 +21,7 @@ public final class Assets{
 	public static ShaderProgram vignette;
 	public static Sound sound_Door, sound_EidolonHurt, sound_InsertSunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
-	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
+	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator;
 	public static TextureRegion texture_HudCrystal, texture_HudSunstone, texture_Hourglass, texture_Sand;
 	//use these assets, want to use the animate method from assets around 103
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
@@ -52,6 +52,7 @@ public final class Assets{
 		texture_Column = atlas.findRegion("column");
 		texture_Door = atlas.findRegion("door");
 		texture_Eidolon = atlas.findRegion("eidolon");
+		texture_Gravestone = atlas.findRegion("gravestone");
 		texture_HealthIndicator = atlas.findRegion("health_indicator");
 		texture_Hourglass = atlas.findRegion("hourglass");
 		texture_HudCrystal = atlas.findRegion("hud_crystal");
@@ -91,15 +92,15 @@ public final class Assets{
 		for(int i = 1; i < 16; i++){
 			hallways.add(new TmxMapLoader().load("maps/hallways/hallway_" + i + ".tmx"));
 		}
-		room_Antechamber_Up = new TmxMapLoader().load("maps/antechamber/room_antechamber_up.tmx");
-		room_Antechamber_Down = new TmxMapLoader().load("maps/antechamber/room_antechamber_down.tmx");
-		room_Antechamber_Left = new TmxMapLoader().load("maps/antechamber/room_antechamber_left.tmx");
-		room_Antechamber_Right = new TmxMapLoader().load("maps/antechamber/room_antechamber_right.tmx");
-		room_Pedestal_Up = new TmxMapLoader().load("maps/pedestals/pedestal_up.tmx");
-		room_Pedestal_Down = new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx");
-		room_Pedestal_Left = new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx");
-		room_Pedestal_Right = new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx");
-		room_Sanctuary = new TmxMapLoader().load("maps/room_sanctuary.tmx");
+		room_Antechamber_Up = new TmxMapLoader().load("maps/antechamber/antechamber_up.tmx");
+		room_Antechamber_Down = new TmxMapLoader().load("maps/antechamber/antechamber_down.tmx");
+		room_Antechamber_Left = new TmxMapLoader().load("maps/antechamber/antechamber_left.tmx");
+		room_Antechamber_Right = new TmxMapLoader().load("maps/antechamber/antechamber_right.tmx");
+		room_Pedestal_Up = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_up.tmx");
+		room_Pedestal_Down = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_down.tmx");
+		room_Pedestal_Left = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_left.tmx");
+		room_Pedestal_Right = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_right.tmx");
+		room_Sanctuary = new TmxMapLoader().load("maps/sanctuary.tmx");
 	}
 	
 	//loads all of the sounds

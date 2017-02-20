@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
@@ -15,21 +14,21 @@ import com.logicbytez.sanctuary.game.entities.objects.Pedestal;
 public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
+	private int pedestalAmount = 5, roomAmount = 12;
 	private Array<Room> rooms;
 	private Array<Entity> entities;
 	private GameScreen game;
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
-	private int pedestals;
 
-	//creates the entire level of a labyrinth
-	public Labyrinth(int roomAmount, Array<Entity> entities, GameScreen game, int pedestals){
-		this.pedestals = pedestals;
+	//creates the entire level of the labyrinth
+	public Labyrinth(Array<Entity> entities, GameScreen game){
 		this.entities = entities;
 		this.game = game;
 		int index = 2;
 		layout = new Room[maxSize][maxSize];
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP);
+		currentRoom.switchType(Room.Type.SANCTUARY);
 		Room adjacentRoom = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN);
 		rooms = new Array<Room>(false, Math.max(roomAmount -= 3, 3));
 		rooms.addAll(currentRoom, adjacentRoom, createRoom(adjacentRoom));
@@ -40,25 +39,19 @@ public class Labyrinth{
 			int nodeIndex = MathUtils.random(index, rooms.size - 1);
 			Room room = createRoom(rooms.get(nodeIndex));
 			if(room != null){
-				rooms.add(room);
+				if(roomAmount == pedestalAmount + 1 && pedestalAmount > 0){
+					room.switchType(Room.Type.PEDESTAL_ROOM);
+					pedestalAmount--;
+				}else{
+					rooms.add(room);
+				}
 				roomAmount--;
 			}else{
 				rooms.swap(index++, nodeIndex);
 			}
 		}
-		
-		//creates pedestal rooms
-		for(Room room : rooms)
-		{
-			createPedestalRoom(room);
-			if(pedestals == 0)
-			{
-				break;
-			}
-		}
-		currentRoom.setMap(Assets.room_Sanctuary);
 		rooms.peek().addEntity(new Portal(game));
-		rooms.peek().switchTypeAntechamber();
+		rooms.peek().switchType(Room.Type.ANTECHAMBER);
 		updateCurrentRoom(0, 0);
 	}
 
@@ -129,7 +122,9 @@ public class Labyrinth{
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
 				}else if(object.getName().equals("pedestal")){
-					entities.add(new Pedestal(game, object));
+					if(!currentRoom.hasGenerated()){
+						currentRoom.addEntity(new Pedestal(game, object));
+					}
 				}else{
 					entities.add(new Entity(game, object));
 				}
@@ -148,31 +143,5 @@ public class Labyrinth{
 	//returns the size of every room
 	public Vector2 getRoomSize(){
 		return roomSize;
-	}
-	
-	//puts pedestal rooms in the labyrinth
-	public void createPedestalRoom(Room room)
-	{
-		if(room.getMap().equals(Assets.hallways.get(1)))
-		{
-			room.switchTypePedestal(1);
-			pedestals--;
-		}
-		else if(room.getMap().equals(Assets.hallways.get(2)))
-		{
-			room.switchTypePedestal(2);
-			pedestals--;
-		}
-		else if(room.getMap().equals(Assets.hallways.get(4)))
-		{
-			room.switchTypePedestal(4);
-			pedestals--;
-		}
-		else if(room.getMap().equals(Assets.hallways.get(8)))
-		{
-			room.switchTypePedestal(8);
-			pedestals--;
-		}
-		
 	}
 }

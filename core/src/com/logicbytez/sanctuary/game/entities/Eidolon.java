@@ -8,12 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Being;
+import com.logicbytez.sanctuary.game.entities.players.Player;
 
 public class Eidolon extends Being{
-	private boolean random, stuck;
+	private boolean playerDirection, stuck, stuckDirection;
 	private int deathFrame = MathUtils.random(7);
 	private float colorTimer = 0;
 	private Animation<TextureRegion> animationDead;
+	private Player nearestPlayer;
 	private Vector2 oldPosition;
 
 	//calculates an initial position, then spawns the enemy
@@ -35,9 +37,7 @@ public class Eidolon extends Being{
 
 	//controls the movement of the enemy
 	public void update(float delta){
-		if(health > 0 && !getGame().isStopped()){
-			center.x = sprite.getX() + sprite.getWidth() / 2;
-			center.y = sprite.getY() + sprite.getHeight() / 2;
+		if(health > 0 && !game.isStopped()){
 			if(colorTimer < 1){
 				colorTimer += delta;
 				if(colorTimer >= 1){
@@ -46,40 +46,40 @@ public class Eidolon extends Being{
 				}
 				sprite.setColor(colorTimer, colorTimer, colorTimer, 1);
 			}
-			if(getGame().getPlayers().first().getHealth() > 0 && (getGame().getPlayers().size < 2 || getGame().getPlayers().get(1).getHealth() < 1 || distance(getGame().getPlayers().first()) < distance(getGame().getPlayers().get(1)))){
-				if(follow(delta, getGame().getPlayers().first().getBox())){
-					getGame().getPlayers().first().takeDamage(attackPower); //put this in middle or end of animation?
-				}
-			}else if(getGame().getPlayers().size > 1 && getGame().getPlayers().get(1).getHealth() > 0){
-				if(follow(delta, getGame().getPlayers().get(1).getBox())){
-					getGame().getPlayers().get(1).takeDamage(attackPower); //put this in middle or end of animation?
+			nearestPlayer = game.getPlayers().first();
+			if(game.getPlayers().size > 1 && game.getPlayers().get(1).getHealth() > 0){
+				if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(game.getPlayers().get(1))){
+					nearestPlayer = game.getPlayers().get(1);
 				}
 			}
-			if(center.equals(oldPosition) && !attacking){
-				if(!stuck){
-					random = MathUtils.randomBoolean();
-					stuck = true;
+			if(follow(delta, nearestPlayer.getBox())){
+				nearestPlayer.takeDamage(attackPower);
+			}
+			if(!attacking && !stuck && (move.x == 0 || move.y == 0)){
+				if(stuckDirection = move.y == 0 ? true : false){
+					playerDirection = getCenter().y < nearestPlayer.getCenter().y ? true : false;
+				}else{
+					playerDirection = getCenter().x > nearestPlayer.getCenter().x ? true : false;
 				}
-				if(move.x > 0 || move.x < 0){
+				stuck = true;
+			}
+			if(stuck){
+				center.x = sprite.getX() + sprite.getWidth() / 2;
+				center.y = sprite.getY() + sprite.getHeight() / 2;
+				if(stuckDirection){
 					if(center.x != oldPosition.x){
 						stuck = false;
-						random = MathUtils.randomBoolean();
-					}else if(random){
-						System.out.println("UP: " + move.x + " , " + move.y);
+					}else if(playerDirection){
 						move.y = speed * delta;
 					}else{
-						System.out.println("DOWN: " + move.x + " , " + move.y);
 						move.y = -speed * delta;
 					}
-				}else if(move.y > 0 || move.y < 0){
+				}else{
 					if(center.y != oldPosition.y){
 						stuck = false;
-						random = MathUtils.randomBoolean();
-					}else if(random){
-						System.out.println("LEFT: " + move.x + " , " + move.y);
+					}else if(playerDirection){
 						move.x = -speed * delta;
 					}else{
-						System.out.println("RIGHT: " + move.x + " , " + move.y);
 						move.x = speed * delta;
 					}
 				}

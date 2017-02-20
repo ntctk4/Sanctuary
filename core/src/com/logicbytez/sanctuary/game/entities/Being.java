@@ -28,7 +28,7 @@ public abstract class Being extends Entity{
 			}
 			sprite.setRegion(animationAttack.getKeyFrame(frameTimer));
 		}else{
-			if(move.isZero() || getGame().getActivity().checkCollision(collisionBox, move)){
+			if(move.isZero() || game.getActivity().checkCollision(collisionBox, move)){
 				frameTimer = 0;
 			}else{
 				frameTimer += Math.sqrt(speed * 2) * delta;

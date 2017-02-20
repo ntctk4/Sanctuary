@@ -11,7 +11,7 @@ public class Portal extends Entity{
 
 	public Portal(GameScreen game){
 		super(game);
-		this.setGame(game);
+		this.game = game;
 		animation = Assets.animate(7, 2, 0, Assets.texture_Portal);
 		flat = true;
 		sprite = new Sprite(animation.getKeyFrame(0));
@@ -26,19 +26,19 @@ public class Portal extends Entity{
 			frameTimer = 0;
 		}
 		sprite.setRegion(animation.getKeyFrame(frameTimer));
-		if(!getGame().isStopped()){
+		if(!game.isStopped()){
 			if(enemyAmount < 10 && spawnTimer > 10){
 				spawnTimer = 0;
-				if(enemyAmount < 1){ //TESTING: set 1 back to 10
-					Eidolon enemy = new Eidolon(getGame());
+				if(enemyAmount < 10){
+					Eidolon enemy = new Eidolon(game);
 					enemyAmount++;
-					getGame().getLabyrinth().getCurrentRoom().addEntity(enemy);
-					getGame().getEntities().add(enemy);
+					game.getLabyrinth().getCurrentRoom().addEntity(enemy);
+					game.getEntities().add(enemy);
 				}
 			}else if(enemyAmount >= 10 && spawnTimer > 1){
-				Eidolon enemy = new Eidolon(getGame());
-				getGame().getLabyrinth().getCurrentRoom().addEntity(enemy);
-				getGame().getEntities().add(enemy);
+				Eidolon enemy = new Eidolon(game);
+				game.getLabyrinth().getCurrentRoom().addEntity(enemy);
+				game.getEntities().add(enemy);
 				spawnTimer = 0;
 			}
 		}

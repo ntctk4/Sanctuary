@@ -7,8 +7,11 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Room{
-	private boolean hasForeground;
+	public enum Type{ANTECHAMBER, PEDESTAL_ROOM, SANCTUARY}
+	private boolean hasForeground, hasGenerated;
 	private char[] doors;
+	private int doorAmount;
+	private Type type;
 	final static int NONE = -1, UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
 	private Array<Entity> entities;
 	private TiledMap map;
@@ -20,6 +23,7 @@ public class Room{
 		location = new Vector2(x, y);
 		entities = new Array<Entity>(false, 0);
 		if(side != NONE){
+			doorAmount++;
 			doors[side] = '1';
 			map = Assets.hallways.get(convertBinaryToDecimal(doors));
 			if(map.getLayers().get("foreground") != null){
@@ -30,6 +34,7 @@ public class Room{
 
 	//changes the doors and map of the room
 	void update(int side){
+		doorAmount++;
 		doors[side] = '1';
 		map = Assets.hallways.get(convertBinaryToDecimal(doors));
 	}
@@ -45,9 +50,54 @@ public class Room{
 		return decimal;
 	}
 
+	//changes the map from a hallway to a type of room
+	public void switchType(Type type){
+		this.type = type;
+		int decimal = convertBinaryToDecimal(doors);
+		switch(type){
+		case ANTECHAMBER:
+			switch(decimal){
+			case 8:
+				map = Assets.room_Antechamber_Up;
+				break;
+			case 4:
+				map = Assets.room_Antechamber_Right;
+				break;
+			case 2:
+				map = Assets.room_Antechamber_Down;
+				break;
+			case 1:
+				map = Assets.room_Antechamber_Left;
+			}
+			break;
+		case PEDESTAL_ROOM:
+			switch(decimal){
+			case 8:
+				map = Assets.room_Pedestal_Up;
+				break;
+			case 4:
+				map = Assets.room_Pedestal_Right;
+				break;
+			case 2:
+				map = Assets.room_Pedestal_Down;
+				break;
+			case 1:
+				map = Assets.room_Pedestal_Left;
+			}
+			break;
+		case SANCTUARY:
+			map = Assets.room_Sanctuary;
+		}
+	}
+
 	//adds a new entity to the room
 	public void addEntity(Entity entity){
 		entities.add(entity);
+	}
+
+	//returns true if this room has already been generated
+	public boolean hasGenerated(){
+		return hasGenerated;
 	}
 
 	//returns the bottom layer of the map
@@ -55,8 +105,14 @@ public class Room{
 		return (TiledMapTileLayer)map.getLayers().get(0);
 	}
 
-	//returns the entities found in the room
+	//returns the amount of doors the room has
+	public int getDoorAmount(){
+		return doorAmount;
+	}
+
+	//returns the entities found in the room during generation
 	public Array<Entity> getEntities(){
+		hasGenerated = true;
 		return entities;
 	}
 
@@ -70,50 +126,13 @@ public class Room{
 		return map;
 	}
 	
-	//sets the map of the room
-	public void setMap(TiledMap map){
-		this.map = map;
+	//returns the type of the room
+	public Type getType(){
+		return type;
 	}
 	
 	//returns true if there is a foreground
 	public boolean hasForeground(){
 		return hasForeground;
-	}
-
-	//changes the map from a hallway to a room
-	public void switchTypeAntechamber(){
-		switch(convertBinaryToDecimal(doors)){
-		case 8:
-			map = Assets.room_Antechamber_Up;
-			break;
-		case 4:
-			map = Assets.room_Antechamber_Right;
-			break;
-		case 2:
-			map = Assets.room_Antechamber_Down;
-			break;
-		case 1:
-			map = Assets.room_Antechamber_Left;
-		}
-	}
-	
-	public void switchTypePedestal(int roomType){
-		switch(roomType){
-		case 1:
-			map = Assets.room_Pedestal_Left;
-			break;
-		case 2:
-			map = Assets.room_Pedestal_Down;
-			break;
-		case 4:
-			map = Assets.room_Pedestal_Right;
-			break;
-		case 8:
-			map = Assets.room_Pedestal_Up;
-		
-		
-		
-		
-	}
 	}
 }

@@ -1,38 +1,42 @@
 package com.logicbytez.sanctuary.game.entities.objects;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Pedestal extends Entity{
-	
-	int sunstone;
-	MapObject object;
-	
+	int sunstoneMeter = 6;
+	long timer;
+
+	//creates the pedestal by setting up its data
 	public Pedestal(GameScreen game, MapObject object){
 		super(game, object);
-		this.object = object;
 		impede = true;
 		animation = Assets.animate(7, 1, 0, Assets.texture_PedestalStone);
-		Object type = object.getProperties().get("Type");
-		if(type != null){
-			sunstone = (Integer)type;
-		}
-		sprite = new Sprite(animation.getKeyFrame(sunstone));
-		sprite.setPosition(box.x, box.y);
-		//This needs to be implemented!
-		//There will be two types of these.
-		//This might have to be split into two classes.
+		collisionBox = new Rectangle(box.x + 8, box.y + 8, box.width / 2, box.height / 2);
+		sprite = new Sprite(animation.getKeyFrame(sunstoneMeter));
+		sprite.setPosition(collisionBox.x, collisionBox.y);
 	}
-	
-	public void takeSunstone()
-	{
-		if(sunstone < 1 && game.getHud().getSunstones() > 0){
+
+	//updates the sunstone generation meter
+	public void update(float delta){
+		if(sunstoneMeter < 6){
+			sunstoneMeter = Math.min(6, (int)(TimeUtils.timeSinceMillis(timer) / 10000));
+			sprite.setRegion(animation.getKeyFrame(sunstoneMeter));
+		}
+	}
+
+	//removes the sunstone from the pedestal and gives it to the player
+	public void dispenseSunstone(){
+		if(sunstoneMeter == 6){
 			Assets.sound_InsertSunstone.play();
 			game.getHud().addSunstone(true);
-			object.getProperties().put("Type", ++sunstone);
-			sprite.setRegion(animation.getKeyFrame(sunstone));
+			sunstoneMeter = 0;
+			sprite.setRegion(animation.getKeyFrame(sunstoneMeter));
+			timer = TimeUtils.millis();
 		}
 	}
 }
