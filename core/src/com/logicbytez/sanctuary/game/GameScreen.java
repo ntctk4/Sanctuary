@@ -84,15 +84,11 @@ public class GameScreen implements Screen{
 		entities.sort(new Comparator<Entity>(){
 			@Override
 			public int compare(Entity t1, Entity t2){
-				if(t1.getSprite() != null && t2.getSprite() != null){ //ERROR!!!
-					if(t1.isFlat() || t2.isFlat()){
-						return !t1.isFlat() ? 1 : !t2.isFlat() ? -1 : 0;
-					}
-					float y1 = t1.getSprite().getY(), y2 = t2.getSprite().getY();
-					return y1 == y2 ? 0 : y1 < y2 ? 1 : -1;
+				if(t1.isFlat() || t2.isFlat()){
+					return !t1.isFlat() ? 1 : !t2.isFlat() ? -1 : 0;
 				}
-				//System.out.println("sprite is null!"); //ERROR!!!
-				return -1; //ERROR!!!
+				float y1 = t1.getSprite().getY(), y2 = t2.getSprite().getY();
+				return y1 == y2 ? 0 : y1 < y2 ? 1 : -1;
 			}
 		});
 		draw();

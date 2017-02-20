@@ -121,8 +121,10 @@ public class Labyrinth{
 					entities.add(new Altar(game, object));
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
-				}else if(object.getName().equals("pedestal") && !currentRoom.hasGenerated()){
-					currentRoom.addEntity(new Pedestal(game, object));
+				}else if(object.getName().equals("pedestal")){
+					if(!currentRoom.hasGenerated()){
+						currentRoom.addEntity(new Pedestal(game, object));
+					}
 				}else{
 					entities.add(new Entity(game, object));
 				}
