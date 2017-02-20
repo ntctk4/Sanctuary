@@ -19,7 +19,7 @@ public class Entity{
 
 	//creates a standard rectangle
 	public Entity(GameScreen game){
-		this.setGame(game);
+		this.game = game;
 		box = new Rectangle();
 	}
 	
@@ -29,8 +29,7 @@ public class Entity{
 		MapProperties traits = object.getProperties();
 		float x = (Float)traits.get("x"), y = (Float)traits.get("y");
 		box.set(x, y, (Float)traits.get("width"), (Float)traits.get("height"));
-		String name = object.getName();
-		if(name.equals("column")){
+		if(object.getName().equals("column")){
 			impede = true;
 			sprite = new Sprite(Assets.texture_Column);
 		}
@@ -71,17 +70,10 @@ public class Entity{
 		return flat;
 	}
 
+	//returns its color tinting
 	public void setColor(Color color){
 		if(colorable){
 			sprite.setColor(color);
 		}
-	}
-
-	public GameScreen getGame() {
-		return game;
-	}
-
-	public void setGame(GameScreen game) {
-		this.game = game;
 	}
 }

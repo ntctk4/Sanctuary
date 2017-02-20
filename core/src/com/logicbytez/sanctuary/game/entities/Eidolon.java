@@ -37,7 +37,7 @@ public class Eidolon extends Being{
 
 	//controls the movement of the enemy
 	public void update(float delta){
-		if(health > 0 && !getGame().isStopped()){
+		if(health > 0 && !game.isStopped()){
 			if(colorTimer < 1){
 				colorTimer += delta;
 				if(colorTimer >= 1){
@@ -46,10 +46,10 @@ public class Eidolon extends Being{
 				}
 				sprite.setColor(colorTimer, colorTimer, colorTimer, 1);
 			}
-			nearestPlayer = getGame().getPlayers().first();
-			if(getGame().getPlayers().size > 1 && getGame().getPlayers().get(1).getHealth() > 0){
-				if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(getGame().getPlayers().get(1))){
-					nearestPlayer = getGame().getPlayers().get(1);
+			nearestPlayer = game.getPlayers().first();
+			if(game.getPlayers().size > 1 && game.getPlayers().get(1).getHealth() > 0){
+				if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(game.getPlayers().get(1))){
+					nearestPlayer = game.getPlayers().get(1);
 				}
 			}
 			if(follow(delta, nearestPlayer.getBox())){

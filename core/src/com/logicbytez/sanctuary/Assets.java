@@ -89,15 +89,15 @@ public final class Assets{
 		for(int i = 1; i < 16; i++){
 			hallways.add(new TmxMapLoader().load("maps/hallways/hallway_" + i + ".tmx"));
 		}
-		room_Antechamber_Up = new TmxMapLoader().load("maps/antechamber/room_antechamber_up.tmx");
-		room_Antechamber_Down = new TmxMapLoader().load("maps/antechamber/room_antechamber_down.tmx");
-		room_Antechamber_Left = new TmxMapLoader().load("maps/antechamber/room_antechamber_left.tmx");
-		room_Antechamber_Right = new TmxMapLoader().load("maps/antechamber/room_antechamber_right.tmx");
-		room_Pedestal_Up = new TmxMapLoader().load("maps/pedestals/pedestal_up.tmx");
-		room_Pedestal_Down = new TmxMapLoader().load("maps/pedestals/pedestal_down.tmx");
-		room_Pedestal_Left = new TmxMapLoader().load("maps/pedestals/pedestal_left.tmx");
-		room_Pedestal_Right = new TmxMapLoader().load("maps/pedestals/pedestal_right.tmx");
-		room_Sanctuary = new TmxMapLoader().load("maps/room_sanctuary.tmx");
+		room_Antechamber_Up = new TmxMapLoader().load("maps/antechamber/antechamber_up.tmx");
+		room_Antechamber_Down = new TmxMapLoader().load("maps/antechamber/antechamber_down.tmx");
+		room_Antechamber_Left = new TmxMapLoader().load("maps/antechamber/antechamber_left.tmx");
+		room_Antechamber_Right = new TmxMapLoader().load("maps/antechamber/antechamber_right.tmx");
+		room_Pedestal_Up = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_up.tmx");
+		room_Pedestal_Down = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_down.tmx");
+		room_Pedestal_Left = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_left.tmx");
+		room_Pedestal_Right = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_right.tmx");
+		room_Sanctuary = new TmxMapLoader().load("maps/sanctuary.tmx");
 	}
 	
 	//loads all of the sounds

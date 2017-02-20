@@ -38,7 +38,7 @@ public class Activity{
 		}
 		for(int i = 0; i < entities.size; i++){
 			if(entities.get(i).getImpede() == true){
-				otherBox.set(entities.get(i).getBox());
+				otherBox.set(entities.get(i).getCollisionBox());
 				checkOverlap(box, move);
 			}
 		}
@@ -94,15 +94,17 @@ public class Activity{
 		for(int i = 0; i < entities.size; i++){
 			Entity entity = entities.get(i);
 			if(entity != player && player.getBox().overlaps(entity.getBox())){
-				if(button == Gamepad.A && entity.getClass() == Altar.class){
-					((Altar)entity).insertSunstone();			
-					break;
-				}else if(button == Gamepad.A && entity.getClass() == Pedestal.class){
-					((Pedestal)entity).takeSunstone();
-					break;
-				}else if(button == Gamepad.A && entity.getClass() == Door.class){
-					((Door)entity).open();
-					break;
+				if(button == Gamepad.A){
+					if(entity.getClass() == Altar.class){
+						((Altar)entity).insertSunstone();
+						break;
+					}else if(entity.getClass() == Door.class){
+						((Door)entity).open();
+						break;
+					}else if(entity.getClass() == Pedestal.class){
+						((Pedestal)entity).dispenseSunstone();
+						break;
+					}
 				}else if(button == Gamepad.X && entity.getClass() == Eidolon.class){
 					Eidolon enemy = (Eidolon)entity;
 					if(enemy.getHealth() > 0){

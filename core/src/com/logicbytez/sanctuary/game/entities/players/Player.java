@@ -53,7 +53,7 @@ public class Player extends Being{
 		}else{
 			Keyboard.update(this, move);
 		}
-		if(health > 0 && !getGame().isStopped()){
+		if(health > 0 && !game.isStopped()){
 			move.scl(speed * delta);
 		}else{
 			move.setZero();
@@ -66,13 +66,13 @@ public class Player extends Being{
 
 	//makes the player perform an action
 	public void action(int button){
-		if(getGame().isPaused() && button == Gamepad.START){
-			getGame().switchMenu();
+		if(game.isPaused() && button == Gamepad.START){
+			game.switchMenu();
 			//call pause menu from around here
-		}else if(!attacking && !getGame().isStopped()){
+		}else if(!attacking && !game.isStopped()){
 			switch(button){
 			case Gamepad.A:
-				getGame().getActivity().interaction(button, this);
+				game.getActivity().interaction(button, this);
 				break;
 			case Gamepad.B:
 				System.out.println("B");
@@ -81,15 +81,15 @@ public class Player extends Being{
 				Assets.sound_SwordSwing.play();
 				attacking = true;
 				frameTimer = 0;
-				getGame().getActivity().interaction(button, this);
-				getGame().shakeScreen(.25f, 10);
+				game.getActivity().interaction(button, this);
+				game.shakeScreen(.25f, 10);
 				healthIndicator.set(health, maxHealth);
 				break;
 			case Gamepad.Y:
 				System.out.println("Y");
 				break;
 			case Gamepad.START:
-				getGame().switchMenu();
+				game.switchMenu();
 			}
 		}
 	}
@@ -143,7 +143,7 @@ public class Player extends Being{
 	//makes the player take damage to their health
 	public void takeDamage(int damage){
 		super.takeDamage(damage);
-		getGame().shakeScreen(.25f, 50);
+		game.shakeScreen(.25f, 50);
 		healthIndicator.set(health, maxHealth);
 		if(health <= 0){
 			sprite.setRegion(Assets.texture_Gravestone);

@@ -65,7 +65,7 @@ public class GameScreen implements Screen{
 		hud = new HeadUpDisplay(batch, view);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
-		labyrinth = new Labyrinth(3, entities, this, 3);
+		labyrinth = new Labyrinth(entities, this);
 		tileRenderer = new TileRenderer(batch, labyrinth.getCurrentRoom().getMap());
 		if(touchScreen){
 			touchPads = new Touchpad(-view.x, -view.y, display, this, players.first());
@@ -84,11 +84,15 @@ public class GameScreen implements Screen{
 		entities.sort(new Comparator<Entity>(){
 			@Override
 			public int compare(Entity t1, Entity t2){
-				if(t1.isFlat() || t2.isFlat()){
-					return !t1.isFlat() ? 1 : !t2.isFlat() ? -1 : 0;
+				if(t1.getSprite() != null && t2.getSprite() != null){ //ERROR!!!
+					if(t1.isFlat() || t2.isFlat()){
+						return !t1.isFlat() ? 1 : !t2.isFlat() ? -1 : 0;
+					}
+					float y1 = t1.getSprite().getY(), y2 = t2.getSprite().getY();
+					return y1 == y2 ? 0 : y1 < y2 ? 1 : -1;
 				}
-				float y1 = t1.getSprite().getY(), y2 = t2.getSprite().getY();
-				return y1 == y2 ? 0 : y1 < y2 ? 1 : -1;
+				//System.out.println("sprite is null!"); //ERROR!!!
+				return -1; //ERROR!!!
 			}
 		});
 		draw();
@@ -182,7 +186,7 @@ public class GameScreen implements Screen{
 	public float alphaRatio(){
 		float ratio = players.first().getSprite().getY();
 		if(players.size > 1){
-			Math.min(ratio, players.get(1).getSprite().getY());
+			ratio = Math.min(ratio, players.get(1).getSprite().getY());
 		}
 		ratio = (ratio - 16) / 32;
 		return ratio > 1 ? 1 : ratio > .5 ? ratio : .5f;
@@ -191,9 +195,9 @@ public class GameScreen implements Screen{
 	//displays testing information and draws the invisible boundaries
 	private void testing(){
 		float m1 = java.lang.Runtime.getRuntime().totalMemory(), m2 = java.lang.Runtime.getRuntime().maxMemory();
-		Assets.font25.draw(batch, Float.toString(Math.round(m1 / m2 * 10000) / 100f) + "%", 5 - view.x, view.y - 5);
-		Assets.font25.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 5 - view.x, view.y - 30);
-		Assets.font25.draw(batch, Integer.toString(batch.renderCalls), 5 - view.x, view.y - 55);
+		Assets.font25.draw(batch, Integer.toString(batch.renderCalls), 5 - view.x, -view.y + 75);
+		Assets.font25.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 5 - view.x, -view.y + 50);
+		Assets.font25.draw(batch, Float.toString(Math.round(m1 / m2 * 10000) / 100f) + "%", 5 - view.x, -view.y + 25);
 		batch.end();
 		boxRenderer.setProjectionMatrix(camera.combined);
 		boxRenderer.begin(ShapeType.Line);
@@ -209,16 +213,20 @@ public class GameScreen implements Screen{
 			if(culling(entity.getBox())){
 				if(entity.getClass() == Eidolon.class){
 					boxRenderer.setColor(1, 0, 0, 1);
-					drawBox(entity.getCollisionBox());
+					drawBox(entity.getBox());
 					boxRenderer.setColor(.5f, 0, 0, 1);
 				}else if(entity.getClass() == Player.class){
 					boxRenderer.setColor(0, 1, 0, 1);
-					drawBox(entity.getCollisionBox());
+					drawBox(entity.getBox());
 					boxRenderer.setColor(0, .5f, 0, 1);
 				}else{
+					if(entity.getBox() != entity.getCollisionBox()){
+						boxRenderer.setColor(.5f, .5f, 0, 1);
+						drawBox(entity.getBox());
+					}
 					boxRenderer.setColor(1, 1, 0, 1);
 				}
-				drawBox(entity.getBox());
+				drawBox(entity.getCollisionBox());
 			}
 		}
 		boxRenderer.end();
