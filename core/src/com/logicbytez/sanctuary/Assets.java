@@ -22,8 +22,8 @@ public final class Assets{
 	public static Sound sound_Door, sound_EidolonHurt, sound_InsertSunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_HealthIndicator;
-	public static TextureRegion texture_HudCrystal, texture_HudSunstone;
-	//use these assets, want to use the animate method from assests around 103
+	public static TextureRegion texture_HudCrystal, texture_HudSunstone, texture_Hourglass, texture_Sand;
+	//use these assets, want to use the animate method from assets around 103
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
 	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
@@ -53,6 +53,7 @@ public final class Assets{
 		texture_Door = atlas.findRegion("door");
 		texture_Eidolon = atlas.findRegion("eidolon");
 		texture_HealthIndicator = atlas.findRegion("health_indicator");
+		texture_Hourglass = atlas.findRegion("hourglass");
 		texture_HudCrystal = atlas.findRegion("hud_crystal");
 		texture_HudSunstone = atlas.findRegion("hud_sunstone");
 		texture_PadButton = atlas.findRegion("pad_button");
@@ -65,6 +66,7 @@ public final class Assets{
 		texture_PlayerBlue = atlas.findRegion("player_blue");
 		texture_PlayerRed = atlas.findRegion("player_red");
 		texture_Portal = atlas.findRegion("portal");
+		texture_Sand = atlas.findRegion("sand");
 	}
 
 	//creates all of the fonts
