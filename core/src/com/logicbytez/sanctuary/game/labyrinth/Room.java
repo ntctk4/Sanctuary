@@ -7,7 +7,7 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Room{
-	public enum Type{ANTECHAMBER, PEDESTAL_ROOM, SANCTUARY}
+	public enum Type{ANTECHAMBER, CRYSTAL_PEDESTAL_ROOM, SANCTUARY, SUNSTONE_PEDESTAL_ROOM}
 	private boolean hasForeground, hasGenerated;
 	private char[] doors;
 	private int doorAmount;
@@ -70,7 +70,8 @@ public class Room{
 				map = Assets.room_Antechamber_Left;
 			}
 			break;
-		case PEDESTAL_ROOM:
+		case CRYSTAL_PEDESTAL_ROOM:
+		case SUNSTONE_PEDESTAL_ROOM:
 			switch(decimal){
 			case 8:
 				map = Assets.room_Pedestal_Up;

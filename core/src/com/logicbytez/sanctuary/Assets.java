@@ -19,16 +19,15 @@ public final class Assets{
 	public static BitmapFont font25, font50, fontHud;
 	public static Music music_Exploration;
 	public static ShaderProgram vignette;
-	public static Sound sound_Door, sound_EidolonHurt, sound_InsertSunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
+	public static Sound sound_Crystal, sound_Door, sound_EidolonHurt, sound_Sunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator;
-	public static TextureRegion texture_HudCrystal, texture_HudSunstone, texture_Hourglass, texture_Sand;
-	//use these assets, want to use the animate method from assets around 103
+	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
 	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
 	public static TiledMap room_Pedestal_Up, room_Pedestal_Down, room_Pedestal_Left, room_Pedestal_Right;
-	
+
 	//never instantiate this class
 	private Assets(){}
 
@@ -37,7 +36,7 @@ public final class Assets{
 		atlas = new TextureAtlas("atlas/atlas.pac");
 		music_Exploration = Gdx.audio.newMusic(Gdx.files.internal("music/exploration.mp3"));
 		music_Exploration.setLooping(true);
-		music_Exploration.setVolume(.25f);
+		music_Exploration.setVolume(.1f);
 		ShaderProgram.pedantic = false;
 		vignette = new ShaderProgram(Gdx.files.internal("shader/vignette.vsh"), Gdx.files.internal("shader/vignette.fsh"));
 		findTextureRegions();
@@ -102,12 +101,13 @@ public final class Assets{
 		room_Pedestal_Right = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_right.tmx");
 		room_Sanctuary = new TmxMapLoader().load("maps/sanctuary.tmx");
 	}
-	
+
 	//loads all of the sounds
 	private static void loadSounds(){
+		sound_Crystal = Gdx.audio.newSound(Gdx.files.internal("sounds/crystal.wav"));
 		sound_Door = Gdx.audio.newSound(Gdx.files.internal("sounds/door.wav"));
 		sound_EidolonHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/eidolon_hurt.wav"));
-		sound_InsertSunstone = Gdx.audio.newSound(Gdx.files.internal("sounds/insert_sunstone.wav"));
+		sound_Sunstone = Gdx.audio.newSound(Gdx.files.internal("sounds/sunstone.wav"));
 		sound_PlayerHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/player_hurt.wav"));
 		sound_SwordSlash = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_slash.wav"));
 		sound_SwordSwing = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_swing.wav"));
@@ -139,9 +139,10 @@ public final class Assets{
 		room_Pedestal_Left.dispose();
 		room_Pedestal_Right.dispose();
 		room_Sanctuary.dispose();
+		sound_Crystal.dispose();
 		sound_Door.dispose();
 		sound_EidolonHurt.dispose();
-		sound_InsertSunstone.dispose();
+		sound_Sunstone.dispose();
 		sound_PlayerHurt.dispose();
 		sound_SwordSlash.dispose();
 		sound_SwordSwing.dispose();

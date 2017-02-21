@@ -7,35 +7,47 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
-public class Pedestal extends Entity{
-	int sunstoneMeter = 6;
+public class Pedestal_Stone extends Entity{
+	boolean paused;
+	int stoneMeter = 6;
 	long timer;
 
 	//creates the pedestal by setting up its data
-	public Pedestal(GameScreen game, MapObject object){
+	public Pedestal_Stone(GameScreen game, MapObject object){
 		super(game, object);
-		impede = true;
 		animation = Assets.animate(7, 1, 0, Assets.texture_PedestalStone);
+		impede = true;
 		collisionBox = new Rectangle(box.x + 8, box.y + 8, box.width / 2, box.height / 2);
-		sprite = new Sprite(animation.getKeyFrame(sunstoneMeter));
+		sprite = new Sprite(animation.getKeyFrame(stoneMeter));
 		sprite.setPosition(collisionBox.x, collisionBox.y);
 	}
 
 	//updates the sunstone generation meter
 	public void update(float delta){
-		if(sunstoneMeter < 6){
-			sunstoneMeter = Math.min(6, (int)(TimeUtils.timeSinceMillis(timer) / 10000));
-			sprite.setRegion(animation.getKeyFrame(sunstoneMeter));
+		if(stoneMeter < 6){
+			if(!paused){
+				if(!game.isPaused()){
+					int rate = 11 - game.getLabyrinth().getAltar().getStonesInserted();
+					stoneMeter = Math.min(6, (int)(TimeUtils.timeSinceMillis(timer) / rate / 10000)); //ranges from 11~1min
+					sprite.setRegion(animation.getKeyFrame(stoneMeter));
+				}else{
+					timer = -TimeUtils.timeSinceMillis(timer);
+					paused = true;
+				}
+			}else if(!game.isPaused()){
+				timer += TimeUtils.millis();
+				paused = false;
+			}
 		}
 	}
 
 	//removes the sunstone from the pedestal and gives it to the player
 	public void dispenseSunstone(){
-		if(sunstoneMeter == 6){
-			Assets.sound_InsertSunstone.play();
-			game.getHud().addSunstone(true);
-			sunstoneMeter = 0;
-			sprite.setRegion(animation.getKeyFrame(sunstoneMeter));
+		if(stoneMeter == 6){
+			Assets.sound_Sunstone.play();
+			game.getHud().addStone(true);
+			stoneMeter = 0;
+			sprite.setRegion(animation.getKeyFrame(stoneMeter));
 			timer = TimeUtils.millis();
 		}
 	}

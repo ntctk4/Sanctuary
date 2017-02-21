@@ -6,7 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
-import com.logicbytez.sanctuary.game.entities.objects.Pedestal;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
 import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.input.Gamepad;
@@ -96,13 +97,16 @@ public class Activity{
 			if(entity != player && player.getBox().overlaps(entity.getBox())){
 				if(button == Gamepad.A){
 					if(entity.getClass() == Altar.class){
-						((Altar)entity).insertSunstone();
+						((Altar)entity).insertStone();
 						break;
 					}else if(entity.getClass() == Door.class){
 						((Door)entity).open();
 						break;
-					}else if(entity.getClass() == Pedestal.class){
-						((Pedestal)entity).dispenseSunstone();
+					}else if(entity.getClass() == Pedestal_Crystal.class){
+						((Pedestal_Crystal)entity).dispenseCrystal();
+						break;
+					}else if(entity.getClass() == Pedestal_Stone.class){
+						((Pedestal_Stone)entity).dispenseSunstone();
 						break;
 					}
 				}else if(button == Gamepad.X && entity.getClass() == Eidolon.class){

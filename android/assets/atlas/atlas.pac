@@ -152,9 +152,9 @@ obelisk
   index: -1
 pedestal_crystal
   rotate: false
-  xy: 299, 193
-  size: 32, 32
-  orig: 32, 32
+  xy: 299, 201
+  size: 30, 24
+  orig: 30, 24
   offset: 0, 0
   index: -1
 gravestone
@@ -166,7 +166,7 @@ gravestone
   index: -1
 health_indicator
   rotate: false
-  xy: 227, 32
+  xy: 299, 192
   size: 7, 7
   orig: 7, 7
   offset: 0, 0

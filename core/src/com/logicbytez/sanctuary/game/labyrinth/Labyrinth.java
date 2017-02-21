@@ -7,16 +7,19 @@ import com.badlogic.gdx.utils.Array;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
 import com.logicbytez.sanctuary.game.entities.objects.antechamber.Portal;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
-import com.logicbytez.sanctuary.game.entities.objects.Pedestal;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 
 public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int pedestalAmount = 5, roomAmount = 12;
+	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
+	private Altar altar;
 	private Array<Room> rooms;
 	private Array<Entity> entities;
+	private Array<Pedestal_Stone> pedestals;
 	private GameScreen game;
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
@@ -26,6 +29,7 @@ public class Labyrinth{
 		this.entities = entities;
 		this.game = game;
 		int index = 2;
+		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
 		layout = new Room[maxSize][maxSize];
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP);
 		currentRoom.switchType(Room.Type.SANCTUARY);
@@ -39,20 +43,34 @@ public class Labyrinth{
 			int nodeIndex = MathUtils.random(index, rooms.size - 1);
 			Room room = createRoom(rooms.get(nodeIndex));
 			if(room != null){
-				if(roomAmount == pedestalAmount + 1 && pedestalAmount > 0){
-					room.switchType(Room.Type.PEDESTAL_ROOM);
-					pedestalAmount--;
+				if(roomAmount-- == crystalAmount + stoneAmount + 1){
+					if(crystalAmount > 0 || stoneAmount > 0){
+						if(crystalAmount > 0){
+							crystalAmount--;
+							room.switchType(Room.Type.CRYSTAL_PEDESTAL_ROOM);
+						}else if(stoneAmount > 0){
+							stoneAmount--;
+							room.switchType(Room.Type.SUNSTONE_PEDESTAL_ROOM);
+						}
+						rooms.add(room);
+						rooms.swap(index++, rooms.size - 1);
+					}else{
+						room.addEntity(new Portal(game));
+						room.switchType(Room.Type.ANTECHAMBER);
+						rooms.add(room);
+					}
 				}else{
 					rooms.add(room);
 				}
-				roomAmount--;
 			}else{
 				rooms.swap(index++, nodeIndex);
 			}
 		}
-		rooms.peek().addEntity(new Portal(game));
-		rooms.peek().switchType(Room.Type.ANTECHAMBER);
 		updateCurrentRoom(0, 0);
+		/*System.out.println("Crystals Not Generated: " + stoneAmount);
+		System.out.println("Stones Not Generated: " + stoneAmount);
+		System.out.println("Rooms Not Generated: " + roomAmount);
+		System.out.println("Number of Rooms: " + rooms.size);*/
 	}
 
 	//adds a new room to an adjacent one
@@ -118,12 +136,19 @@ public class Labyrinth{
 		if(objectLayer != null){
 			for(MapObject object : objectLayer.getObjects()){
 				if(object.getName().equals("altar")){
-					entities.add(new Altar(game, object));
+					altar = new Altar(game, object);
+					entities.add(altar);
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
 				}else if(object.getName().equals("pedestal")){
 					if(!currentRoom.hasGenerated()){
-						currentRoom.addEntity(new Pedestal(game, object));
+						if(currentRoom.getType() == Room.Type.CRYSTAL_PEDESTAL_ROOM){
+							currentRoom.addEntity(new Pedestal_Crystal(game, object));
+						}else{
+							Pedestal_Stone pedestal = new Pedestal_Stone(game, object);
+							currentRoom.addEntity(pedestal);
+							pedestals.add(pedestal);
+						}
 					}
 				}else{
 					entities.add(new Entity(game, object));
@@ -135,6 +160,18 @@ public class Labyrinth{
 		}
 	}
 
+	//pauses or unpauses all of the initialized pedestal timers
+	public void modifyPedestalTimers(){
+		for(Pedestal_Stone pedestal : pedestals){
+			pedestal.update(0);
+		}
+	}
+
+	//returns the sun altar for sunstone amount
+	public Altar getAltar(){
+		return altar;
+	}
+	
 	//returns the room the players are in
 	public Room getCurrentRoom(){
 		return currentRoom;

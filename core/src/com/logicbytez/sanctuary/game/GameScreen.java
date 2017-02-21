@@ -335,6 +335,7 @@ public class GameScreen implements Screen{
 	public void switchMenu(){
 		paused = !paused;
 		stopped = !stopped;
+		labyrinth.modifyPedestalTimers();
 	}
 
 	//flips the stopped boolean

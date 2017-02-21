@@ -6,30 +6,35 @@ import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Altar extends Entity{
-	int sunstonesInserted;
+	int stonesInserted;
 	MapObject object;
 	
 	//creates the sun altar by setting up its data
 	public Altar(GameScreen game, MapObject object){
 		super(game, object);
 		this.object = object;
-		impede = true;
 		animation = Assets.animate(11, 1, 0, Assets.texture_Altar);
+		impede = true;
 		Object type = object.getProperties().get("Type");
 		if(type != null){
-			sunstonesInserted = (Integer)type;
+			stonesInserted = (Integer)type;
 		}
-		sprite = new Sprite(animation.getKeyFrame(sunstonesInserted));
+		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
 		sprite.setPosition(box.x, box.y);
 	}
 
 	//places a sunstone from the player into the sun altar
-	public void insertSunstone(){
-		if(sunstonesInserted < 10 && game.getHud().getSunstones() > 0){
-			Assets.sound_InsertSunstone.play();
-			game.getHud().addSunstone(false);
-			object.getProperties().put("Type", ++sunstonesInserted);
-			sprite.setRegion(animation.getKeyFrame(sunstonesInserted));
+	public void insertStone(){
+		if(stonesInserted < 10 && game.getHud().getStones() > 0){
+			Assets.sound_Sunstone.play();
+			game.getHud().addStone(false);
+			object.getProperties().put("Type", ++stonesInserted);
+			sprite.setRegion(animation.getKeyFrame(stonesInserted));
 		}
+	}
+
+	//returns the amount of sunstones inserted into it
+	public int getStonesInserted(){
+		return stonesInserted;
 	}
 }

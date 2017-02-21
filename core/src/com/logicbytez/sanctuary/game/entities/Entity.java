@@ -22,7 +22,7 @@ public class Entity{
 		this.game = game;
 		box = new Rectangle();
 	}
-	
+
 	//creates an object that is part of a map
 	public Entity(GameScreen game, MapObject object){
 		this(game);
