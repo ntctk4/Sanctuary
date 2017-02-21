@@ -62,7 +62,7 @@ public class GameScreen implements Screen{
 		camera = new OrthographicCamera(view.x, view.y);
 		cameraCenter = new Vector2();
 		display = new OrthographicCamera(view.x * 2, view.y * 2);
-		hud = new HeadUpDisplay(batch, view);
+		hud = new HeadUpDisplay(batch, view, this);
 		entities = new Array<Entity>();
 		activity = new Activity(entities, this);
 		labyrinth = new Labyrinth(entities, this);

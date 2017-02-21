@@ -14,11 +14,13 @@ public class HeadUpDisplay{
 	private TextureRegion current_Hourglass, current_Sand;
 	private TextureRegion[] hourglass_frames, sand_frames;
 	private Vector2 view;
+	GameScreen game;
 
 	//sets up the head-up display's data
-	public HeadUpDisplay(SpriteBatch batch, Vector2 view){
+	public HeadUpDisplay(SpriteBatch batch, Vector2 view, GameScreen game){
 		this.batch = batch;
 		this.view = view;
+		this.game = game;
 		TextureRegion[][] hourglassArray = Assets.texture_Hourglass.split(38, 59);
 		hourglass_frames = new TextureRegion[8];
 		for(int i = 0; i < 8; i++){
