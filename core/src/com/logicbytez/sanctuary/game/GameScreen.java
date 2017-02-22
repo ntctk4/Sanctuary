@@ -91,7 +91,7 @@ public class GameScreen implements Screen{
 				return y1 == y2 ? 0 : y1 < y2 ? 1 : -1;
 			}
 		});
-		draw();
+		draw(delta);
 		if(colorTimer < 1){
 			colorTimer += delta;
 			if(colorTimer > 1){
@@ -133,7 +133,7 @@ public class GameScreen implements Screen{
 	}
 
 	//draws everything visible to the screen
-	private void draw(){
+	private void draw(float delta){
 		tileRenderer.setView(camera);
 		batch.begin();
 		tileRenderer.render(Labyrinth.backgroundLayers);
@@ -170,7 +170,7 @@ public class GameScreen implements Screen{
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
 		}
-		hud.update();
+		hud.update(delta);
 		if(testing){
 			testing();
 		}else{
