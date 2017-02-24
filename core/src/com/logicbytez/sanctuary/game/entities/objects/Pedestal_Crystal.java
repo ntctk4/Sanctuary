@@ -7,7 +7,8 @@ import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Pedestal_Crystal extends Entity{
-	boolean crystal = true;
+	private boolean crystal = true;
+	private Sprite light;
 
 	//creates the pedestal by setting up its data
 	public Pedestal_Crystal(GameScreen game, MapObject object){
@@ -17,6 +18,8 @@ public class Pedestal_Crystal extends Entity{
 		collisionBox = new Rectangle(box.x + 8, box.y + 8, box.width / 2, box.height / 2);
 		sprite = new Sprite(animation.getKeyFrame(0));
 		sprite.setPosition(collisionBox.x, collisionBox.y);
+		light = new Sprite(Assets.texture_PedestalCrystalLight);
+		light.setPosition(collisionBox.x - light.getRegionWidth() / 2.5f, collisionBox.y - light.getRegionHeight() / 8);
 	}
 
 	//removes the crystal from the pedestal and gives it to the player
@@ -25,7 +28,13 @@ public class Pedestal_Crystal extends Entity{
 			Assets.sound_Crystal.play();
 			crystal = false;
 			game.getHud().addCrystal(true);
+			light = null;
 			sprite.setRegion(animation.getKeyFrame(1));
 		}
+	}
+
+	//returns the sprite for the light
+	public Sprite getLight(){
+		return light;
 	}
 }

@@ -80,72 +80,79 @@ pause_bar
   orig: 124, 5
   offset: 0, 0
   index: -1
+pedestal_crystal_light
+  rotate: false
+  xy: 920, 187
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 hud_crystal
   rotate: false
-  xy: 920, 194
+  xy: 227, 33
   size: 58, 57
   orig: 58, 57
   offset: 0, 0
   index: -1
+repository
+  rotate: false
+  xy: 287, 21
+  size: 144, 32
+  orig: 144, 32
+  offset: 0, 0
+  index: -1
 hud_sunstone
   rotate: false
-  xy: 227, 41
+  xy: 444, 91
   size: 58, 49
   orig: 58, 49
   offset: 0, 0
   index: -1
 pedestal_stone
   rotate: false
-  xy: 287, 29
+  xy: 504, 90
   size: 105, 24
   orig: 105, 24
   offset: 0, 0
   index: -1
-statue
-  rotate: false
-  xy: 444, 76
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: -1
 player_blue
   rotate: false
-  xy: 478, 74
+  xy: 611, 74
   size: 105, 40
   orig: 105, 40
   offset: 0, 0
   index: -1
 player_red
   rotate: false
-  xy: 585, 74
+  xy: 718, 74
   size: 105, 40
   orig: 105, 40
   offset: 0, 0
   index: -1
-repository
+statue
   rotate: false
-  xy: 920, 144
-  size: 32, 48
-  orig: 32, 48
+  xy: 920, 121
+  size: 32, 64
+  orig: 32, 64
   offset: 0, 0
   index: -1
 column
   rotate: false
-  xy: 980, 203
+  xy: 986, 203
   size: 16, 48
   orig: 16, 48
   offset: 0, 0
   index: -1
 pillar
   rotate: false
-  xy: 980, 203
+  xy: 986, 203
   size: 16, 48
   orig: 16, 48
   offset: 0, 0
   index: -1
 obelisk
   rotate: false
-  xy: 954, 144
+  xy: 954, 137
   size: 16, 48
   orig: 16, 48
   offset: 0, 0

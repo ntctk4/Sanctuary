@@ -26,7 +26,7 @@ public class Room{
 			doorAmount++;
 			doors[side] = '1';
 			map = Assets.hallways.get(convertBinaryToDecimal(doors));
-			if(map.getLayers().get("foreground") != null){
+			if(map.getLayers().get(2).getName().equals("foreground")){
 				hasForeground = true;
 			}
 		}
@@ -70,8 +70,9 @@ public class Room{
 				map = Assets.room_Antechamber_Left;
 			}
 			break;
-		case CRYSTAL_PEDESTAL_ROOM:
 		case SUNSTONE_PEDESTAL_ROOM:
+			hasForeground = true;
+		case CRYSTAL_PEDESTAL_ROOM:
 			switch(decimal){
 			case 8:
 				map = Assets.room_Pedestal_Up;

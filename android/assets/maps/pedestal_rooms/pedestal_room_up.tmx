@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="18" height="20" tilewidth="16" tileheight="16" backgroundcolor="#000000" nextobjectid="3">
- <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="48" columns="4">
-  <image source="../tileset.png" width="64" height="192"/>
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="60" columns="4">
+  <image source="../tileset.png" width="64" height="240"/>
   <tile id="0">
    <properties>
     <property name="impede" type="bool" value="false"/>
@@ -141,6 +141,11 @@
  <layer name="background2" width="18" height="20">
   <data encoding="base64" compression="zlib">
    eJxjYBiZQAyIxQfaEaNgFAwwUCRCjQqF5pGifxSgAgCZqwC4
+  </data>
+ </layer>
+ <layer name="foreground" width="18" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2DwA0sgtho1h+bmWAOxDRXMGQXUAQAiCgK3
   </data>
  </layer>
  <objectgroup name="objects">

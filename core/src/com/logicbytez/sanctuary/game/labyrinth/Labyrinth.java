@@ -69,8 +69,7 @@ public class Labyrinth{
 		updateCurrentRoom(0, 0);
 		/*System.out.println("Crystals Not Generated: " + stoneAmount);
 		System.out.println("Stones Not Generated: " + stoneAmount);
-		System.out.println("Rooms Not Generated: " + roomAmount);
-		System.out.println("Number of Rooms: " + rooms.size);*/
+		System.out.println("Rooms Not Generated: " + roomAmount + "Out Of" + rooms.size);*/
 	}
 
 	//adds a new room to an adjacent one

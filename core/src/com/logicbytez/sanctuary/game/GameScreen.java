@@ -19,6 +19,7 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.Main;
 import com.logicbytez.sanctuary.game.labyrinth.Labyrinth;
 import com.logicbytez.sanctuary.game.entities.Entity;
+import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.input.Touchpad;
@@ -144,6 +145,11 @@ public class GameScreen implements Screen{
 				sprite.draw(batch);
 				if(entity.getClass() == Player.class){
 					((Player)entity).getHealthIndicator().getSprite().draw(batch);
+				}else if(entity.getClass() == Pedestal_Crystal.class){
+					Sprite light = ((Pedestal_Crystal)entity).getLight();
+					if(light != null){
+						light.draw(batch);
+					}
 				}
 			}
 		}
