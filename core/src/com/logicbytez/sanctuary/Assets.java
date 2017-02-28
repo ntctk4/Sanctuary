@@ -21,7 +21,7 @@ public final class Assets{
 	public static ShaderProgram vignette;
 	public static Sound sound_Crystal, sound_Door, sound_EidolonHurt, sound_Sunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
-	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator;
+	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator, texture_Pillar;
 	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
 	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
@@ -48,6 +48,7 @@ public final class Assets{
 	//locates all of the texture regions within the atlas
 	private static void findTextureRegions(){
 		texture_Altar = atlas.findRegion("altar");
+		texture_Pillar = atlas.findRegion("pillar");
 		texture_Column = atlas.findRegion("column");
 		texture_Door = atlas.findRegion("door");
 		texture_Eidolon = atlas.findRegion("eidolon");

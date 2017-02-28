@@ -10,6 +10,7 @@ import com.logicbytez.sanctuary.game.entities.objects.Door;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
 import com.logicbytez.sanctuary.game.entities.objects.antechamber.Portal;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
+import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Pillar;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 
 public class Labyrinth{
@@ -139,6 +140,8 @@ public class Labyrinth{
 					entities.add(altar);
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
+				}else if(object.getName().equals("pillar")){
+					entities.add(new Pillar(game, object));
 				}else if(object.getName().equals("pedestal")){
 					if(!currentRoom.hasGenerated()){
 						if(currentRoom.getType() == Room.Type.CRYSTAL_PEDESTAL_ROOM){
