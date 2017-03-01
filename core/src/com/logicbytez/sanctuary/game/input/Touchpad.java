@@ -15,7 +15,7 @@ public class Touchpad{
 	private GameScreen game;
 	private Player player;
 	private Rectangle leftPad, leftPadButtons[];
-	private Rectangle pausedExit, pausedReturn;
+	private Rectangle pausedQuit, pausedResume;
 	private Rectangle rightPad, rightPadButtons[], screenTop;
 	private Sprite leftSprite, rightSprite;
 	private Vector2 pressing;
@@ -32,8 +32,8 @@ public class Touchpad{
 		leftSprite.setPosition(x1, y1);
 		rightSprite.setPosition(x2, y1);
 		leftPad = new Rectangle(x1, y1, 180, 180);
-		pausedExit = new Rectangle(x1 + 180, y1, 120, 90);
-		pausedReturn = new Rectangle(x1 + 180, y1 + 90, 120, 90);
+		pausedQuit = game.getPauseScreen().getQuitRectangle();
+		pausedResume = game.getPauseScreen().getResumeRectangle();
 		rightPad = new Rectangle(x2 - 45, y1, 180, 180);
 		screenTop = new Rectangle(x1, y1 * -.5f, x1 * -2, y1 * -.5f);
 		leftPadButtons = new Rectangle[9];
@@ -70,9 +70,9 @@ public class Touchpad{
 				touch.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
 				display.unproject(touch);
 				if(game.isPaused()){
-					if(pausedReturn.contains(touch.x, touch.y)){
+					if(pausedResume.contains(touch.x, touch.y)){
 						player.action(Gamepad.START);
-					}else if(pausedExit.contains(touch.x, touch.y)){
+					}else if(pausedQuit.contains(touch.x, touch.y)){
 						game.exit();
 					}
 				}else if(screenTop.contains(touch.x, touch.y)){

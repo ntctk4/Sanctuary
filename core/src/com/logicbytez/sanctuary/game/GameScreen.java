@@ -37,6 +37,7 @@ public class GameScreen implements Screen{
 	private Main game;
 	private Music music;
 	private OrthographicCamera camera, display;
+	private PauseScreen pauseScreen;
 	private ShaderProgram shader;
 	private ShapeRenderer boxRenderer;
 	private SpriteBatch batch;
@@ -51,6 +52,7 @@ public class GameScreen implements Screen{
 		testing = game.testing;
 		touchScreen = game.touchScreen;
 		view = game.view;
+		this.pauseScreen = new PauseScreen(batch, view, this);
 	}
 
 	@Override
@@ -160,10 +162,7 @@ public class GameScreen implements Screen{
 		}
 		batch.setProjectionMatrix(display.combined);
 		if(paused){
-			Assets.font50.draw(batch, "paused", -65, 90);
-			Assets.font25.draw(batch, "return", -35, 0);
-			Assets.font25.draw(batch, "exit", -20, -70);
-			batch.draw(Assets.texture_PauseBar, -62, 43);
+			pauseScreen.update();
 		}else if(players.first().getHealth() <= 0){
 			if(players.size < 2 || (players.size > 1 && players.get(1).getHealth() <= 0)){
 				batch.setColor(1, 1, 1, 1);
@@ -287,6 +286,7 @@ public class GameScreen implements Screen{
 	}
 
 	public void exit(){
+		// exit function needs to do a lot more... i.e. destroy everything and start over.
 		game.setScreen(game.titleScreen);
 	}
 
@@ -313,6 +313,10 @@ public class GameScreen implements Screen{
 	//returns the array of players
 	public Array<Player> getPlayers(){
 		return players;
+	}
+	
+	public PauseScreen getPauseScreen() {
+		return pauseScreen;
 	}
 
 	//returns the pause menu boolean

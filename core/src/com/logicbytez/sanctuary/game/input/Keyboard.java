@@ -20,6 +20,14 @@ public final class Keyboard{
 			player.action(Gamepad.Y);
 		}else if(Gdx.input.isKeyJustPressed(Keys.END) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
 			player.action(Gamepad.START);
+		}else if(player.getGame().isPaused()) {
+			// the game is paused.. use keyboard arrows to change selection and enter to select
+			if (Gdx.input.isKeyJustPressed(Keys.UP) || Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+				player.action(Gamepad.B);
+				//player.getGame().getPauseScreen().changeSelection();
+			}else if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+				player.action(Gamepad.A);
+			}
 		}
 		checkMoveKeys(move);
 	}

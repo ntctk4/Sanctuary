@@ -66,9 +66,19 @@ public class Player extends Being{
 
 	//makes the player perform an action
 	public void action(int button){
-		if(game.isPaused() && button == Gamepad.START){
-			game.switchMenu();
-			//call pause menu from around here
+		if(game.isPaused()){
+			switch (button) {
+			case Gamepad.START:
+				game.switchMenu();
+				break;
+			case Gamepad.A:
+				game.getPauseScreen().select();
+				break;
+			case Gamepad.B:
+				game.getPauseScreen().changeSelection();
+			default:
+				break;
+			}
 		}else if(!attacking && !game.isStopped()){
 			switch(button){
 			case Gamepad.A:
@@ -148,5 +158,9 @@ public class Player extends Being{
 		if(health <= 0){
 			sprite.setRegion(Assets.texture_Gravestone);
 		}
+	}
+	
+	public GameScreen getGame() {
+		return game;
 	}
 }

@@ -32,6 +32,9 @@ public class Gamepad{
 		});
 		float axis = controller.getAxis(LEFT_Y);
 		if(axis > .25 || axis < -.25){
+			if(player.getGame().isPaused()) {
+				player.getGame().getPauseScreen().changeSelection();
+			}
 			axis = axis > .5 ? 1 : axis < -.5 ? -1 : axis;
 			move.y = -axis;
 		}
