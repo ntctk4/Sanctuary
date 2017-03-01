@@ -9,6 +9,8 @@ import com.logicbytez.sanctuary.game.entities.objects.Door;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
+import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Pillar;
+import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Repository;
 import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.input.Gamepad;
 
@@ -107,6 +109,12 @@ public class Activity{
 						break;
 					}else if(entity.getClass() == Pedestal_Stone.class){
 						((Pedestal_Stone)entity).dispenseSunstone();
+						break;
+					}else if(entity .getClass() == Pillar.class){
+						((Pillar)entity).insertStone();
+						break;
+					}else if(entity.getClass() == Repository.class){
+						((Repository)entity).insertStone();
 						break;
 					}
 				}else if(button == Gamepad.X && entity.getClass() == Eidolon.class){
