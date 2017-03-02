@@ -328,6 +328,10 @@ public class GameScreen implements Screen{
 	public boolean isStopped(){
 		return stopped;
 	}
+	
+	public boolean isTouchScreen() {
+		return touchScreen;
+	}
 
 	//sets the map of the tile renderer
 	public void setTileRendererMap(TiledMap map){

@@ -40,16 +40,21 @@ public class PauseScreen {
 		
 		Assets.font50.draw(batch, "Paused", -pause_layout.width/2, pause_layout.height*2);
 		batch.draw(Assets.texture_PauseBar, -Assets.texture_PauseBar.getRegionWidth()/2, pause_layout.height/2);
-		if(selected == Selection.RESUME) {
-			Assets.font25.setColor(Color.RED);
+		if (game.isTouchScreen()) {
 			Assets.font25.draw(batch, "Resume", -resume.width/2, 0);
-			Assets.font25.setColor(Color.WHITE);
 			Assets.font25.draw(batch, "Quit", -quit.width/2, -quit.height*2);
 		} else {
-			Assets.font25.draw(batch, "Resume", -resume.width/2, 0);
-			Assets.font25.setColor(Color.RED);
-			Assets.font25.draw(batch, "Quit", -quit.width/2, -quit.height*2);
-			Assets.font25.setColor(Color.WHITE);
+			if(selected == Selection.RESUME) {
+				Assets.font25.setColor(Color.RED);
+				Assets.font25.draw(batch, "Resume", -resume.width/2, 0);
+				Assets.font25.setColor(Color.WHITE);
+				Assets.font25.draw(batch, "Quit", -quit.width/2, -quit.height*2);
+			} else {
+				Assets.font25.draw(batch, "Resume", -resume.width/2, 0);
+				Assets.font25.setColor(Color.RED);
+				Assets.font25.draw(batch, "Quit", -quit.width/2, -quit.height*2);
+				Assets.font25.setColor(Color.WHITE);
+			}
 		}
 		
 		if(select) {
