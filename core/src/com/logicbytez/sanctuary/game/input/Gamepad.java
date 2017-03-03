@@ -32,14 +32,7 @@ public class Gamepad{
 		});
 		float axis = controller.getAxis(LEFT_Y);
 		if(axis > .25 || axis < -.25){
-			if(player.getGame().isPaused()) {
-				player.getGame().getPauseScreen().changeSelection();
-				try {
-					Thread.sleep(100);
-				} catch (Exception ex) {
-					// Don't care if the sleep fails
-				}
-			}
+			if (player.getGame().isPaused()) doPauseSelect();
 			axis = axis > .5 ? 1 : axis < -.5 ? -1 : axis;
 			move.y = -axis;
 		}
@@ -52,9 +45,11 @@ public class Gamepad{
 		case northWest:
 			move.x = -1;
 		case north:
+			if (player.getGame().isPaused()) doPauseSelect();
 			move.y = 1;
 			break;
 		case northEast:
+			if (player.getGame().isPaused()) doPauseSelect();
 			move.y = 1;
 		case east:
 			move.x = 1;
@@ -62,13 +57,24 @@ public class Gamepad{
 		case southEast:
 			move.x = 1;
 		case south:
+			if (player.getGame().isPaused()) doPauseSelect();
 			move.y = -1;
 			break;
 		case southWest:
+			if (player.getGame().isPaused()) doPauseSelect();
 			move.y = -1;
 		case west:
 			move.x = -1;
 		default:
+		}
+	}
+	
+	private void doPauseSelect() {
+		player.getGame().getPauseScreen().changeSelection();
+		try {
+			Thread.sleep(100);
+		} catch (Exception ex) {
+			// Don't care if the sleep fails
 		}
 	}
 }
