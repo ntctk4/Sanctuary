@@ -34,6 +34,11 @@ public class Gamepad{
 		if(axis > .25 || axis < -.25){
 			if(player.getGame().isPaused()) {
 				player.getGame().getPauseScreen().changeSelection();
+				try {
+					Thread.sleep(100);
+				} catch (Exception ex) {
+					// Don't care if the sleep fails
+				}
 			}
 			axis = axis > .5 ? 1 : axis < -.5 ? -1 : axis;
 			move.y = -axis;

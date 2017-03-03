@@ -36,7 +36,7 @@ public class GameScreen implements Screen{
 	private TileRenderer tileRenderer;
 	private Main game;
 	private Music music;
-	private OrthographicCamera camera, display;
+	public OrthographicCamera camera, display;
 	private PauseScreen pauseScreen;
 	private ShaderProgram shader;
 	private ShapeRenderer boxRenderer;
