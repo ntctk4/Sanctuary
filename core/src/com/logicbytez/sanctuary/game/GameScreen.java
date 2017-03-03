@@ -200,6 +200,7 @@ public class GameScreen implements Screen{
 		Assets.font25.draw(batch, Integer.toString(Gdx.graphics.getFramesPerSecond()), 5 - view.x, -view.y + 50);
 		Assets.font25.draw(batch, Float.toString(Math.round(m1 / m2 * 10000) / 100f) + "%", 5 - view.x, -view.y + 25);
 		batch.end();
+		if(boxRenderer == null) return;
 		boxRenderer.setProjectionMatrix(camera.combined);
 		boxRenderer.begin(ShapeType.Line);
 		boxRenderer.setColor(0, 0, 1, 1);
