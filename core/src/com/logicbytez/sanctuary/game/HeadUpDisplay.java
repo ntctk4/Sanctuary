@@ -49,7 +49,9 @@ public class HeadUpDisplay{
 		if(!paused) {
 			if(!game.isPaused()) {
 				//sand animation is based on delta time
-				sand_timer += delta;
+				if(!game.isStopped()) {
+					sand_timer += delta;
+				}
 				current_Sand = sand.getKeyFrame(sand_timer, true);
 				
 				//hourglass_state is based on the wave_time and when the the timer started

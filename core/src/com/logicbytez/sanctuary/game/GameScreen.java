@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -26,7 +27,7 @@ import com.logicbytez.sanctuary.game.input.Touchpad;
 
 public class GameScreen implements Screen{
 	private boolean paused, stopped, testing, touchScreen;
-	private float colorTimer, shakeTimer;
+	private float fadeInTimer, fadeOutTimer, shakeTimer;
 	private int shakeMagnitude;
 	private Activity activity;
 	private Array<Player> players;
@@ -95,12 +96,18 @@ public class GameScreen implements Screen{
 			}
 		});
 		draw(delta);
-		if(colorTimer < 1){
-			colorTimer += delta;
-			if(colorTimer > 1){
-				colorTimer = 1;
+		if(fadeInTimer < 1){
+			fadeInTimer += delta;
+			if(fadeInTimer > 1){
+				fadeInTimer = 1;
 			}
-			batch.setColor(colorTimer, colorTimer, colorTimer, 1);
+			batch.setColor(fadeInTimer - fadeOutTimer, fadeInTimer - fadeOutTimer, fadeInTimer - fadeOutTimer, 1);
+		}
+		if(fadeOutTimer > 0){
+			if(fadeOutTimer > 2){
+				fadeOutTimer = 2;
+			}
+			batch.setColor(1-fadeOutTimer/2, 1-fadeOutTimer/2, 1-fadeOutTimer/2, 1);
 		}
 		for(Entity entity : entities){
 			entity.update(delta);
@@ -165,11 +172,7 @@ public class GameScreen implements Screen{
 			pauseScreen.update();
 		}else if(players.first().getHealth() <= 0){
 			if(players.size < 2 || (players.size > 1 && players.get(1).getHealth() <= 0)){
-				batch.setColor(1, 1, 1, 1);
-				Assets.font50.draw(batch, "game over", -100, 50);
-				batch.setColor(.25f, .25f, .25f, 1);
-				stopped = true;
-				touchScreen = false;
+				endGame(false, delta);
 			}
 		}else if(touchScreen){
 			touchPads.getSprite(true).draw(batch);
@@ -270,7 +273,7 @@ public class GameScreen implements Screen{
 	@Override
 	//resets data and calls dispose
 	public void hide(){
-		colorTimer = 0;
+		fadeInTimer = 0;
 		dispose();
 		paused = stopped = false;
 		music.stop();
@@ -283,6 +286,31 @@ public class GameScreen implements Screen{
 		if(boxRenderer != null){
 			boxRenderer.dispose();
 			boxRenderer = null;
+		}
+	}
+	
+	private void endGame(boolean isWon, float delta) {
+		GlyphLayout layout;
+		String displayString;
+		fadeOutTimer += delta/2;
+		
+		if(isWon) {
+			displayString = "game won";
+		} else {
+			displayString = "game over";
+		}
+		
+		layout = new GlyphLayout(Assets.font50, displayString);
+		Assets.font50.setColor(1, 1, 1, 1 - fadeOutTimer/2);
+		Assets.fontHud.setColor(1, 1, 1, 1 - fadeOutTimer/2); // fade out the HUD font as well
+		Assets.font50.draw(batch, displayString, -layout.width/2, layout.height/2);
+		stopped = true;
+		touchScreen = false;
+		
+		if(fadeOutTimer >= 2) {
+			Assets.font50.setColor(1, 1, 1, 1);
+			Assets.fontHud.setColor(1, 1, 1, 1);
+			exit();
 		}
 	}
 
