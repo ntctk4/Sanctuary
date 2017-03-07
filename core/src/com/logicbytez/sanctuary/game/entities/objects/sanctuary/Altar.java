@@ -16,10 +16,11 @@ public class Altar extends Entity{
 		this.object = object;
 		animation = Assets.animate(11, 1, 0, Assets.texture_Altar);
 		impede = true;
-		collisionBox = new Rectangle(box.x, box.y, box.width , box.height);
+		collisionBox = new Rectangle(box.x, box.y, box.width - 2, box.height);
+		collisionBox.fitInside(box);
 		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
-		//sprite.setPosition(box.x, box.y);
-		sprite.setPosition(collisionBox.x, collisionBox.y);
+		sprite.setPosition(box.x, box.y);
+		//sprite.setPosition(collisionBox.x, collisionBox.y);
 	}
 
 	//places a sunstone from the player into the sun altar
