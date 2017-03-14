@@ -65,7 +65,7 @@ public class TitleScreen implements Screen{
 			Assets.font50.setColor(1, 1, 1, 1 - alphaTimer);
 			touched = true;
 			if(alphaTimer > 2){
-				game.setScreen(game.gameScreen);
+				game.setScreen(game.monologueScreen);
 			}
 		}
 		//Assets.font50.setColor(1, 1, 1, 1); //resets font
