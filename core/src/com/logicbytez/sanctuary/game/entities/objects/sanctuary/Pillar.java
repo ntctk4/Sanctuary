@@ -24,7 +24,7 @@ public class Pillar extends Entity{
 	
 	public void insertStone(){
 		
-		if(stonesInserted < 4 && game.getHud().getStones() > 0)
+		if(stonesInserted < 2 && game.getHud().getStones() > 0)
 		{
 			Assets.sound_Sunstone.play();
 			game.getHud().addStone(false);
