@@ -4,15 +4,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.logicbytez.sanctuary.game.GameScreen;
+import com.logicbytez.sanctuary.game.MonologueScreen;
 import com.logicbytez.sanctuary.game.entities.players.Player;
 
 public class Main extends Game{
 	public boolean testing;
 	public boolean touchScreen;
 	public Array<Player> players;
-	GameScreen gameScreen;
+	public GameScreen gameScreen;
 	public SpriteBatch batch;
 	public TitleScreen titleScreen;
+	public MonologueScreen monologueScreen;
 	public Vector2 view;
 
 	//retrieves the testing boolean
@@ -30,6 +32,7 @@ public class Main extends Game{
 		view = new Vector2(240, 135);
 		gameScreen = new GameScreen(this);
 		titleScreen = new TitleScreen(this);
+		monologueScreen = new MonologueScreen(this);
 		setScreen(titleScreen);
 	}
 

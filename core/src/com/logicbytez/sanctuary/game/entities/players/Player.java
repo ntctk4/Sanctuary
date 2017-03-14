@@ -134,6 +134,10 @@ public class Player extends Being{
 		this.facing = facing;
 	}
 
+	public Gamepad getGamePad() {
+		return gamePad;
+	}
+	
 	//sets the controller that the player uses
 	public void setGamePad(Gamepad gamepad){
 		this.gamePad = gamepad;

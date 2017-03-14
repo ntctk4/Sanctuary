@@ -77,4 +77,8 @@ public class Gamepad{
 			// Don't care if the sleep fails
 		}
 	}
+	
+	public Controller getController() {
+		return controller;
+	}
 }
