@@ -1,6 +1,7 @@
 package com.logicbytez.sanctuary.game.entities.objects.sanctuary;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Rectangle;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
@@ -15,12 +16,11 @@ public class Altar extends Entity{
 		this.object = object;
 		animation = Assets.animate(11, 1, 0, Assets.texture_Altar);
 		impede = true;
-		Object type = object.getProperties().get("Type");
-		if(type != null){
-			stonesInserted = (Integer)type;
-		}
+		collisionBox = new Rectangle(box.x, box.y, box.width - 2, box.height);
+		collisionBox.fitInside(box);
 		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
 		sprite.setPosition(box.x, box.y);
+		//sprite.setPosition(collisionBox.x, collisionBox.y);
 	}
 
 	//places a sunstone from the player into the sun altar

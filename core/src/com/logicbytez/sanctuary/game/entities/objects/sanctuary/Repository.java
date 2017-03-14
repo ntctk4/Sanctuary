@@ -23,7 +23,7 @@ public class Repository extends Entity{
 	
 public void insertStone(){
 		
-		if(stonesInserted < 8 && game.getHud().getStones() > 0)
+		if(stonesInserted < 4 && game.getHud().getStones() > 0)
 		{
 			Assets.sound_Sunstone.play();
 			game.getHud().addStone(false);

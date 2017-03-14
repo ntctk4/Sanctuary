@@ -152,7 +152,7 @@
   <object id="6" name="altar" x="128" y="272" width="32" height="16"/>
   <object id="21" name="pillar" x="39.25" y="136.25" width="16.75" height="16.75"/>
   <object id="23" name="pillar" x="232.5" y="134.75" width="16.75" height="16.75"/>
-  <object id="24" name="pillar" x="40" y="199.5" width="16.75" height="16.75"/>
+  <object id="24" name="pillar" x="40" y="199.5" width="18.75" height="16.75"/>
   <object id="25" name="pillar" x="231.25" y="200" width="16.75" height="16.75"/>
   <object id="30" name="repository" x="95.8182" y="15.8182" width="16.3636" height="31.8182"/>
   <object id="31" name="repository" x="176.182" y="16.1818" width="16.3636" height="31.8182"/>

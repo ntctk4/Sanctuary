@@ -137,14 +137,17 @@ public class Labyrinth{
 		if(objectLayer != null){
 			for(MapObject object : objectLayer.getObjects()){
 				if(object.getName().equals("altar")){
-					altar = new Altar(game, object);
-					entities.add(altar);
+					if(!currentRoom.hasGenerated()){
+							altar = new Altar(game, object);
+							currentRoom.addEntity(altar);
+							entities.add(altar);
+					}
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
 				}else if(object.getName().equals("pillar")){
 					entities.add(new Pillar(game, object));
 				}else if(object.getName().equals("repository")){
-					entities.add(new Repository(game, object));
+					entities.add(new Repository(game, object));	
 				}else if(object.getName().equals("pedestal")){
 					if(!currentRoom.hasGenerated()){
 						if(currentRoom.getType() == Room.Type.CRYSTAL_PEDESTAL_ROOM){
