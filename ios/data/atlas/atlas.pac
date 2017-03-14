@@ -143,6 +143,13 @@ statue
   orig: 32, 64
   offset: 0, 0
   index: -1
+pillar
+  rotate: false
+  xy: 825, 66
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
 column
   rotate: false
   xy: 986, 137
