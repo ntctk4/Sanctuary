@@ -101,6 +101,13 @@ repository
   orig: 144, 32
   offset: 0, 0
   index: -1
+obelisk
+  rotate: false
+  xy: 920, 137
+  size: 64, 48
+  orig: 64, 48
+  offset: 0, 0
+  index: -1
 hud_sunstone
   rotate: false
   xy: 444, 91
@@ -131,28 +138,14 @@ player_red
   index: -1
 statue
   rotate: false
-  xy: 920, 121
+  xy: 986, 187
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 column
   rotate: false
-  xy: 986, 203
-  size: 16, 48
-  orig: 16, 48
-  offset: 0, 0
-  index: -1
-pillar
-  rotate: false
-  xy: 986, 203
-  size: 16, 48
-  orig: 16, 48
-  offset: 0, 0
-  index: -1
-obelisk
-  rotate: false
-  xy: 954, 137
+  xy: 986, 137
   size: 16, 48
   orig: 16, 48
   offset: 0, 0
