@@ -13,7 +13,7 @@ public class Pillar extends Entity{
 	public Pillar(GameScreen game, MapObject object){
 		super(game, object);
 		this.object = object;
-		animation = Assets.animate(1, 1, 0, Assets.texture_Pillar);
+		animation = Assets.animate(3, 1, 0, Assets.texture_Pillar);
 		impede = true;
 		collisionBox = new Rectangle(box.x, box.y, box.width - 2, box.height);
 		collisionBox.fitInside(box);
