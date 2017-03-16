@@ -24,7 +24,7 @@ public final class Assets{
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator, texture_Pillar, texture_Repository;
 	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone;
 	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
-	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
+	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal, texture_Obelisk;
 	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
 	public static TiledMap room_Pedestal_Up, room_Pedestal_Down, room_Pedestal_Left, room_Pedestal_Right;
 
@@ -69,6 +69,7 @@ public final class Assets{
 		texture_PlayerBlue = atlas.findRegion("player_blue");
 		texture_PlayerRed = atlas.findRegion("player_red");
 		texture_Portal = atlas.findRegion("portal");
+		texture_Obelisk = atlas.findRegion("obelisk");
 		texture_Sand = atlas.findRegion("sand");
 	}
 

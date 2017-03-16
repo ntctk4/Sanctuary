@@ -8,6 +8,7 @@ import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
+import com.logicbytez.sanctuary.game.entities.objects.antechamber.Obelisk;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Pillar;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Repository;
@@ -116,6 +117,10 @@ public class Activity{
 					}else if(entity.getClass() == Repository.class){
 						((Repository)entity).insertStone();
 						break;
+					}
+				}else if(button == Gamepad.X){
+					if(entity .getClass() == Obelisk.class){
+						((Obelisk)entity).damageTaken();
 					}
 				}else if(button == Gamepad.X && entity.getClass() == Eidolon.class){
 					Eidolon enemy = (Eidolon)entity;

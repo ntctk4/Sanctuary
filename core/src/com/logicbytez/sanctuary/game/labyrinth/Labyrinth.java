@@ -12,6 +12,7 @@ import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
+import com.logicbytez.sanctuary.game.entities.objects.antechamber.Obelisk;
 import com.logicbytez.sanctuary.game.entities.objects.antechamber.Portal;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Altar;
 import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Pillar;
@@ -31,6 +32,7 @@ public class Labyrinth{
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
 	private Queue<Pillar> pillars = new LinkedList<Pillar>();
+	private Queue<Obelisk> obelisks = new LinkedList<Obelisk>();
 	private Queue<Repository> repositories = new LinkedList<Repository>();
 
 	//creates the entire level of the labyrinth
@@ -187,6 +189,15 @@ public class Labyrinth{
 					}else{
 						entities.add(repositories.element());
 						repositories.add(repositories.poll());
+					}
+				}else if(object.getName().equals("obelisk")){
+					if(!currentRoom.hasGenerated())
+					{	Obelisk obelisk = new Obelisk(game, object);
+						obelisks.add(obelisk);
+						entities.add(obelisk);
+					}else{
+						entities.add(obelisks.element());
+						obelisks.add(obelisks.poll());
 					}
 				}else if(object.getName().equals("pedestal")){
 					if(!currentRoom.hasGenerated()){
