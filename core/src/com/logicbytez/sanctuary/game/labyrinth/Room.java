@@ -10,18 +10,21 @@ public class Room{
 	public enum Type{ANTECHAMBER, CRYSTAL_PEDESTAL_ROOM, SANCTUARY, SUNSTONE_PEDESTAL_ROOM}
 	private boolean hasForeground, hasGenerated;
 	private char[] doors;
-	private int doorAmount;
+	private int doorAmount, side;
 	private Type type;
 	final static int NONE = -1, UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
 	private Array<Entity> entities;
 	private TiledMap map;
 	private Vector2 location;
+	private Room parent;
 
 	//creates the room and map from its door amount
-	public Room(int x, int y, int side){
+	public Room(int x, int y, int side, Room parent){
 		doors = new char[]{'0', '0', '0', '0'};
-		location = new Vector2(x, y);
 		entities = new Array<Entity>(false, 0);
+		location = new Vector2(x, y);
+		this.parent = parent;
+		this.side = side;
 		if(side != NONE){
 			doorAmount++;
 			doors[side] = '1';
@@ -127,7 +130,11 @@ public class Room{
 	public TiledMap getMap(){
 		return map;
 	}
-	
+
+	public Room getParent(){
+		return parent;
+	}
+
 	//returns the type of the room
 	public Type getType(){
 		return type;

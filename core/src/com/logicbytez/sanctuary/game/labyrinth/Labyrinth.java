@@ -17,9 +17,9 @@ import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
+	private int crystalAmount = 2, roomAmount = 20, stoneAmount = 2;
 	private Altar altar;
-	private Array<Room> rooms;
+	private Array<Room> path, rooms;
 	private Array<Entity> entities;
 	private Array<Pedestal_Stone> pedestals;
 	private GameScreen game;
@@ -31,11 +31,12 @@ public class Labyrinth{
 		this.entities = entities;
 		this.game = game;
 		int index = 2;
+		path = new Array<Room>();
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
 		layout = new Room[maxSize][maxSize];
-		currentRoom = layout[center][center] = new Room(center, center, Room.UP);
+		currentRoom = layout[center][center] = new Room(center, center, Room.UP, null);
 		currentRoom.switchType(Room.Type.SANCTUARY);
-		Room adjacentRoom = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN);
+		Room adjacentRoom = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, currentRoom);
 		rooms = new Array<Room>(false, Math.max(roomAmount -= 3, 3));
 		rooms.addAll(currentRoom, adjacentRoom, createRoom(adjacentRoom));
 		roomSize = new Vector2();
@@ -60,6 +61,10 @@ public class Labyrinth{
 						room.addEntity(new Portal(game));
 						room.switchType(Room.Type.ANTECHAMBER);
 						rooms.add(room);
+						while(room != null){
+							path.add(room);
+							room = room.getParent();
+						}
 					}
 				}else{
 					rooms.add(room);
@@ -69,7 +74,8 @@ public class Labyrinth{
 			}
 		}
 		updateCurrentRoom(0, 0);
-		/*System.out.println("Crystals Not Generated: " + stoneAmount);
+		/*System.out.println(path.size);
+		System.out.println("Crystals Not Generated: " + stoneAmount);
 		System.out.println("Stones Not Generated: " + stoneAmount);
 		System.out.println("Rooms Not Generated: " + roomAmount + "Out Of" + rooms.size);*/
 	}
@@ -84,28 +90,28 @@ public class Labyrinth{
 			switch(sides[i]){
 			case Room.UP:
 				if(y + 1 < maxSize && layout[x][y + 1] == null){
-					room = layout[x][y + 1] = new Room(x, y + 1, Room.DOWN);
+					room = layout[x][y + 1] = new Room(x, y + 1, Room.DOWN, node);
 					node.update(Room.UP);
 					break loop;
 				}
 				break;
 			case Room.RIGHT:
 				if(x + 1 < maxSize  && layout[x + 1][y] == null){
-					room = layout[x + 1][y] = new Room(x + 1, y, Room.LEFT);
+					room = layout[x + 1][y] = new Room(x + 1, y, Room.LEFT, node);
 					node.update(Room.RIGHT);
 					break loop;
 				}
 				break;
 			case Room.DOWN:
 				if(y - 1 >= 0  && layout[x][y - 1] == null){
-					room = layout[x][y - 1] = new Room(x, y - 1, Room.UP);
+					room = layout[x][y - 1] = new Room(x, y - 1, Room.UP, node);
 					node.update(Room.DOWN);
 					break loop;
 				}
 				break;
 			case Room.LEFT:
 				if(x - 1 >= 0 && layout[x - 1][y] == null){
-					room = layout[x - 1][y] = new Room(x - 1, y, Room.RIGHT);
+					room = layout[x - 1][y] = new Room(x - 1, y, Room.RIGHT, node);
 					node.update(Room.LEFT);
 					break loop;
 				}
