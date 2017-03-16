@@ -1,4 +1,8 @@
 package com.logicbytez.sanctuary.game.labyrinth;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,6 +30,8 @@ public class Labyrinth{
 	private Portal portal;
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
+	private Queue<Pillar> pillars = new LinkedList<Pillar>();
+	private Queue<Repository> repositories = new LinkedList<Repository>();
 
 	//creates the entire level of the labyrinth
 	public Labyrinth(Array<Entity> entities, GameScreen game){
@@ -162,9 +168,26 @@ public class Labyrinth{
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
 				}else if(object.getName().equals("pillar")){
-					entities.add(new Pillar(game, object));
+					if(!currentRoom.hasGenerated())
+					{
+						Pillar pillar = new Pillar(game, object);
+						pillars.add(pillar);
+						entities.add(pillar);
+					}
+					else{
+						entities.add(pillars.element());
+						pillars.add(pillars.poll());
+					}
 				}else if(object.getName().equals("repository")){
-					entities.add(new Repository(game, object));	
+					if(!currentRoom.hasGenerated())
+					{
+						Repository repository = new Repository(game, object);
+						repositories.add(repository);
+						entities.add(repository);
+					}else{
+						entities.add(repositories.element());
+						repositories.add(repositories.poll());
+					}
 				}else if(object.getName().equals("pedestal")){
 					if(!currentRoom.hasGenerated()){
 						if(currentRoom.getType() == Room.Type.CRYSTAL_PEDESTAL_ROOM){
