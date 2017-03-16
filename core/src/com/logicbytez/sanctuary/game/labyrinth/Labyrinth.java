@@ -17,12 +17,13 @@ import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = 2, roomAmount = 20, stoneAmount = 2;
+	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
 	private Altar altar;
 	private Array<Room> path, rooms;
 	private Array<Entity> entities;
 	private Array<Pedestal_Stone> pedestals;
 	private GameScreen game;
+	private Portal portal;
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
 
@@ -58,7 +59,8 @@ public class Labyrinth{
 						rooms.add(room);
 						rooms.swap(index++, rooms.size - 1);
 					}else{
-						room.addEntity(new Portal(game));
+						portal = new Portal(game);
+						room.addEntity(portal);
 						room.switchType(Room.Type.ANTECHAMBER);
 						rooms.add(room);
 						while(room != null){
@@ -130,8 +132,17 @@ public class Labyrinth{
 		}
 	}
 
+	public void update(){
+		/*get hourglass time ratio, multiply it by # of rooms in 'path', and take the floor of it (save this #)
+		 * if the number changes, then move the enemies to the next room IF the player isn't in the current one
+		 * Do this by changing the room # to the corresponding door and removing from one room's entities array
+		 * the enemies and adding them to the next
+		 * If the player is in the next room, spawn them at the door's location*/
+	}
+
 	//changes the current map to a new one
 	public void updateCurrentRoom(int x, int y){
+		//if # != 0 then enemies come out of door, 1=top,2=right,3=bottom,4=left?
 		if(x != 0 || y != 0){
 			Vector2 currentLocation = currentRoom.getLocation();
 			currentRoom = layout[(int)currentLocation.x + x][(int)currentLocation.y + y];
@@ -172,6 +183,11 @@ public class Labyrinth{
 		for(int i = 0; i < currentRoom.getEntities().size; i++){
 			entities.add(currentRoom.getEntities().get(i));
 		}
+	}
+
+	public void activatePortal(){
+		portal.activate();
+		//pawn enemies (put in arraylist)
 	}
 
 	//pauses or unpauses all of the initialized pedestal timers

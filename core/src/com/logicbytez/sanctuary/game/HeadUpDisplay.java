@@ -64,6 +64,7 @@ public class HeadUpDisplay{
 					//display the wave message for 15s
 					if(!wave_launched) {
 						//launch wave here!!
+						game.getLabyrinth().activatePortal();
 						System.out.println("Wave Launched");
 						wave_launched = true;
 					}
