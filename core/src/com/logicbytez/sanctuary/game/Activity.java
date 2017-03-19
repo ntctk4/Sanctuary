@@ -123,7 +123,7 @@ public class Activity{
 						Eidolon enemy = (Eidolon)entity;
 						if(enemy.getHealth() > 0){
 							enemy.takeDamage(player.getAttackPower());
-							break;
+							//break; //Only attack one at a time :(
 						}
 					}else if(entity .getClass() == Obelisk.class){
 						((Obelisk)entity).damageTaken();

@@ -6,6 +6,7 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 
 public class Portal extends Entity{
+	private int waveSize = 10;
 	private float spawnTimer;
 
 	public Portal(GameScreen game){
@@ -18,6 +19,7 @@ public class Portal extends Entity{
 		box.set(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
 	}
 
+	//updates the portal animation and spawns enemies
 	public void update(float delta){
 		if(!game.isPaused()){
 			frameTimer += delta * 15;
@@ -28,15 +30,16 @@ public class Portal extends Entity{
 			spawnTimer += delta * 5;
 			if(spawnTimer > 10){
 				Eidolon eidolon = new Eidolon(game);
-				game.getLabyrinth().addEidolon(eidolon);
+				game.getLabyrinth().getCurrentRoom().addEntity(eidolon);
 				game.getEntities().add(eidolon);
 				spawnTimer = 0;
 			}
 		}
 	}
 
+	//spawns waves of enemies
 	public void activate(){
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < waveSize; i++){
 			Eidolon eidolon = new Eidolon(game);
 			game.getLabyrinth().addEidolon(eidolon);
 			if(game.getLabyrinth().insideAntechamber()){

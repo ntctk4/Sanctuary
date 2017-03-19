@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Array.ArrayIterator;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.Entity;
@@ -21,27 +22,26 @@ public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
 	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
-	private float eidolonTime;
+	private float eidolonTimer;
 	private Altar altar;
-	private Array<Eidolon> eidolons;
-	private Array<Wave> waves;
 	private Array<Entity> entities;
 	private Array<Obelisk> obelisks;
 	private Array<Pedestal_Stone> pedestals;
 	private Array<Pillar> pillars;
 	private Array<Repository> repositories;
 	private Array<Room> rooms;
+	private Array<Wave> waves;
 	private GameScreen game;
 	private Portal portal;
-	private Room antechamber, currentRoom, eidolonRoom, layout[][];
+	private Room antechamber, currentRoom, layout[][];
 	private Vector2 roomSize;
+	private Wave latestWave;
 
 	//creates the entire level of the labyrinth
 	public Labyrinth(Array<Entity> entities, GameScreen game){
 		this.entities = entities;
 		this.game = game;
 		int index = 1;
-		eidolons = new Array<Eidolon>();
 		obelisks = new Array<Obelisk>(false, 4);
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
 		pillars = new Array<Pillar>(false, 4);
@@ -73,7 +73,7 @@ public class Labyrinth{
 						rooms.add(room);
 						rooms.swap(index++, rooms.size - 1);
 					}else{
-						antechamber = eidolonRoom = room;
+						antechamber = room;
 						portal = new Portal(game);
 						room.addEntity(portal);
 						room.switchType(Room.Type.ANTECHAMBER);
@@ -145,31 +145,46 @@ public class Labyrinth{
 
 	//updates the location of the eidolons and door movement
 	public void update(float delta){
-		/*if(!activated){ //TESTING!
-			activated = true;
-			activatePortal();
-		}*/
 		if(activated && !game.isPaused()){
-			Room parentRoom = eidolonRoom.getParent();
-			if(eidolonRoom != currentRoom && parentRoom != null){
-				eidolonTime += delta;
-				if(eidolonTime >= 10){
-					eidolonTime = 0;
-					for(Eidolon eidolon : eidolons){
-						eidolon.setPosition(eidolonRoom.getSide(false));
-					}
-					if(parentRoom.equals(currentRoom)){
-						for(Entity entity : game.getEntities()){
-							if(entity.getClass() == Door.class){
-								Door door = (Door)entity;
-								if(door.getSide().ordinal() == eidolonRoom.getSide(true)){
-									door.activate();
-								}
+			ArrayIterator<Wave> itWaves = (ArrayIterator<Wave>)waves.iterator();
+			while(itWaves.hasNext()){
+			    Wave wave = itWaves.next();
+				Room eidolonRoom = wave.getRoom();
+				Room parentRoom = wave.getRoom().getParent();
+				if(eidolonRoom != currentRoom){
+					eidolonTimer += delta;
+					if(eidolonTimer >= 10){
+						eidolonTimer = 0;
+						Array<Eidolon> eidolons = wave.getEidolons();
+						ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
+						while(itEidolons.hasNext()){
+							Eidolon eidolon = itEidolons.next();
+							if(eidolon.getHealth() <= 0){
+								eidolonRoom.addEntity(eidolon);
+								itEidolons.remove();
+							}else if(parentRoom != null){
+								eidolon.setPosition(eidolonRoom.getSide(false));
 							}
 						}
-						game.getEntities().addAll(eidolons);
+						if(eidolons.size != 0){
+							if(parentRoom != null){
+								if(parentRoom.equals(currentRoom)){
+									for(Entity entity : game.getEntities()){
+										if(entity.getClass() == Door.class){
+											Door door = (Door)entity;
+											if(door.getSide().ordinal() == eidolonRoom.getSide(true)){
+												door.activate();
+											}
+										}
+									}
+									game.getEntities().addAll(eidolons);
+								}
+								wave.setRoom(parentRoom);
+							}
+						}else{
+							itWaves.remove();
+						}
 					}
-					eidolonRoom = parentRoom;
 				}
 			}
 		}
@@ -184,8 +199,10 @@ public class Labyrinth{
 			entities.clear();
 		}
 		entities.addAll(game.getPlayers());
-		if(eidolonRoom.equals(currentRoom)){
-			entities.addAll(eidolons);
+		for(Wave wave : waves){
+			if(wave.getRoom().equals(currentRoom)){
+				entities.addAll(wave.getEidolons());
+			}
 		}
 		MapLayer objectLayer = currentRoom.getMap().getLayers().get("objects");
 		if(objectLayer != null){
@@ -238,12 +255,14 @@ public class Labyrinth{
 	//orders the portal to spawn enemies
 	public void activatePortal(){
 		activated = true;
+		latestWave = new Wave(antechamber);
+		waves.add(latestWave);
 		portal.activate();
 	}
 
 	//adds an eidolon to the array
 	public void addEidolon(Eidolon eidolon){
-		eidolons.add(eidolon);
+		latestWave.getEidolons().add(eidolon);
 	}
 
 	//pauses or unpauses all of the initialized pedestal timers
