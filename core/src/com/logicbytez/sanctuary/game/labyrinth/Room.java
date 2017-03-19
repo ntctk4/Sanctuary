@@ -12,7 +12,7 @@ public class Room{
 	private char[] doors;
 	private int doorAmount, side;
 	private Type type;
-	final static int NONE = -1, UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
+	public final static int NONE = -1, UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
 	private Array<Entity> entities;
 	private TiledMap map;
 	private Vector2 location;
@@ -136,7 +136,19 @@ public class Room{
 	}
 
 	//returns the side of the parent room
-	public int getSide(){
+	public int getSide(boolean opposite){
+		if(opposite){
+			switch(side){
+			case UP:
+				return DOWN;
+			case RIGHT:
+				return LEFT;
+			case DOWN:
+				return UP;
+			case LEFT:
+				return RIGHT;
+			}
+		}
 		return side;
 	}
 

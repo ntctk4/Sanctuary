@@ -17,18 +17,20 @@ import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Repository;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 
 public class Labyrinth{
+	private boolean activated;
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = 0, roomAmount = 3, stoneAmount = 0;
+	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
 	private float eidolonTime;
 	private Altar altar;
-	private Array<Room> path, rooms;
 	private Array<Eidolon> eidolons;
+	private Array<Wave> waves;
 	private Array<Entity> entities;
 	private Array<Obelisk> obelisks;
 	private Array<Pedestal_Stone> pedestals;
 	private Array<Pillar> pillars;
 	private Array<Repository> repositories;
+	private Array<Room> rooms;
 	private GameScreen game;
 	private Portal portal;
 	private Room antechamber, currentRoom, eidolonRoom, layout[][];
@@ -39,12 +41,12 @@ public class Labyrinth{
 		this.entities = entities;
 		this.game = game;
 		int index = 1;
-		path = new Array<Room>();
 		eidolons = new Array<Eidolon>();
 		obelisks = new Array<Obelisk>(false, 4);
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
 		pillars = new Array<Pillar>(false, 4);
 		repositories = new Array<Repository>(false, 2);
+		waves = new Array<Wave>();
 		layout = new Room[maxSize][maxSize];
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP, null);
 		currentRoom.switchType(Room.Type.SANCTUARY);
@@ -76,10 +78,6 @@ public class Labyrinth{
 						room.addEntity(portal);
 						room.switchType(Room.Type.ANTECHAMBER);
 						rooms.add(room);
-						while(room != null){
-							path.add(room);
-							room = room.getParent();
-						}
 					}
 				}else{
 					rooms.add(room);
@@ -145,19 +143,33 @@ public class Labyrinth{
 		}
 	}
 
+	//updates the location of the eidolons and door movement
 	public void update(float delta){
-		Room parentRoom = eidolonRoom.getParent();
-		if(eidolonRoom != currentRoom && parentRoom != null){
-			eidolonTime += delta;
-			portal.update(delta);
-			if(eidolonTime >= 10){
-				eidolonTime = 0;
-				for(Eidolon eidolon : eidolons){
-					eidolon.setPosition(eidolonRoom.getSide());
-				}
-				eidolonRoom = parentRoom;
-				if(parentRoom.equals(currentRoom)){
-					game.getEntities().addAll(eidolons);
+		/*if(!activated){ //TESTING!
+			activated = true;
+			activatePortal();
+		}*/
+		if(activated && !game.isPaused()){
+			Room parentRoom = eidolonRoom.getParent();
+			if(eidolonRoom != currentRoom && parentRoom != null){
+				eidolonTime += delta;
+				if(eidolonTime >= 10){
+					eidolonTime = 0;
+					for(Eidolon eidolon : eidolons){
+						eidolon.setPosition(eidolonRoom.getSide(false));
+					}
+					if(parentRoom.equals(currentRoom)){
+						for(Entity entity : game.getEntities()){
+							if(entity.getClass() == Door.class){
+								Door door = (Door)entity;
+								if(door.getSide().ordinal() == eidolonRoom.getSide(true)){
+									door.activate();
+								}
+							}
+						}
+						game.getEntities().addAll(eidolons);
+					}
+					eidolonRoom = parentRoom;
 				}
 			}
 		}
@@ -225,6 +237,7 @@ public class Labyrinth{
 
 	//orders the portal to spawn enemies
 	public void activatePortal(){
+		activated = true;
 		portal.activate();
 	}
 
