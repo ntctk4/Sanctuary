@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.logicbytez.sanctuary.game.GameScreen;
+import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.objects.Door;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Crystal;
@@ -19,8 +20,10 @@ public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
 	private int crystalAmount = 0, roomAmount = 3, stoneAmount = 0;
+	private float eidolonTime;
 	private Altar altar;
 	private Array<Room> path, rooms;
+	private Array<Eidolon> eidolons;
 	private Array<Entity> entities;
 	private Array<Obelisk> obelisks;
 	private Array<Pedestal_Stone> pedestals;
@@ -28,7 +31,7 @@ public class Labyrinth{
 	private Array<Repository> repositories;
 	private GameScreen game;
 	private Portal portal;
-	private Room currentRoom, layout[][];
+	private Room antechamber, currentRoom, eidolonRoom, layout[][];
 	private Vector2 roomSize;
 
 	//creates the entire level of the labyrinth
@@ -37,6 +40,7 @@ public class Labyrinth{
 		this.game = game;
 		int index = 1;
 		path = new Array<Room>();
+		eidolons = new Array<Eidolon>();
 		obelisks = new Array<Obelisk>(false, 4);
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
 		pillars = new Array<Pillar>(false, 4);
@@ -67,6 +71,7 @@ public class Labyrinth{
 						rooms.add(room);
 						rooms.swap(index++, rooms.size - 1);
 					}else{
+						antechamber = eidolonRoom = room;
 						portal = new Portal(game);
 						room.addEntity(portal);
 						room.switchType(Room.Type.ANTECHAMBER);
@@ -140,17 +145,26 @@ public class Labyrinth{
 		}
 	}
 
-	public void update(){
-		/*get hourglass time ratio, multiply it by # of rooms in 'path', and take the floor of it (save this #)
-		 * if the number changes, then move the enemies to the next room IF the player isn't in the current one
-		 * Do this by changing the room # to the corresponding door and removing from one room's entities array
-		 * the enemies and adding them to the next
-		 * If the player is in the next room, spawn them at the door's location*/
+	public void update(float delta){
+		Room parentRoom = eidolonRoom.getParent();
+		if(eidolonRoom != currentRoom && parentRoom != null){
+			eidolonTime += delta;
+			portal.update(delta);
+			if(eidolonTime >= 10){
+				eidolonTime = 0;
+				for(Eidolon eidolon : eidolons){
+					eidolon.setPosition(eidolonRoom.getSide());
+				}
+				eidolonRoom = parentRoom;
+				if(parentRoom.equals(currentRoom)){
+					game.getEntities().addAll(eidolons);
+				}
+			}
+		}
 	}
 
 	//changes the current map to a new one
 	public void updateCurrentRoom(int x, int y){
-		//if # != 0 then enemies come out of door, 1=top,2=right,3=bottom,4=left?
 		if(x != 0 || y != 0){
 			Vector2 currentLocation = currentRoom.getLocation();
 			currentRoom = layout[(int)currentLocation.x + x][(int)currentLocation.y + y];
@@ -158,6 +172,9 @@ public class Labyrinth{
 			entities.clear();
 		}
 		entities.addAll(game.getPlayers());
+		if(eidolonRoom.equals(currentRoom)){
+			entities.addAll(eidolons);
+		}
 		MapLayer objectLayer = currentRoom.getMap().getLayers().get("objects");
 		if(objectLayer != null){
 			for(MapObject object : objectLayer.getObjects()){
@@ -206,9 +223,14 @@ public class Labyrinth{
 		}
 	}
 
+	//orders the portal to spawn enemies
 	public void activatePortal(){
 		portal.activate();
-		//spawn enemies (put in arraylist)
+	}
+
+	//adds an eidolon to the array
+	public void addEidolon(Eidolon eidolon){
+		eidolons.add(eidolon);
 	}
 
 	//pauses or unpauses all of the initialized pedestal timers
@@ -222,7 +244,12 @@ public class Labyrinth{
 	public Altar getAltar(){
 		return altar;
 	}
-	
+
+	//returns true if the player is inside the antechamber
+	public boolean insideAntechamber(){
+		return antechamber.equals(currentRoom);
+	}
+
 	//returns the room the players are in
 	public Room getCurrentRoom(){
 		return currentRoom;

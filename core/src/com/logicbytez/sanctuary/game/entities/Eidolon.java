@@ -126,6 +126,29 @@ public class Eidolon extends Being{
 		return false;
 	}
 
+	//sets the position of the enemy to a door
+	public void setPosition(int side){
+		float boxSizeX = getCollisionBox().getWidth();
+		float boxSizeY = getCollisionBox().getHeight();
+		float roomSizeX = game.getLabyrinth().getRoomSize().x * 16;
+		float roomSizeY = game.getLabyrinth().getRoomSize().y * 16;
+		switch(side){
+		case 0:
+			setPosition(roomSizeX / 2 - boxSizeX / 2, 16);
+			break;
+		case 1:
+			setPosition(16, roomSizeY / 2 - 16);
+			break;
+		case 2:
+			float y = roomSizeY - boxSizeY - 16 * 3;
+			setPosition(roomSizeX / 2 - boxSizeX / 2, y);
+			break;
+		case 3:
+			float x = roomSizeX - boxSizeX - 16;
+			setPosition(x, roomSizeY / 2 - 16);
+		}
+	}
+
 	//makes the enemy take damage to their health
 	public void takeDamage(int damage){
 		if(health > 0){

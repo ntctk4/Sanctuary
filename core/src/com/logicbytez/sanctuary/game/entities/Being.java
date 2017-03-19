@@ -72,6 +72,12 @@ public abstract class Being extends Entity{
 		box.y -= sprite.getWidth() / 2;
 	}
 
+	//moves the being to a new position
+	public void setPosition(float x, float y){
+		sprite.setPosition(x, y);
+		updateBoxes();
+	}
+
 	//makes the being take damage to their health
 	protected void takeDamage(int damage){
 		health -= damage;

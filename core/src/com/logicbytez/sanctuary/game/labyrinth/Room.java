@@ -135,6 +135,11 @@ public class Room{
 		return parent;
 	}
 
+	//returns the side of the parent room
+	public int getSide(){
+		return side;
+	}
+
 	//returns the type of the room
 	public Type getType(){
 		return type;

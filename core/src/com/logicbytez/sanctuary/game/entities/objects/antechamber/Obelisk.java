@@ -23,7 +23,7 @@ public class Obelisk extends Entity{
 
 	public void damageTaken(){
 		Assets.sound_SwordClang.play();
-		if(++hitsTaken % 4 == 0){
+		if(++hitsTaken % 4 == 0 && hitsTaken <= 12){
 			object.getProperties().put("Type", hitsTaken);
 			sprite.setRegion(animation.getKeyFrame(hitsTaken / 4));
 			if(hitsTaken != 12){

@@ -143,12 +143,6 @@ public class Player extends Being{
 		this.gamePad = gamepad;
 	}
 
-	//moves the player to a new position
-	public void setPosition(float x, float y){
-		sprite.setPosition(x, y);
-		updateBoxes();
-	}
-
 	//sets the touch pads to this player
 	public void setTouchPads(Touchpad touchpad){
 		this.touchpad = touchpad;

@@ -6,7 +6,7 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 
 public class Portal extends Entity{
-	private boolean activated;
+	private boolean activated = true; //testing!
 	private float spawnTimer;
 	private int enemyAmount;
 
@@ -21,26 +21,23 @@ public class Portal extends Entity{
 	}
 
 	public void update(float delta){
-		frameTimer += delta * 15;
-		if(frameTimer > 7){
-			frameTimer = 0;
-		}
-		sprite.setRegion(animation.getKeyFrame(frameTimer));
-		if(activated){
-			spawnTimer += delta * 5;
-			if(!game.isStopped()){
+		if(!game.isPaused()){
+			if(game.getLabyrinth().insideAntechamber()){
+				frameTimer += delta * 15;
+				if(frameTimer > 7){
+					frameTimer = 0;
+				}
+				sprite.setRegion(animation.getKeyFrame(frameTimer));
+			}
+			if(activated){
+				spawnTimer += delta * 5;
 				if(enemyAmount < 10 && spawnTimer > 10){
-					spawnTimer = 0;
-					if(enemyAmount < 10){
-						Eidolon enemy = new Eidolon(game);
-						enemyAmount++;
-						game.getLabyrinth().getCurrentRoom().addEntity(enemy);
-						game.getEntities().add(enemy);
+					Eidolon eidolon = new Eidolon(game);
+					enemyAmount++;
+					game.getLabyrinth().addEidolon(eidolon);
+					if(game.getLabyrinth().insideAntechamber()){
+						game.getEntities().add(eidolon);
 					}
-				}else if(enemyAmount >= 10 && spawnTimer > 1){
-					Eidolon enemy = new Eidolon(game);
-					game.getLabyrinth().getCurrentRoom().addEntity(enemy);
-					game.getEntities().add(enemy);
 					spawnTimer = 0;
 				}
 			}
