@@ -119,14 +119,14 @@ public class Activity{
 						break;
 					}
 				}else if(button == Gamepad.X){
-					if(entity .getClass() == Obelisk.class){
+					if(entity.getClass() == Eidolon.class){
+						Eidolon enemy = (Eidolon)entity;
+						if(enemy.getHealth() > 0){
+							enemy.takeDamage(player.getAttackPower());
+							break;
+						}
+					}else if(entity .getClass() == Obelisk.class){
 						((Obelisk)entity).damageTaken();
-					}
-				}else if(button == Gamepad.X && entity.getClass() == Eidolon.class){
-					Eidolon enemy = (Eidolon)entity;
-					if(enemy.getHealth() > 0){
-						enemy.takeDamage(player.getAttackPower());
-						break;
 					}
 				}
 			}

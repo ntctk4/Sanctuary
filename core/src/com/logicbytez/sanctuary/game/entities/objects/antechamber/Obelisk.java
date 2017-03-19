@@ -7,14 +7,12 @@ import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Obelisk extends Entity{
-	
-	int hitsTaken;
-	MapObject object;
+	private int hitsTaken;
+	private MapObject object;
 	
 	public Obelisk(GameScreen game, MapObject object){
 		super(game, object);
 		this.object = object;
-		hitsTaken = 0;
 		animation = Assets.animate(4, 1, 0, Assets.texture_Obelisk);
 		impede = true;
 		collisionBox = new Rectangle(box.x, box.y, box.width - 2, box.height);
@@ -22,13 +20,17 @@ public class Obelisk extends Entity{
 		sprite = new Sprite(animation.getKeyFrame(hitsTaken));
 		sprite.setPosition(box.x, box.y);
 	}
-	
+
 	public void damageTaken(){
-		hitsTaken++;
-		if(hitsTaken % 4 == 0){
-			//Assets.sound_Sunstone.play();
-			object.getProperties().put("Type", ++hitsTaken);
-			sprite.setRegion(animation.getKeyFrame(hitsTaken/4));
+		Assets.sound_SwordClang.play();
+		if(++hitsTaken % 4 == 0){
+			object.getProperties().put("Type", hitsTaken);
+			sprite.setRegion(animation.getKeyFrame(hitsTaken / 4));
+			if(hitsTaken != 12){
+				Assets.sound_ObeliskDamaged.play();
+			}else{
+				Assets.sound_ObeliskCollapse.play();
+			}
 		}
 	}
 }

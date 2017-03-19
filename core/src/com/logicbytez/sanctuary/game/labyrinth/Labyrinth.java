@@ -1,8 +1,4 @@
 package com.logicbytez.sanctuary.game.labyrinth;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.MathUtils;
@@ -22,32 +18,36 @@ import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 public class Labyrinth{
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
+	private int crystalAmount = 0, roomAmount = 3, stoneAmount = 0;
 	private Altar altar;
 	private Array<Room> path, rooms;
 	private Array<Entity> entities;
+	private Array<Obelisk> obelisks;
 	private Array<Pedestal_Stone> pedestals;
+	private Array<Pillar> pillars;
+	private Array<Repository> repositories;
 	private GameScreen game;
 	private Portal portal;
 	private Room currentRoom, layout[][];
 	private Vector2 roomSize;
-	private Queue<Pillar> pillars = new LinkedList<Pillar>();
-	private Queue<Obelisk> obelisks = new LinkedList<Obelisk>();
-	private Queue<Repository> repositories = new LinkedList<Repository>();
 
 	//creates the entire level of the labyrinth
 	public Labyrinth(Array<Entity> entities, GameScreen game){
 		this.entities = entities;
 		this.game = game;
-		int index = 2;
+		int index = 1;
 		path = new Array<Room>();
+		obelisks = new Array<Obelisk>(false, 4);
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
+		pillars = new Array<Pillar>(false, 4);
+		repositories = new Array<Repository>(false, 2);
 		layout = new Room[maxSize][maxSize];
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP, null);
 		currentRoom.switchType(Room.Type.SANCTUARY);
 		Room adjacentRoom = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, currentRoom);
-		rooms = new Array<Room>(false, Math.max(roomAmount -= 3, 3));
-		rooms.addAll(currentRoom, adjacentRoom, createRoom(adjacentRoom));
+		roomAmount = Math.max(roomAmount - 2, 1);
+		rooms = new Array<Room>(false, roomAmount + 2);
+		rooms.addAll(currentRoom, adjacentRoom);
 		roomSize = new Vector2();
 		roomSize.x = currentRoom.getBottomLayer().getWidth();
 		roomSize.y = currentRoom.getBottomLayer().getHeight();
@@ -163,41 +163,28 @@ public class Labyrinth{
 			for(MapObject object : objectLayer.getObjects()){
 				if(object.getName().equals("altar")){
 					if(!currentRoom.hasGenerated()){
-							altar = new Altar(game, object);
-							currentRoom.addEntity(altar);
-							entities.add(altar);
+						altar = new Altar(game, object);
+						currentRoom.addEntity(altar);
 					}
 				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
 				}else if(object.getName().equals("pillar")){
-					if(!currentRoom.hasGenerated())
-					{
+					if(!currentRoom.hasGenerated()){
 						Pillar pillar = new Pillar(game, object);
+						currentRoom.addEntity(pillar);
 						pillars.add(pillar);
-						entities.add(pillar);
-					}
-					else{
-						entities.add(pillars.element());
-						pillars.add(pillars.poll());
 					}
 				}else if(object.getName().equals("repository")){
-					if(!currentRoom.hasGenerated())
-					{
+					if(!currentRoom.hasGenerated()){
 						Repository repository = new Repository(game, object);
+						currentRoom.addEntity(repository);
 						repositories.add(repository);
-						entities.add(repository);
-					}else{
-						entities.add(repositories.element());
-						repositories.add(repositories.poll());
 					}
 				}else if(object.getName().equals("obelisk")){
-					if(!currentRoom.hasGenerated())
-					{	Obelisk obelisk = new Obelisk(game, object);
+					if(!currentRoom.hasGenerated()){
+						Obelisk obelisk = new Obelisk(game, object);
+						currentRoom.addEntity(obelisk);
 						obelisks.add(obelisk);
-						entities.add(obelisk);
-					}else{
-						entities.add(obelisks.element());
-						obelisks.add(obelisks.poll());
 					}
 				}else if(object.getName().equals("pedestal")){
 					if(!currentRoom.hasGenerated()){
@@ -221,7 +208,7 @@ public class Labyrinth{
 
 	public void activatePortal(){
 		portal.activate();
-		//pawn enemies (put in arraylist)
+		//spawn enemies (put in arraylist)
 	}
 
 	//pauses or unpauses all of the initialized pedestal timers
