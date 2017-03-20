@@ -137,6 +137,8 @@ public final class Assets{
 		atlas.dispose();
 		font25.dispose();
 		font50.dispose();
+		fontHud.dispose();
+		fontMonologue.dispose();
 		music_Exploration.dispose();
 		room_Antechamber_Up.dispose();
 		room_Antechamber_Down.dispose();
