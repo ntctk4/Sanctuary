@@ -171,6 +171,13 @@ gravestone
   orig: 12, 12
   offset: 0, 0
   index: -1
+orb
+  rotate: false
+  xy: 287, 80
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
 health_indicator
   rotate: false
   xy: 299, 192

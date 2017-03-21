@@ -52,7 +52,7 @@ public class TitleScreen implements Screen{
 		batch.begin();
 		Assets.font50.draw(batch, "sanctuary", -100, 50);
 		batch.end();
-		//game.setScreen(game.gameScreen); //skips title
+		game.setScreen(game.gameScreen); //skips title
 		if(!shown){
 			alphaTimer += delta;
 			Assets.font50.setColor(1, 1, 1, alphaTimer - 1);
@@ -68,7 +68,7 @@ public class TitleScreen implements Screen{
 				game.setScreen(game.monologueScreen);
 			}
 		}
-		//Assets.font50.setColor(1, 1, 1, 1); //resets font
+		Assets.font50.setColor(1, 1, 1, 1); //resets font
 	}
 
 	@Override

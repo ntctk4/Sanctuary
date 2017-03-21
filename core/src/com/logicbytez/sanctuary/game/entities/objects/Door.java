@@ -8,12 +8,12 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 import com.logicbytez.sanctuary.game.entities.players.Player;
 
 public class Door extends Entity{
-	private boolean opening;
+	private boolean activated, closing, opening;
 	private Array<Player> players;
 	private Direction direction;
 
 	//cardinal direction that it faces
-	private static enum Direction{
+	public static enum Direction{
 		UP, RIGHT, DOWN, LEFT
 	}
 
@@ -53,36 +53,56 @@ public class Door extends Entity{
 
 	//begins opening the door
 	public void open(){
-		Assets.sound_Door.play();
-		game.shakeScreen(.5f, 5);
-		game.switchStopped();
-		opening = true;
-		if(direction == Direction.LEFT){
-			players.first().setFacing(true);
-			if(players.size > 1){
-				players.get(1).setFacing(true);
-			}
-		}else if(direction == Direction.RIGHT){
-			players.first().setFacing(false);
-			if(players.size > 1){
-				players.get(1).setFacing(false);
+		if(!closing){
+			Assets.sound_Door.play();
+			game.shakeScreen(.5f, 5);
+			opening = true;
+			if(!activated){
+				game.switchStopped();
+				if(direction == Direction.LEFT){
+					players.first().setFacing(true);
+					if(players.size > 1){
+						players.get(1).setFacing(true);
+					}
+				}else if(direction == Direction.RIGHT){
+					players.first().setFacing(false);
+					if(players.size > 1){
+						players.get(1).setFacing(false);
+					}
+				}
 			}
 		}
 	}
 
 	//animates the door and initiates the teleport
 	public void update(float delta){
-		if(opening){
-			frameTimer += delta * 15;
-			if(frameTimer > 9){
-				opening = false;
-				game.switchStopped();
-				teleportPlayers(delta);
-				game.updateCamera(delta);
+		if(!game.isPaused()){
+			if(closing){
+				frameTimer -= delta * 15;
+				if(frameTimer <= 0){
+					frameTimer = 0;
+					closing = false;
+				}
+				sprite.setRegion(animation.getKeyFrame(frameTimer));
+			}else if(opening){
+				frameTimer += delta * 15;
+				if(frameTimer > 9){
+					opening = false;
+					if(!activated){
+						game.switchStopped();
+						teleportPlayers(delta);
+						game.updateCamera(delta);
+					}else{
+						Assets.sound_Door.play();
+						activated = false;
+						closing = true;
+						game.shakeScreen(.5f, 5);
+					}
+				}
+				sprite.setRegion(animation.getKeyFrame(frameTimer));
+			}else if(direction == Direction.DOWN){
+				sprite.setAlpha(game.alphaRatio());
 			}
-			sprite.setRegion(animation.getKeyFrame(frameTimer));
-		}else if(direction == Direction.DOWN){
-			sprite.setAlpha(game.alphaRatio());
 		}
 	}
 
@@ -131,5 +151,16 @@ public class Door extends Entity{
 				players.first().setPosition(x, roomSizeY / 2 - 16);
 			}
 		}
+	}
+
+	//opens the door for eidolons
+	public void activate(){
+		activated = true;
+		open();
+	}
+
+	//returns the direction of the door
+	public Direction getSide(){
+		return direction;
 	}
 }

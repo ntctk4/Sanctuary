@@ -9,6 +9,7 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Being;
 import com.logicbytez.sanctuary.game.entities.players.Player;
+import com.logicbytez.sanctuary.game.labyrinth.Room;
 
 public class Eidolon extends Being{
 	private boolean playerDirection, stuck, stuckDirection;
@@ -124,6 +125,29 @@ public class Eidolon extends Being{
 			}
 		}
 		return false;
+	}
+
+	//sets the position of the enemy to a door
+	public void setPosition(int side){
+		float boxSizeX = getCollisionBox().getWidth();
+		float boxSizeY = getCollisionBox().getHeight();
+		float roomSizeX = game.getLabyrinth().getRoomSize().x * 16;
+		float roomSizeY = game.getLabyrinth().getRoomSize().y * 16;
+		switch(side){
+		case Room.UP:
+			setPosition(roomSizeX / 2 - boxSizeX / 2, 16);
+			break;
+		case Room.RIGHT:
+			setPosition(16, roomSizeY / 2 - 16);
+			break;
+		case Room.DOWN:
+			float y = roomSizeY - boxSizeY - 16 * 3;
+			setPosition(roomSizeX / 2 - boxSizeX / 2, y);
+			break;
+		case Room.LEFT:
+			float x = roomSizeX - boxSizeX - 16;
+			setPosition(x, roomSizeY / 2 - 16);
+		}
 	}
 
 	//makes the enemy take damage to their health

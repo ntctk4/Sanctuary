@@ -19,12 +19,11 @@ public final class Assets{
 	public static BitmapFont font25, font50, fontHud, fontMonologue;
 	public static Music music_Exploration;
 	public static ShaderProgram vignette;
-	public static Sound sound_Crystal, sound_Door, sound_EidolonHurt, sound_Sunstone, sound_PlayerHurt, sound_SwordSlash, sound_SwordSwing;
+	public static Sound sound_Crystal, sound_Door, sound_EidolonHurt, sound_ObeliskCollapse, sound_ObeliskDamaged, sound_PlayerHurt, sound_Sunstone, sound_SwordClang, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
-	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator, texture_Pillar, texture_Repository;
-	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone;
-	public static TextureRegion texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight;
-	public static TextureRegion texture_PauseBar, texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_PlayerBlue, texture_PlayerRed, texture_Portal;
+	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator, texture_Obelisk;
+	public static TextureRegion texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_Pillar, texture_PlayerBlue, texture_PlayerRed, texture_Portal, texture_Repository;
+	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone, texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight, texture_PauseBar;
 	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
 	public static TiledMap room_Pedestal_Up, room_Pedestal_Down, room_Pedestal_Left, room_Pedestal_Right;
 
@@ -69,6 +68,7 @@ public final class Assets{
 		texture_PlayerBlue = atlas.findRegion("player_blue");
 		texture_PlayerRed = atlas.findRegion("player_red");
 		texture_Portal = atlas.findRegion("portal");
+		texture_Obelisk = atlas.findRegion("obelisk");
 		texture_Sand = atlas.findRegion("sand");
 	}
 
@@ -113,8 +113,11 @@ public final class Assets{
 		sound_Crystal = Gdx.audio.newSound(Gdx.files.internal("sounds/crystal.wav"));
 		sound_Door = Gdx.audio.newSound(Gdx.files.internal("sounds/door.wav"));
 		sound_EidolonHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/eidolon_hurt.wav"));
-		sound_Sunstone = Gdx.audio.newSound(Gdx.files.internal("sounds/sunstone.wav"));
+		sound_ObeliskCollapse = Gdx.audio.newSound(Gdx.files.internal("sounds/obelisk_collapse.wav"));
+		sound_ObeliskDamaged = Gdx.audio.newSound(Gdx.files.internal("sounds/obelisk_damaged.wav"));
 		sound_PlayerHurt = Gdx.audio.newSound(Gdx.files.internal("sounds/player_hurt.wav"));
+		sound_Sunstone = Gdx.audio.newSound(Gdx.files.internal("sounds/sunstone.wav"));
+		sound_SwordClang = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_clang.wav"));
 		sound_SwordSlash = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_slash.wav"));
 		sound_SwordSwing = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_swing.wav"));
 	}
@@ -135,6 +138,8 @@ public final class Assets{
 		atlas.dispose();
 		font25.dispose();
 		font50.dispose();
+		fontHud.dispose();
+		fontMonologue.dispose();
 		music_Exploration.dispose();
 		room_Antechamber_Up.dispose();
 		room_Antechamber_Down.dispose();
@@ -148,8 +153,11 @@ public final class Assets{
 		sound_Crystal.dispose();
 		sound_Door.dispose();
 		sound_EidolonHurt.dispose();
-		sound_Sunstone.dispose();
+		sound_ObeliskCollapse.dispose();
+		sound_ObeliskDamaged.dispose();
 		sound_PlayerHurt.dispose();
+		sound_Sunstone.dispose();
+		sound_SwordClang.dispose();
 		sound_SwordSlash.dispose();
 		sound_SwordSwing.dispose();
 		vignette.dispose();

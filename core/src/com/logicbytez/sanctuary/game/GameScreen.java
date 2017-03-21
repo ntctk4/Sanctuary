@@ -85,6 +85,7 @@ public class GameScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		delta = delta > .15 ? .15f : delta;
 		updateCamera(delta);
+		labyrinth.update(delta);
 		entities.sort(new Comparator<Entity>(){
 			@Override
 			public int compare(Entity t1, Entity t2){

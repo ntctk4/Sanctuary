@@ -7,9 +7,9 @@ import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Pillar extends Entity{
-	
 	int stonesInserted;
 	MapObject object;
+
 	public Pillar(GameScreen game, MapObject object){
 		super(game, object);
 		this.object = object;
@@ -21,17 +21,13 @@ public class Pillar extends Entity{
 		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
 		sprite.setPosition(box.x, box.y);
 	}
-	
+
 	public void insertStone(){
-		
-		if(stonesInserted < 2 && game.getHud().getStones() > 0)
-		{
+		if(stonesInserted < 2 && game.getHud().getStones() > 0){
 			Assets.sound_Sunstone.play();
 			game.getHud().addStone(false);
 			object.getProperties().put("Type", ++stonesInserted);
 			sprite.setRegion(animation.getKeyFrame(stonesInserted));
 		}
-	
 	}
-
 }
