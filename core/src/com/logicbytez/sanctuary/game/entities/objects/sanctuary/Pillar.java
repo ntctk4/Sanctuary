@@ -10,6 +10,7 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Pillar extends Entity{
 	private int stonesInserted;
+	private float orbTimer;
 	private Array<Orb> orbs;
 	private MapObject object;
 
@@ -24,6 +25,14 @@ public class Pillar extends Entity{
 		stonesInserted = 0;
 		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
 		sprite.setPosition(box.x, box.y);
+	}
+
+	public void update(float delta){
+		orbTimer += delta;
+		if(orbTimer > 10){
+			orbTimer = 0;
+			spawnOrb();
+		}
 	}
 
 	public void insertStone(){
