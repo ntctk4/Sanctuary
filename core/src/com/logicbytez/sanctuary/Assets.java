@@ -22,7 +22,7 @@ public final class Assets{
 	public static Sound sound_Crystal, sound_Door, sound_EidolonHurt, sound_ObeliskCollapse, sound_ObeliskDamaged, sound_PlayerHurt, sound_Sunstone, sound_SwordClang, sound_SwordSlash, sound_SwordSwing;
 	private static TextureAtlas atlas;
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator, texture_Obelisk, texture_Orb;
-	public static TextureRegion texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_Pillar, texture_PlayerBlue, texture_PlayerRed, texture_Portal, texture_Repository;
+	public static TextureRegion texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_Pillar, texture_PlayerBlue, texture_PlayerRed, texture_Portal, texture_Repository, texture_TeleportBar;
 	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone, texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight, texture_PauseBar;
 	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
 	public static TiledMap room_Pedestal_Up, room_Pedestal_Down, room_Pedestal_Left, room_Pedestal_Right;
@@ -70,6 +70,7 @@ public final class Assets{
 		texture_Portal = atlas.findRegion("portal");
 		texture_Obelisk = atlas.findRegion("obelisk");
 		texture_Orb = atlas.findRegion("orb");
+		texture_TeleportBar = atlas.findRegion("teleport_bar");
 		texture_Sand = atlas.findRegion("sand");
 	}
 
