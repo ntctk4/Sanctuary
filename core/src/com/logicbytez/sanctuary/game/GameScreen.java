@@ -311,6 +311,7 @@ public class GameScreen implements Screen{
 		if(fadeOutTimer >= 2) {
 			Assets.font50.setColor(1, 1, 1, 1);
 			Assets.fontHud.setColor(1, 1, 1, 1);
+			fadeOutTimer = 0;
 			exit();
 		}
 	}
