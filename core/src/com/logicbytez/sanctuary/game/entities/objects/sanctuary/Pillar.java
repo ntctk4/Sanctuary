@@ -39,5 +39,6 @@ public class Pillar extends Entity{
 		Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
 		Orb orb = new Orb(stonesInserted, game, eidolon, sprite);
 		orbs.add(orb);
+		game.getLabyrinth().getCurrentRoom().getEntities().add(orb);
 	}
 }
