@@ -16,8 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class SplashScreen implements Screen {
 	private Main game;
 	
-	private Texture texture;
-	private TextureRegion logic_bytes;
+	private Texture logic_bytes;
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private Stage stage;
@@ -27,8 +26,7 @@ public class SplashScreen implements Screen {
 	public SplashScreen(Main game) {
 		this.game = game;
 				
-		texture = new Texture(Gdx.files.internal("LogicBytes.png"));
-		logic_bytes = new TextureRegion(texture);
+		logic_bytes = new Texture(Gdx.files.internal("LogicBytes.png"));
 		
 		camera = new OrthographicCamera();
 		viewport = new FitViewport(game.view.x * 2, game.view.y * 2, camera);
@@ -69,7 +67,7 @@ public class SplashScreen implements Screen {
 			stage.dispose();
 		}
 		
-		Gdx.gl.glClearColor(0.6f, 0.6f, 0.6f, 1);
+		Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		game.batch.begin();
@@ -102,7 +100,7 @@ public class SplashScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		texture.dispose();
+		logic_bytes.dispose();
 		
 	}
 }
