@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 
 public final class Assets{
 	public static Array<TiledMap> hallways;
-	public static BitmapFont font25, font50, fontHud, fontMonologue;
+	public static BitmapFont font25, font50, fontHud, fontMonologue, fontSplash;
 	public static Music music_Exploration;
 	public static ShaderProgram vignette;
 	public static Sound sound_Crystal, sound_Door, sound_EidolonHurt, sound_ObeliskCollapse, sound_ObeliskDamaged, sound_PlayerHurt, sound_Sunstone, sound_SwordClang, sound_SwordSlash, sound_SwordSwing;
@@ -89,6 +89,9 @@ public final class Assets{
 		parameter.size = 15;
 		parameter.borderWidth = 1;
 		fontMonologue = generator.generateFont(parameter);
+		//parameter.borderColor = Color.BLACK;
+		parameter.size = 20;
+		fontSplash = generator.generateFont(parameter);
 		generator.dispose();
 	}
 

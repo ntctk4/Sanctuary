@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -16,7 +16,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class SplashScreen implements Screen {
 	private Main game;
 	
-	private TextureRegion logo;
+	private Texture texture;
+	private TextureRegion logic_bytes;
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private Stage stage;
@@ -26,33 +27,36 @@ public class SplashScreen implements Screen {
 	public SplashScreen(Main game) {
 		this.game = game;
 				
-		//load logo
+		texture = new Texture(Gdx.files.internal("LogicBytes.png"));
+		logic_bytes = new TextureRegion(texture);
+		
 		camera = new OrthographicCamera();
-		viewport = new FitViewport(game.view.x, game.view.y, camera);
+		viewport = new FitViewport(game.view.x * 2, game.view.y * 2, camera);
 		stage = new Stage(viewport, game.batch);
 		
-		Label.LabelStyle style = new Label.LabelStyle(Assets.fontMonologue, Color.WHITE);
-		Table table = new Table();
-		table.bottom();
-		table.setFillParent(true);
+		Label.LabelStyle style = new Label.LabelStyle(Assets.fontSplash, Color.WHITE);
+		Table tableTop = new Table();
+		tableTop.top();
+		tableTop.setFillParent(true);
 		
 		if(!game.testing)
-			table.debug();
+			tableTop.debug();
 		
-		table.add(new Label("Reem Alharbi", style)).expandX();
-		table.add(new Label("Nathaniel Callahan", style)).expandX();
-		table.row();
-		table.add(new Label("Luke Moss", style)).expandX().padBottom(10);
-		table.add(new Label("Scott Strothmann", style)).expandX().padBottom(10);
+		tableTop.add(new Label("Reem Alharbi", style)).expandX().padTop(10);
+		tableTop.add(new Label("Nathaniel Callahan", style)).expandX().padTop(10);
+		tableTop.row();
+		tableTop.add().expand();
+		tableTop.row();
+		tableTop.add(new Label("Luke Moss", style)).expandX().padBottom(10);
+		tableTop.add(new Label("Scott Strothmann", style)).expandX().padBottom(10);
 		
-		stage.addActor(table);
+		stage.addActor(tableTop);
 		
 		stateTime = 0;
 	}
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -65,46 +69,40 @@ public class SplashScreen implements Screen {
 			stage.dispose();
 		}
 		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(0.6f, 0.6f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		
 		game.batch.begin();
-		//game.batch.draw(logo, 0, 0);
+		game.batch.draw(logic_bytes, 0, 0);
 		game.batch.end();
 		
-		
 		stage.draw();
-		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		viewport.update(width, height);
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
 		stage.dispose();
+		texture.dispose();
+		
 	}
-
 }
