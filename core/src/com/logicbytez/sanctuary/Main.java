@@ -15,6 +15,7 @@ public class Main extends Game{
 	public SpriteBatch batch;
 	public TitleScreen titleScreen;
 	public MonologueScreen monologueScreen;
+	public SplashScreen splashScreen;
 	public Vector2 view;
 
 	//retrieves the testing boolean
@@ -33,7 +34,8 @@ public class Main extends Game{
 		gameScreen = new GameScreen(this);
 		titleScreen = new TitleScreen(this);
 		monologueScreen = new MonologueScreen(this);
-		setScreen(titleScreen);
+		splashScreen = new SplashScreen(this);
+		setScreen(splashScreen);
 	}
 
 	@Override
