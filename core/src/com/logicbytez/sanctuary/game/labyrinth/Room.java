@@ -8,7 +8,7 @@ import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Room{
 	public enum Type{ANTECHAMBER, CRYSTAL_PEDESTAL_ROOM, SANCTUARY, SUNSTONE_PEDESTAL_ROOM}
-	private boolean hasForeground, hasGenerated;
+	private boolean danger, hasForeground, hasGenerated;
 	private char[] doors;
 	private int doorAmount, side;
 	private Type type;
@@ -160,5 +160,14 @@ public class Room{
 	//returns true if there is a foreground
 	public boolean hasForeground(){
 		return hasForeground;
+	}
+
+	//Activates when enemies are in the room
+	public void setDanger(){
+		danger = true;
+	}
+
+	public boolean getDanger(){
+		return danger;
 	}
 }
