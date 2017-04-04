@@ -1,6 +1,7 @@
 package com.logicbytez.sanctuary;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -37,7 +38,7 @@ public class SplashScreen implements Screen {
 		tableTop.top();
 		tableTop.setFillParent(true);
 		
-		if(!game.testing)
+		if(game.testing)
 			tableTop.debug();
 		
 		tableTop.add(new Label("Reem Alharbi", style)).expandX().padTop(10);
@@ -62,9 +63,11 @@ public class SplashScreen implements Screen {
 	public void render(float delta) {
 		stateTime += delta;
 		
-		if(stateTime >= 5f) {
+		if(stateTime >= 5f || Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched()) {
+			Gdx.gl.glClearColor(0, 0, 0, 1);
 			game.setScreen(game.titleScreen);
 			stage.dispose();
+			return;
 		}
 		
 		Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1);
