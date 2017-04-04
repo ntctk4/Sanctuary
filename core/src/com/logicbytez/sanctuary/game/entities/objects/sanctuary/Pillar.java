@@ -31,7 +31,7 @@ public class Pillar extends Entity{
 		orbTimer += delta;
 		if(orbTimer > 10){
 			orbTimer = 0;
-			spawnOrb();
+			//spawnOrb();
 		}
 	}
 
@@ -41,6 +41,11 @@ public class Pillar extends Entity{
 			game.getHud().addStone(false);
 			object.getProperties().put("Type", ++stonesInserted);
 			sprite.setRegion(animation.getKeyFrame(stonesInserted));
+			
+			if(stonesInserted == 2)
+			{
+				//spawnOrb();
+			}
 		}
 	}
 
