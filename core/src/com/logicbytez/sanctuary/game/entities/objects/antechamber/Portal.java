@@ -12,7 +12,7 @@ public class Portal extends Entity{
 	public Portal(GameScreen game){
 		super(game);
 		this.game = game;
-		animation = Assets.animate(7, 2, 0, Assets.texture_Portal);
+		animation = Assets.animate(7, 1, 0, Assets.texture_Portal);
 		flat = true;
 		sprite = new Sprite(animation.getKeyFrame(0));
 		sprite.setPosition(18 * 16 / 2 - sprite.getWidth() / 2, 20 * 16 / 2 - sprite.getHeight() + 2);
