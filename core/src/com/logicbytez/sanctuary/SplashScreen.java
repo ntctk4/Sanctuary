@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -63,10 +62,8 @@ public class SplashScreen implements Screen {
 	public void render(float delta) {
 		stateTime += delta;
 		
-		if(stateTime >= 5f || Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched()) {
-			Gdx.gl.glClearColor(0, 0, 0, 1);
+		if(stateTime >= 5f || Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			game.setScreen(game.titleScreen);
-			stage.dispose();
 			return;
 		}
 		
@@ -104,6 +101,5 @@ public class SplashScreen implements Screen {
 	public void dispose() {
 		stage.dispose();
 		logic_bytes.dispose();
-		
 	}
 }

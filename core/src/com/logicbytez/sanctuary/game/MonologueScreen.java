@@ -1,9 +1,8 @@
 package com.logicbytez.sanctuary.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -40,9 +39,9 @@ public class MonologueScreen implements Screen {
 		
 		String monologue = 	"Welcome, Hero, to the ancient Labyrinth. You are the last\n" + 
 							"of the guardians of the Sanctuary. Your brethren have all\n" +
-							"perished, so now you alone must defend the Sanctuary against\n" +
-							"an army of shadowy monsters, known as Eidolon, and find a\n" +
-							"way to defeat the encroaching evil once and for all.";
+							"perished, so now you alone must defend the Sanctuary\n" +
+							"against an army of shadowy monsters, known as Eidolon, and\n" +
+							"find a way to defeat the encroaching evil once and for all.";
 		
 		String message;
 		if(game.touchScreen) {
@@ -55,7 +54,7 @@ public class MonologueScreen implements Screen {
 		GlyphLayout msglayout = new GlyphLayout(Assets.fontMonologue, message);
 		
 		batch.begin();
-		Assets.fontMonologue.draw(batch, layout, -layout.width/2, layout.height/2);
+		Assets.fontMonologue.draw(batch, layout, -layout.width/2, layout.height);
 		Assets.fontMonologue.draw(batch, msglayout, -msglayout.width/2, -layout.height/2 - msglayout.height*2);
 		batch.end();
 		
