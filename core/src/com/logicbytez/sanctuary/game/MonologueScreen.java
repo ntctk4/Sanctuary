@@ -43,19 +43,14 @@ public class MonologueScreen implements Screen {
 							"against an army of shadowy monsters, known as Eidolon, and\n" +
 							"find a way to defeat the encroaching evil once and for all.";
 		
-		String message;
-		if(game.touchScreen) {
-			message = "Tap Anywhere to Continue";
-		} else {
-			message = "Press ENTER to Continue";
-		}
+		String message = "Continue";
 		
 		GlyphLayout layout = new GlyphLayout(Assets.fontMonologue, monologue);
 		GlyphLayout msglayout = new GlyphLayout(Assets.fontMonologue, message);
 		
 		batch.begin();
 		Assets.fontMonologue.draw(batch, layout, -layout.width/2, layout.height);
-		Assets.fontMonologue.draw(batch, msglayout, -msglayout.width/2, -layout.height/2 - msglayout.height*2);
+		Assets.fontMonologue.draw(batch, msglayout, -msglayout.width/2, -layout.height/2);
 		batch.end();
 		
 		if(!shown){
@@ -65,7 +60,7 @@ public class MonologueScreen implements Screen {
 				alphaTimer = 0;
 				shown = true;
 			}
-		}else if(Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched() || touched || 
+		}else if(Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.justTouched() || touched || 
 				(game.players.first().getGamePad() != null && game.players.first().getGamePad().getController().getButton(Gamepad.A)) ){
 			alphaTimer += delta;
 			Assets.fontMonologue.setColor(1, 1, 1, 1 - alphaTimer);

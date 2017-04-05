@@ -20,6 +20,7 @@ public class TitleScreen implements Screen{
 	private Main game;
 	private OrthographicCamera display;
 	private SpriteBatch batch;
+	
 
 	public TitleScreen(Main game){
 		this.game = game;
@@ -44,16 +45,26 @@ public class TitleScreen implements Screen{
 			players.get(1).setGamePad(new Gamepad(controllers.first(), players.get(1)));
 		}
 	}
+	
+	private void handleInput() {
+		if(shown && (Gdx.input.isKeyJustPressed(Keys.SPACE) || 
+					Gdx.input.isKeyJustPressed(Keys.ENTER) || 
+					Gdx.input.justTouched() || 
+					(controllers.size > 0 && controllers.first().getButton(Gamepad.A))))
+			touched = true;
+	}
 
 	@Override
 	public void render(float delta){
+		handleInput();
+		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(display.combined);
 		batch.begin();
 		Assets.font50.draw(batch, "sanctuary", -100, 50);
 		batch.end();
-		game.setScreen(game.gameScreen); //skips title
+		//game.setScreen(game.gameScreen); //skips title
 		if(!shown){
 			alphaTimer += delta;
 			Assets.font50.setColor(1, 1, 1, alphaTimer - 1);
@@ -61,15 +72,14 @@ public class TitleScreen implements Screen{
 				alphaTimer = 0;
 				shown = true;
 			}
-		}else if(Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.justTouched() || touched || (controllers.size > 0 && controllers.first().getButton(Gamepad.A))){
+		}else if(touched){
 			alphaTimer += delta;
 			Assets.font50.setColor(1, 1, 1, 1 - alphaTimer);
-			touched = true;
 			if(alphaTimer > 2){
 				game.setScreen(game.monologueScreen);
 			}
 		}
-		Assets.font50.setColor(1, 1, 1, 1); //resets font
+		//Assets.font50.setColor(1, 1, 1, 1); //resets font
 	}
 
 	@Override
