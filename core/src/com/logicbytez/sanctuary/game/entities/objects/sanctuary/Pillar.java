@@ -13,6 +13,8 @@ public class Pillar extends Entity{
 	private float orbTimer;
 	private Array<Orb> orbs;
 	private MapObject object;
+	
+	Eidolon eidolon1;
 
 	public Pillar(GameScreen game, MapObject object){
 		super(game, object);
@@ -29,9 +31,9 @@ public class Pillar extends Entity{
 
 	public void update(float delta){
 		orbTimer += delta;
-		if(orbTimer > 10){
+		if(orbTimer > 10){// && game.getLabyrinth().getCurrentRoom().getEntities().contains(eidolon1, true)){
 			orbTimer = 0;
-			//spawnOrb();
+			spawnOrb();
 		}
 	}
 
@@ -54,5 +56,6 @@ public class Pillar extends Entity{
 		Orb orb = new Orb(stonesInserted, game, eidolon, sprite);
 		orbs.add(orb);
 		game.getLabyrinth().getCurrentRoom().getEntities().add(orb);
+		game.getEntities().add(orb);
 	}
 }
