@@ -18,10 +18,11 @@ import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Repository;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 
 public class Labyrinth{
+	public static final int MAX_CRYSTALS = 2;
 	private boolean activated;
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = 2, roomAmount = 10, stoneAmount = 2;
+	private int crystalAmount = MAX_CRYSTALS, roomAmount = 10, stoneAmount = 2;
 	private float eidolonTimer;
 	private Altar altar;
 	private Array<Entity> entities;
