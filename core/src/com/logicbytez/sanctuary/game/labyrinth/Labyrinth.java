@@ -291,6 +291,10 @@ public class Labyrinth{
 	public Altar getAltar(){
 		return altar;
 	}
+	
+	public Portal getPortal(){
+		return portal;
+	}
 
 	//returns true if the player is inside the antechamber
 	public boolean insideAntechamber(){

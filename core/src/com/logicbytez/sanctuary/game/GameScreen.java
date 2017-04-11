@@ -176,6 +176,8 @@ public class GameScreen implements Screen{
 			if(players.size < 2 || (players.size > 1 && players.get(1).getHealth() <= 0)){
 				endGame(false, delta);
 			}
+		}else if(this.getLabyrinth().getPortal().getDestroyedObelisk() == 4){
+			endGame(true, delta);
 		}else if(touchScreen){
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);

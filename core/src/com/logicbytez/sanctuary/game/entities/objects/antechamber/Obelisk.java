@@ -32,5 +32,8 @@ public class Obelisk extends Entity{
 				Assets.sound_ObeliskCollapse.play();
 			}
 		}
+		if(hitsTaken % 12 == 0 && hitsTaken <= 12){
+			game.getLabyrinth().getPortal().destroyedObelisk();
+		}
 	}
 }

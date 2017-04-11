@@ -8,10 +8,12 @@ import com.logicbytez.sanctuary.game.entities.Eidolon;
 public class Portal extends Entity{
 	private int waveSize = 10;
 	private float spawnTimer;
+	private int destroyedObelisk;
 
 	public Portal(GameScreen game){
 		super(game);
 		this.game = game;
+		destroyedObelisk = 0;
 		animation = Assets.animate(7, 1, 0, Assets.texture_Portal);
 		flat = true;
 		sprite = new Sprite(animation.getKeyFrame(0));
@@ -46,5 +48,13 @@ public class Portal extends Entity{
 				game.getEntities().add(eidolon);
 			}
 		}
+	}
+	
+	public void destroyedObelisk(){
+		destroyedObelisk++;
+	}
+	
+	public int getDestroyedObelisk(){
+		return destroyedObelisk;
 	}
 }
