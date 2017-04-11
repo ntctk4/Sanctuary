@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.logicbytez.sanctuary.Assets;
+import com.logicbytez.sanctuary.game.labyrinth.Labyrinth;
 
 public class HeadUpDisplay{
 	private boolean paused = false, wave_launched = false;
@@ -16,6 +17,9 @@ public class HeadUpDisplay{
 	private SpriteBatch batch;
 	private TextureRegion current_Hourglass, current_Sand;
 	private Vector2 view;
+	private HudMessageOverlay msgOverlay;
+	private float crystalMsgTimer;
+	private float waveMsgTimer;
 
 	//sets up the head-up display's data
 	public HeadUpDisplay(SpriteBatch batch, Vector2 view, GameScreen game){
@@ -23,6 +27,7 @@ public class HeadUpDisplay{
 		this.view = view;
 		this.game = game;
 		hourglass_timer = TimeUtils.millis();
+		crystalMsgTimer = waveMsgTimer = 0;
 		TextureRegion[][] sandArray = Assets.texture_Sand.split(38, 59);
 		TextureRegion[] sand_frames = new TextureRegion[4];
 		for(int i = 0; i < 4; i++){
@@ -30,6 +35,7 @@ public class HeadUpDisplay{
 		}
 		hourglass = Assets.animate(8, 1, 0, Assets.texture_Hourglass);
 		sand = new Animation<TextureRegion>(.2f, sand_frames);
+		msgOverlay = new HudMessageOverlay(view, batch);
 	}
 
 	//draws the head-up display to the screen
@@ -57,12 +63,12 @@ public class HeadUpDisplay{
 					if(!wave_launched){
 						//launch wave here!!
 						game.getLabyrinth().activatePortal();
-						System.out.println("Wave Launched");
 						wave_launched = true;
 					}
 					hourglass_state = 10;
 				}else{
 					//start the hourglass again
+					waveMsgTimer = 0;
 					hourglass_state = 0;
 					hourglass_timer = TimeUtils.millis();
 					wave_launched = false;
@@ -83,15 +89,34 @@ public class HeadUpDisplay{
 		}
 		switch(hourglass_state){
 		case 10:
-			Assets.fontHud.draw(batch, "Wave Incoming!", view.x - 160, view.y - 12);
+			waveMsgTimer += delta;
+			if(waveMsgTimer <= 5f)
+				msgOverlay.setText("Wave Incoming");
+			else
+				msgOverlay.setText("");
 			break;
 		default:
+			msgOverlay.setText("");
+			waveMsgTimer = 0;
 			batch.draw(current_Hourglass, view.x - 38, view.y - 59);
 			batch.draw(current_Sand, view.x - 38, view.y - 59);
 			break;
 		}
 		Assets.fontHud.draw(batch, String.valueOf(stones), -view.x - stoneFontAdjuster + itemWidth / 2 - 5, view.y - stoneHeight / 2 + 2);
-		Assets.fontHud.draw(batch, String.valueOf(crystals), -view.x - crystalFontAdjuster + itemWidth / 2 - 5, view.y - stoneHeight - crystalHeight / 2 + 6);
+		Assets.fontHud.draw(batch, String.valueOf(crystals) + "/" + String.valueOf(Labyrinth.MAX_CRYSTALS), -view.x - crystalFontAdjuster + itemWidth / 2 - 16, view.y - stoneHeight - crystalHeight / 2 + 6);
+
+		if(crystals == Labyrinth.MAX_CRYSTALS) {
+			crystalMsgTimer += delta;
+			if(crystalMsgTimer <= 5f) {
+				msgOverlay.setText("You've found all", "the Light Crystals.");
+			} else if(crystalMsgTimer <= 10f){
+				msgOverlay.setText("Find the Antechamber and", "destroy the Obelisks");
+			}
+		}
+		if(!game.isPaused()) {
+			batch.setProjectionMatrix(msgOverlay.stage.getCamera().combined);
+			msgOverlay.stage.draw();
+		}
 	}
 
 	//gives or takes one light crystal
