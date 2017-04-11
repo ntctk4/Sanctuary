@@ -62,33 +62,33 @@ public class Eidolon extends Being{
 				if(follow(delta, nearestPlayer.getBox())){
 					nearestPlayer.takeDamage(attackPower);
 				}
-			}
-			if(!attacking && !stuck && (move.x == 0 || move.y == 0)){
-				if(stuckDirection = move.y == 0 ? true : false){
-					playerDirection = getCenter().y < nearestPlayer.getCenter().y ? true : false;
-				}else{
-					playerDirection = getCenter().x > nearestPlayer.getCenter().x ? true : false;
-				}
-				stuck = true;
-			}
-			if(stuck){
-				center.x = sprite.getX() + sprite.getWidth() / 2;
-				center.y = sprite.getY() + sprite.getHeight() / 2;
-				if(stuckDirection){
-					if(center.x != oldPosition.x){
-						stuck = false;
-					}else if(playerDirection){
-						move.y = speed * delta;
+				if(!attacking && !stuck && (move.x == 0 || move.y == 0)){
+					if(stuckDirection = move.y == 0 ? true : false){
+						playerDirection = getCenter().y < nearestPlayer.getCenter().y ? true : false;
 					}else{
-						move.y = -speed * delta;
+						playerDirection = getCenter().x > nearestPlayer.getCenter().x ? true : false;
 					}
-				}else{
-					if(center.y != oldPosition.y){
-						stuck = false;
-					}else if(playerDirection){
-						move.x = -speed * delta;
+					stuck = true;
+				}
+				if(stuck){
+					center.x = sprite.getX() + sprite.getWidth() / 2;
+					center.y = sprite.getY() + sprite.getHeight() / 2;
+					if(stuckDirection){
+						if(center.x != oldPosition.x){
+							stuck = false;
+						}else if(playerDirection){
+							move.y = speed * delta;
+						}else{
+							move.y = -speed * delta;
+						}
 					}else{
-						move.x = speed * delta;
+						if(center.y != oldPosition.y){
+							stuck = false;
+						}else if(playerDirection){
+							move.x = -speed * delta;
+						}else{
+							move.x = speed * delta;
+						}
 					}
 				}
 			}
