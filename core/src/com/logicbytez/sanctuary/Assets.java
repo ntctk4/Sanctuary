@@ -24,7 +24,7 @@ public final class Assets{
 	public static TextureRegion texture_Altar, texture_Column, texture_Door, texture_Eidolon, texture_Gravestone, texture_HealthIndicator, texture_Obelisk, texture_Orb;
 	public static TextureRegion texture_PedestalCrystal, texture_PedestalCrystalLight, texture_PedestalStone, texture_Pillar, texture_PlayerBlue, texture_PlayerRed, texture_Portal, texture_Repository, texture_TeleportBar;
 	public static TextureRegion texture_Hourglass, texture_Sand, texture_HudCrystal, texture_HudSunstone, texture_PadButton, texture_PadDiagonal, texture_PadOutline, texture_PadStraight, texture_PauseBar;
-	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Sanctuary;
+	public static TiledMap room_Antechamber_Up, room_Antechamber_Down, room_Antechamber_Left, room_Antechamber_Right, room_Entryway, room_Sanctuary;
 	public static TiledMap room_Pedestal_Up, room_Pedestal_Down, room_Pedestal_Left, room_Pedestal_Right;
 
 	//never instantiate this class
@@ -106,6 +106,7 @@ public final class Assets{
 		room_Antechamber_Down = new TmxMapLoader().load("maps/antechamber/antechamber_down.tmx");
 		room_Antechamber_Left = new TmxMapLoader().load("maps/antechamber/antechamber_left.tmx");
 		room_Antechamber_Right = new TmxMapLoader().load("maps/antechamber/antechamber_right.tmx");
+		room_Entryway = new TmxMapLoader().load("maps/entryway.tmx");
 		room_Pedestal_Up = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_up.tmx");
 		room_Pedestal_Down = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_down.tmx");
 		room_Pedestal_Left = new TmxMapLoader().load("maps/pedestal_rooms/pedestal_room_left.tmx");
@@ -150,6 +151,7 @@ public final class Assets{
 		room_Antechamber_Down.dispose();
 		room_Antechamber_Left.dispose();
 		room_Antechamber_Right.dispose();
+		room_Entryway.dispose();
 		room_Pedestal_Up.dispose();
 		room_Pedestal_Down.dispose();
 		room_Pedestal_Left.dispose();

@@ -34,7 +34,7 @@ public class Labyrinth{
 	private Array<Wave> waves;
 	private GameScreen game;
 	private Portal portal;
-	private Room adjacentRoom, antechamber, currentRoom, sanctuary, layout[][];
+	private Room entryway, antechamber, currentRoom, sanctuary, layout[][];
 	private Vector2 roomSize;
 	private Wave latestWave;
 
@@ -52,11 +52,13 @@ public class Labyrinth{
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP, null);
 		currentRoom.switchType(Room.Type.SANCTUARY);
 		sanctuary = currentRoom;
-		adjacentRoom = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, currentRoom);
+		entryway = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, currentRoom);
+		Room firstHallway = createRoom(entryway);
+		entryway.switchType(Room.Type.ENTRYWAY);
 		//Door door = new SanctuaryDoor(game);
-		roomAmount = Math.max(roomAmount - 2, 1);
-		rooms = new Array<Room>(false, roomAmount + 2);
-		rooms.addAll(currentRoom, adjacentRoom);
+		roomAmount = Math.max(roomAmount - 3, 1);
+		rooms = new Array<Room>(false, roomAmount + 3);
+		rooms.addAll(currentRoom, entryway, firstHallway);
 		roomSize = new Vector2();
 		roomSize.x = currentRoom.getBottomLayer().getWidth();
 		roomSize.y = currentRoom.getBottomLayer().getHeight();
@@ -155,7 +157,7 @@ public class Labyrinth{
 				Room eidolonRoom = wave.getRoom();
 				Room parentRoom = wave.getRoom().getParent();
 				if(eidolonRoom != currentRoom){
-					if(adjacentRoom == eidolonRoom || sanctuary == eidolonRoom){
+					if(entryway == eidolonRoom || sanctuary == eidolonRoom){
 						//persistent rooms
 						for(Eidolon eidolon : wave.getEidolons()){
 							eidolon.setPersistence();

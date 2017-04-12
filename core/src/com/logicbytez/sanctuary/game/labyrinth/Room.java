@@ -7,7 +7,7 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Room{
-	public enum Type{ANTECHAMBER, CRYSTAL_PEDESTAL_ROOM, SANCTUARY, SUNSTONE_PEDESTAL_ROOM}
+	public enum Type{ANTECHAMBER, CRYSTAL_PEDESTAL_ROOM, ENTRYWAY, SANCTUARY, SUNSTONE_PEDESTAL_ROOM}
 	private boolean danger, hasForeground, hasGenerated;
 	private char[] doors;
 	private int doorAmount, side;
@@ -72,6 +72,9 @@ public class Room{
 			case 1:
 				map = Assets.room_Antechamber_Left;
 			}
+			break;
+		case ENTRYWAY:
+			map = Assets.room_Entryway;
 			break;
 		case SUNSTONE_PEDESTAL_ROOM:
 			hasForeground = true;
