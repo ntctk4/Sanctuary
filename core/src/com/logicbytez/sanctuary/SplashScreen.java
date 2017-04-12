@@ -7,55 +7,61 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class SplashScreen implements Screen {
 	private Main game;
 	
-	private Texture logic_bytes;
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private Stage stage;
 		
 	private float stateTime;
+	private boolean timeToTransition, transitionStarted;
 	
 	public SplashScreen(Main game) {
 		this.game = game;
 				
-		logic_bytes = new Texture(Gdx.files.internal("LogicBytes.png"));
+		Texture tex = new Texture(Gdx.files.internal("LogicBytes.png"));
 		
 		camera = new OrthographicCamera();
 		viewport = new FitViewport(game.view.x * 2, game.view.y * 2, camera);
 		stage = new Stage(viewport, game.batch);
 		
 		Label.LabelStyle style = new Label.LabelStyle(Assets.fontSplash, Color.WHITE);
-		Table tableTop = new Table();
-		tableTop.top();
-		tableTop.setFillParent(true);
-		
+		Table table = new Table();
+		table.top();
+		table.setFillParent(true);
 		if(game.testing)
-			tableTop.debug();
+			table.debug();
+		table.background(new TextureRegionDrawable(new TextureRegion(tex)));
 		
-		tableTop.add(new Label("Reem Alharbi", style)).expandX().padTop(10);
-		tableTop.add(new Label("Nathaniel Callahan", style)).expandX().padTop(10);
-		tableTop.row();
-		tableTop.add().expand();
-		tableTop.row();
-		tableTop.add(new Label("Luke Moss", style)).expandX().padBottom(10);
-		tableTop.add(new Label("Scott Strothmann", style)).expandX().padBottom(10);
+		table.add(new Label("Reem Alharbi", style)).expandX().align(Align.left).pad(10, 10, 0, 0);
+		table.add(new Label("Nathaniel Callahan", style)).expandX().align(Align.right).pad(10, 0, 0, 10);
+		table.row();
+		table.add().expand();
+		table.row();
+		table.add(new Label("Luke Moss", style)).expandX().align(Align.left).pad(0, 10, 10, 0);
+		table.add(new Label("Scott Strothmann", style)).expandX().align(Align.right).pad(0, 0, 10, 10);
 		
-		stage.addActor(tableTop);
+		stage.addActor(table);
 		
 		stateTime = 0;
+		timeToTransition = transitionStarted = false;
 	}
 	
 	@Override
 	public void show() {
-		
+		stage.getRoot().setColor(1, 1, 1, 0);
+		stage.addAction(Actions.fadeIn(0.5f));
 	}
 
 	@Override
@@ -63,17 +69,23 @@ public class SplashScreen implements Screen {
 		stateTime += delta;
 		
 		if(stateTime >= 5f || Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			game.setScreen(game.titleScreen);
+			timeToTransition = true;
+		}
+		
+		if(timeToTransition && !transitionStarted) {
+			transitionStarted = true;
+			stage.addAction(Actions.sequence(Actions.fadeOut(2f), Actions.run(new Runnable() {
+				@Override
+				public void run() {
+					game.setScreen(game.titleScreen);
+				}
+			})));
 			return;
 		}
 		
-		Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		game.batch.begin();
-		game.batch.draw(logic_bytes, 0, 0);
-		game.batch.end();
-		
+		stage.act(delta);
 		stage.draw();
 	}
 
@@ -100,6 +112,5 @@ public class SplashScreen implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		logic_bytes.dispose();
 	}
 }
