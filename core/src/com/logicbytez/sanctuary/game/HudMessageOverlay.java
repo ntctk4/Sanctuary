@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -19,31 +20,56 @@ public class HudMessageOverlay {
 	private Table table;
 	
 	public HudMessageOverlay(Vector2 view, Batch batch) {
-		viewport = new FitViewport(view.x, view.y, new OrthographicCamera());
+		viewport = new FitViewport(view.x*2, view.y*2, new OrthographicCamera());
 		stage = new Stage(viewport);
-		Label.LabelStyle style = new Label.LabelStyle(Assets.fontMonologue, Color.WHITE);
+		Label.LabelStyle style = new Label.LabelStyle(Assets.fontHud, Color.WHITE);
 		messageLabel = new Label("", style);
 		messageLabel2 = new Label("", style);
 		
 		table = new Table();
 		table.top();
 		table.setFillParent(true);
-		table.add(messageLabel).padTop(10).expandX();
+		table.add(messageLabel).padTop(20).expandX();
 		table.row();
 		table.add(messageLabel2).expandX();
-		
 		
 		stage.addActor(table);
 	}
 	
-	public void setText(String message) {
-		messageLabel.setText(message);
+	public void notifyWave() {
+		messageLabel.setText("Wave Incoming");
 		messageLabel2.setText("");
+		stage.getRoot().setColor(1, 1, 1, 0);
+		stage.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(5f), Actions.fadeOut(2f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				messageLabel.setText("");
+			}
+		})));
 	}
 	
-	public void setText(String message, String line2) {
-		messageLabel.setText(message);
-		messageLabel2.setText(line2);
-		
+	public void notifyCrystals() {
+		messageLabel.setText("You've found all");
+		messageLabel2.setText("the Light Crystals.");
+		stage.getRoot().setColor(1, 1, 1, 0);
+		stage.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(5f), Actions.fadeOut(1f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				notifyAntechamber();
+			}
+		})));
+	}
+	
+	private void notifyAntechamber() {
+		messageLabel.setText("Find the Antechamber and");
+		messageLabel2.setText("destroy the Obelisks");
+		stage.getRoot().setColor(1, 1, 1, 0);
+		stage.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(5f), Actions.fadeOut(1f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				messageLabel.setText("");
+				messageLabel2.setText("");						
+			}
+		})));
 	}
 }
