@@ -63,7 +63,7 @@ public class HeadUpDisplay{
 					if(!wave_launched){
 						msgOverlay.notifyWave();;
 						//launch wave here!!
-						//game.getLabyrinth().activatePortal();
+						game.getLabyrinth().activatePortal();
 						wave_launched = true;
 					}
 					hourglass_state = 10;
