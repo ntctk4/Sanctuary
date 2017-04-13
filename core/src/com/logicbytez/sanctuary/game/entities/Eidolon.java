@@ -49,6 +49,7 @@ public class Eidolon extends Being{
 			}
 			//persistence
 			if(persistence){
+				//game.getLabyrinth().getDoor();
 				/*if(follow(delta, door.getBox())){
 					door.takeDamage(attackPower);
 				}*/

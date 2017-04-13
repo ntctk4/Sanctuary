@@ -32,6 +32,7 @@ public class Labyrinth{
 	private Array<Repository> repositories;
 	private Array<Room> rooms;
 	private Array<Wave> waves;
+	private Door door;
 	private GameScreen game;
 	private Portal portal;
 	private Room entryway, antechamber, currentRoom, sanctuary, layout[][];
@@ -319,5 +320,9 @@ public class Labyrinth{
 	//returns the size of every room
 	public Vector2 getRoomSize(){
 		return roomSize;
+	}
+
+	public Door getDoor(){
+		return door;
 	}
 }
