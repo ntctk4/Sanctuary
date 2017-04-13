@@ -52,8 +52,8 @@ public class Labyrinth{
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP, null);
 		currentRoom.switchType(Room.Type.SANCTUARY);
 		sanctuary = currentRoom;
-		entryway = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, currentRoom);
-		Room firstHallway = layout[center][center + 2] = new Room(center, center + 2, Room.DOWN, currentRoom);
+		entryway = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, sanctuary);
+		Room firstHallway = layout[center][center + 2] = new Room(center, center + 2, Room.DOWN, entryway);
 		//Room firstHallway = createRoom(entryway);
 		entryway.switchType(Room.Type.ENTRYWAY);
 		//Door door = new SanctuaryDoor(game);
@@ -157,17 +157,23 @@ public class Labyrinth{
 			    Wave wave = itWaves.next();
 				Room eidolonRoom = wave.getRoom();
 				Room parentRoom = wave.getRoom().getParent();
+				//sanctuary should be persistent if player is in entryway and vice-versa
 				if(eidolonRoom != currentRoom){
 					if(entryway == eidolonRoom || sanctuary == eidolonRoom){
 						//persistent rooms
 						for(Eidolon eidolon : wave.getEidolons()){
-							eidolon.setPersistence();
+							eidolon.setPersistence(true);
 							eidolon.update(delta);
 						}
 						for(Entity entity : eidolonRoom.getEntities()){
 							//for magical pillars
 							entity.update(delta);
 						}
+					}
+				}else{
+					//change eidolon behavior when player isn't near
+					for(Eidolon eidolon : wave.getEidolons()){
+						eidolon.setPersistence(false);
 					}
 				}
 				//non-persistent rooms

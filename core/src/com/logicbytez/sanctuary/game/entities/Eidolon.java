@@ -48,7 +48,7 @@ public class Eidolon extends Being{
 				sprite.setColor(colorTimer, colorTimer, colorTimer, 1);
 			}
 			//persistence
-			if(false){
+			if(persistence){
 				/*if(follow(delta, door.getBox())){
 					door.takeDamage(attackPower);
 				}*/
@@ -179,7 +179,7 @@ public class Eidolon extends Being{
 		}
 	}
 
-	public void setPersistence(){
-		persistence = true;
+	public void setPersistence(boolean bool){
+		persistence = bool;
 	}
 }
