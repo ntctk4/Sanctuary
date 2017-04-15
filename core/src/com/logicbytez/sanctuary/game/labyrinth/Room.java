@@ -166,8 +166,8 @@ public class Room{
 	}
 
 	//Activates when enemies are in the room
-	public void setDanger(){
-		danger = true;
+	public void setDanger(Boolean danger){
+		this.danger = danger;
 	}
 
 	public boolean getDanger(){

@@ -32,6 +32,7 @@ public class Labyrinth{
 	private Array<Repository> repositories;
 	private Array<Room> rooms;
 	private Array<Wave> waves;
+	private Door door;
 	private GameScreen game;
 	private Portal portal;
 	private Room entryway, antechamber, currentRoom, sanctuary, layout[][];
@@ -42,7 +43,7 @@ public class Labyrinth{
 	public Labyrinth(Array<Entity> entities, GameScreen game){
 		this.entities = entities;
 		this.game = game;
-		int index = 1;
+		int index = 2;
 		obelisks = new Array<Obelisk>(false, 4);
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
 		pillars = new Array<Pillar>(false, 4);
@@ -52,8 +53,9 @@ public class Labyrinth{
 		currentRoom = layout[center][center] = new Room(center, center, Room.UP, null);
 		currentRoom.switchType(Room.Type.SANCTUARY);
 		sanctuary = currentRoom;
-		entryway = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, currentRoom);
-		Room firstHallway = createRoom(entryway);
+		entryway = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, sanctuary);
+		Room firstHallway = layout[center][center + 2] = new Room(center, center + 2, Room.DOWN, entryway);
+		//Room firstHallway = createRoom(entryway);
 		entryway.switchType(Room.Type.ENTRYWAY);
 		//Door door = new SanctuaryDoor(game);
 		roomAmount = Math.max(roomAmount - 3, 1);
@@ -156,52 +158,58 @@ public class Labyrinth{
 			    Wave wave = itWaves.next();
 				Room eidolonRoom = wave.getRoom();
 				Room parentRoom = wave.getRoom().getParent();
+				//sanctuary should be persistent if player is in entryway and vice-versa
 				if(eidolonRoom != currentRoom){
 					if(entryway == eidolonRoom || sanctuary == eidolonRoom){
 						//persistent rooms
 						for(Eidolon eidolon : wave.getEidolons()){
-							eidolon.setPersistence();
+							eidolon.setPersistence(true);
 							eidolon.update(delta);
 						}
 						for(Entity entity : eidolonRoom.getEntities()){
+							//for magical pillars
 							entity.update(delta);
 						}
-					}else{
-						//non-persistent rooms
-						eidolonTimer += delta;
-						if(eidolonTimer >= 10){
-							eidolonTimer = 0;
-							Array<Eidolon> eidolons = wave.getEidolons();
-							ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
-							while(itEidolons.hasNext()){
-								Eidolon eidolon = itEidolons.next();
-								if(eidolon.getHealth() <= 0){
-									eidolonRoom.addEntity(eidolon);
-									itEidolons.remove();
-								}else if(parentRoom != null){
-									eidolon.setPosition(eidolonRoom.getSide(false));
-								}
-							}
-							if(eidolons.size != 0){
-								if(parentRoom != null){
-									if(parentRoom.equals(currentRoom)){
-										for(Entity entity : game.getEntities()){
-											if(entity.getClass() == Door.class){
-												Door door = (Door)entity;
-												if(door.getSide().ordinal() == eidolonRoom.getSide(true)){
-													door.activate();
-												}
-											}
-										}
-										game.getEntities().addAll(eidolons);
-									}
-									parentRoom.setDanger();
-									wave.setRoom(parentRoom);
-								}
-							}else{
-								itWaves.remove();
-							}
+					}
+				}else{
+					//change eidolon behavior when player isn't near
+					for(Eidolon eidolon : wave.getEidolons()){
+						eidolon.setPersistence(false);
+					}
+				}
+				//non-persistent rooms
+				eidolonTimer += delta;
+				if(eidolonTimer >= 10){
+					eidolonTimer = 0;
+					Array<Eidolon> eidolons = wave.getEidolons();
+					ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
+					while(itEidolons.hasNext()){
+						Eidolon eidolon = itEidolons.next();
+						if(eidolon.getHealth() <= 0){
+							eidolonRoom.addEntity(eidolon);
+							itEidolons.remove();
+						}else if(parentRoom != null){
+							eidolon.setPosition(eidolonRoom.getSide(false));
 						}
+					}
+					if(eidolons.size != 0){
+						if(parentRoom != null){
+							if(parentRoom.equals(currentRoom)){
+								for(Entity entity : game.getEntities()){
+									if(entity.getClass() == Door.class){
+										Door door = (Door)entity;
+										if(door.getSide().ordinal() == eidolonRoom.getSide(true)){
+											door.activate();
+										}
+									}
+								}
+								game.getEntities().addAll(eidolons);
+							}
+							parentRoom.setDanger(true);
+							wave.setRoom(parentRoom);
+						}
+					}else{
+						itWaves.remove();
 					}
 				}
 			}
@@ -312,5 +320,9 @@ public class Labyrinth{
 	//returns the size of every room
 	public Vector2 getRoomSize(){
 		return roomSize;
+	}
+
+	public Door getDoor(){
+		return door;
 	}
 }

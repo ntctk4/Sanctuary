@@ -13,6 +13,8 @@ public class Pillar extends Entity{
 	private float orbTimer;
 	private Array<Orb> orbs;
 	private MapObject object;
+	//temp
+	Eidolon eidolon;
 	
 	Eidolon eidolon1;
 
@@ -27,13 +29,19 @@ public class Pillar extends Entity{
 		stonesInserted = 0;
 		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
 		sprite.setPosition(box.x, box.y);
+		orbTimer = 0;
 	}
 
-	public void update(float delta){
-		orbTimer += delta;
-		if(orbTimer > 10){// && game.getLabyrinth().getCurrentRoom().getEntities().contains(eidolon1, true)){
+	public void update(float delta){	
+		if(game.getLabyrinth().getCurrentRoom().getDanger()){
+			orbTimer += delta;
+			if(orbTimer > (10 /(stonesInserted+1))){
+				orbTimer = 0;
+				spawnOrb();
+			}
+		}
+		if(!game.getLabyrinth().getCurrentRoom().getDanger()){
 			orbTimer = 0;
-			spawnOrb();
 		}
 	}
 
@@ -47,15 +55,23 @@ public class Pillar extends Entity{
 			if(stonesInserted == 2)
 			{
 				//spawnOrb();
+				game.getLabyrinth().getCurrentRoom().setDanger(true);
+				spawnEidolon();
 			}
 		}
 	}
 
 	public void spawnOrb(){
-		Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
+		//Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
 		Orb orb = new Orb(stonesInserted, game, eidolon, sprite);
 		orbs.add(orb);
 		game.getLabyrinth().getCurrentRoom().getEntities().add(orb);
 		game.getEntities().add(orb);
+	}
+	
+	public void spawnEidolon(){
+		Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
+		game.getLabyrinth().getCurrentRoom().getEntities().add(eidolon);
+		game.getEntities().add(eidolon);
 	}
 }
