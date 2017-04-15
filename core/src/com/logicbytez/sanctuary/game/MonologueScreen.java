@@ -51,7 +51,8 @@ public class MonologueScreen implements Screen {
 		table.row();
 		table.add(new Label("Continue", style));
 		
-		table.debug();
+		if(game.testing)
+			table.debug();
 	}
 	
 	@Override

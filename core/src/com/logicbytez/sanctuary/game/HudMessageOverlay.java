@@ -1,35 +1,29 @@
 package com.logicbytez.sanctuary.game;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.logicbytez.sanctuary.Assets;
 
 public class HudMessageOverlay {
 	public Stage stage;
-	private Viewport viewport;
 	private Label messageLabel;
 	private Label messageLabel2;
 	private Table table;
 	
-	public HudMessageOverlay(Vector2 view, Batch batch) {
-		viewport = new FitViewport(view.x*2, view.y*2, new OrthographicCamera());
-		stage = new Stage(viewport);
-		Label.LabelStyle style = new Label.LabelStyle(Assets.fontHud, Color.WHITE);
+	public HudMessageOverlay(Vector2 view) {
+		stage = new Stage();
+		Label.LabelStyle style = new Label.LabelStyle(Assets.font50, Color.WHITE);
 		messageLabel = new Label("", style);
 		messageLabel2 = new Label("", style);
 		
 		table = new Table();
 		table.top();
 		table.setFillParent(true);
-		table.add(messageLabel).padTop(20).expandX();
+		table.add(messageLabel).padTop(40).expandX();
 		table.row();
 		table.add(messageLabel2).expandX();
 		

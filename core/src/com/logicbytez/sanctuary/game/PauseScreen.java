@@ -3,16 +3,12 @@ package com.logicbytez.sanctuary.game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.logicbytez.sanctuary.Assets;
 
 
 public class PauseScreen {
 	private SpriteBatch batch;
-	private Vector2 view;
 	private GameScreen game;
 		
 	private Selection selected;
@@ -30,9 +26,8 @@ public class PauseScreen {
 		QUIT
 	}
 	
-	public PauseScreen(SpriteBatch batch, Vector2 view, GameScreen game) {
+	public PauseScreen(SpriteBatch batch, GameScreen game) {
 		this.batch = batch;
-		this.view = view;
 		this.game = game;
 		selected = Selection.RESUME;
 		

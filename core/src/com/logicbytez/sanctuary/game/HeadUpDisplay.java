@@ -2,112 +2,99 @@ package com.logicbytez.sanctuary.game;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.labyrinth.Labyrinth;
 
 public class HeadUpDisplay{
-	private boolean paused = false, wave_launched = false;
-	private float sand_timer = 0;
-	private int crystals = 0, hourglass_state = 0, stones = 10, wave_time = 56;
-	private long hourglass_timer;
+	private static final float TIMER = 60f;
+	private static final float DELAY = 15f;
+	private float stateTime;
+	private boolean wave_launched = false;
+	private int crystals = 0, stones = 10;
 	private Animation<TextureRegion> hourglass, sand;
 	private GameScreen game;
 	private SpriteBatch batch;
 	private TextureRegion current_Hourglass, current_Sand;
 	private Vector2 view;
-	private HudMessageOverlay msgOverlay;
-	private boolean notifiedCrystals;
+	private HudMessageOverlay messenger;
+	private boolean notifiedCrystals = false;
+	
+	private int stoneHeight;
+	private int crystalHeight;
+	private int gemWidth;
+	private int stoneFontAdjuster;
 
 	//sets up the head-up display's data
 	public HeadUpDisplay(SpriteBatch batch, Vector2 view, GameScreen game){
 		this.batch = batch;
 		this.view = view;
 		this.game = game;
-		hourglass_timer = TimeUtils.millis();
-		notifiedCrystals = false;
-		TextureRegion[][] sandArray = Assets.texture_Sand.split(38, 59);
-		TextureRegion[] sand_frames = new TextureRegion[4];
-		for(int i = 0; i < 4; i++){
-			sand_frames[i] = sandArray[0][i];
-		}
+		stateTime = 0;
+		
 		hourglass = Assets.animate(8, 1, 0, Assets.texture_Hourglass);
-		sand = new Animation<TextureRegion>(.2f, sand_frames);
-		msgOverlay = new HudMessageOverlay(view, batch);
+		hourglass.setFrameDuration(TIMER / ((float) hourglass.getKeyFrames().length));
+		sand = Assets.animate(4, 1, 0, Assets.texture_Sand);
+		sand.setFrameDuration(0.2f);
+		sand.setPlayMode(Animation.PlayMode.LOOP);
+		
+		messenger = new HudMessageOverlay(view);
+		
+		crystalHeight = Assets.texture_HudCrystal.getRegionHeight();
+		stoneHeight = Assets.texture_HudSunstone.getRegionHeight();
+		gemWidth = Assets.texture_HudSunstone.getRegionWidth();
+	}
+	
+	private void updateHourglass(float delta) {
+		stateTime += delta;
+		current_Hourglass = hourglass.getKeyFrame(stateTime);
+		current_Sand = sand.getKeyFrame(stateTime);
 	}
 
 	//draws the head-up display to the screen
-	void update(float delta){
-		int crystalHeight = Assets.texture_HudCrystal.getRegionHeight(), crystalFontAdjuster = crystals > 9 ? 5 : 0;
-		int stoneHeight = Assets.texture_HudSunstone.getRegionHeight(), stoneFontAdjuster = stones > 9 ? 5 : 0;
-		int itemWidth = Assets.texture_HudSunstone.getRegionWidth();
+	public void update(float delta){
+		stoneFontAdjuster = stones > 9 ? 5 : 0;
+		
 		batch.draw(Assets.texture_HudSunstone, -view.x, view.y - stoneHeight);
 		batch.draw(Assets.texture_HudCrystal, -view.x, view.y - stoneHeight - crystalHeight);
-		if(!paused){
-			if(!game.isPaused()){
-				//sand animation is based on delta time
-				if(!game.isStopped()){
-					sand_timer += delta;
-				}
-				current_Sand = sand.getKeyFrame(sand_timer, true);
-				//hourglass_state is based on the wave_time and when the the timer started
-				//seconds since timer started
-				int seconds = (int)(TimeUtils.timeSinceMillis(hourglass_timer) / 1000);
-				if(seconds < wave_time){
-					//still displaying hourglass find its state (there are 8 state frames)
-					hourglass_state = seconds / (wave_time / 8);
-				}else if(seconds < wave_time + 15){
-					//display the wave message for 15s
-					if(!wave_launched){
-						msgOverlay.notifyWave();;
-						//launch wave here!!
-						//game.getLabyrinth().activatePortal();
-						wave_launched = true;
-					}
-					hourglass_state = 10;
-				}else{
-					//start the hourglass again
-					hourglass_state = 0;
-					hourglass_timer = TimeUtils.millis();
-					wave_launched = false;
-				}
-				current_Hourglass = hourglass.getKeyFrame(hourglass_state);
-			}else{
-				//the game has been paused but HUD just found out
-				//set the timer to the negative of the amount of time that has already passed
-				hourglass_timer = -TimeUtils.timeSinceMillis(hourglass_timer);
-				paused = true;
-			}
-		}else if(!game.isPaused()){
-			//the game was paused, but now is not
-			//add the current time to the negative time already passed
-			//essentially cuts out the amount of time the game was paused
-			hourglass_timer += TimeUtils.millis();
-			paused = false;
-		}
-		switch(hourglass_state){
-		case 10: // was the wave message flag... refactored out
-			break;
-		default:
+		
+		Assets.font25.draw(batch, String.valueOf(stones), 
+				-view.x - stoneFontAdjuster + gemWidth / 2 - 5, view.y - stoneHeight / 2 + 2);
+
+		Assets.font25.draw(batch, String.valueOf(crystals) + "/" +
+			   String.valueOf(Labyrinth.MAX_CRYSTALS),
+			   -view.x + gemWidth / 2 - 17, view.y - stoneHeight - crystalHeight / 2 + 6);
+		
+		if(stateTime <= TIMER) {
+			// hourglass is running
+			if(!game.isPaused())
+				updateHourglass(delta);
+			
 			batch.draw(current_Hourglass, view.x - 38, view.y - 59);
 			batch.draw(current_Sand, view.x - 38, view.y - 59);
-			break;
 		}
-		Assets.fontHud.draw(batch, String.valueOf(stones), -view.x - stoneFontAdjuster + itemWidth / 2 - 5, view.y - stoneHeight / 2 + 2);
-		Assets.fontHud.draw(batch, String.valueOf(crystals) + "/" + String.valueOf(Labyrinth.MAX_CRYSTALS), -view.x - crystalFontAdjuster + itemWidth / 2 - 16, view.y - stoneHeight - crystalHeight / 2 + 6);
-
+		else if (!wave_launched){
+			// launch wave
+			messenger.notifyWave();;
+			game.getLabyrinth().activatePortal();
+			wave_launched = true;
+		}
+		
+		if(stateTime > TIMER + DELAY) {
+			// restart the hourglass
+			stateTime = 0;
+			wave_launched = false;
+		}
+		
 		if(crystals == Labyrinth.MAX_CRYSTALS && !notifiedCrystals) {
-			msgOverlay.notifyCrystals();
+			messenger.notifyCrystals();
 			notifiedCrystals = true;
 		}
 		if(!game.isPaused()) {
-			Matrix4 old = batch.getProjectionMatrix();
-			batch.setProjectionMatrix(msgOverlay.stage.getCamera().combined);
-			msgOverlay.stage.act(delta);
-			msgOverlay.stage.draw();
-			batch.setProjectionMatrix(old);
+			batch.end();
+			messenger.stage.act(delta);
+			messenger.stage.draw();
+			batch.begin();
 		}
 	}
 

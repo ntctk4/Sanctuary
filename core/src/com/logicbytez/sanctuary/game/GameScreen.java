@@ -53,7 +53,7 @@ public class GameScreen implements Screen{
 		testing = game.testing;
 		touchScreen = game.touchScreen;
 		view = game.view;
-		this.pauseScreen = new PauseScreen(batch, view, this);
+		this.pauseScreen = new PauseScreen(batch, this);
 	}
 
 	@Override

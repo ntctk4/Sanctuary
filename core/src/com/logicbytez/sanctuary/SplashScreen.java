@@ -60,6 +60,7 @@ public class SplashScreen implements Screen {
 	
 	@Override
 	public void show() {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		stage.getRoot().setColor(1, 1, 1, 0);
 		stage.addAction(Actions.fadeIn(0.5f));
 	}
@@ -68,7 +69,7 @@ public class SplashScreen implements Screen {
 	public void render(float delta) {
 		stateTime += delta;
 		
-		if(stateTime >= 5f || Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+		if(stateTime >= 3f || Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			timeToTransition = true;
 		}
 		

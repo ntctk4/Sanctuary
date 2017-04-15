@@ -84,8 +84,8 @@ public final class Assets{
 		font25 = generator.generateFont(parameter);
 		parameter.size = 50;
 		font50 = generator.generateFont(parameter);
-		parameter.size = 25;
-		fontHud = generator.generateFont(parameter);
+//		parameter.size = 25;
+//		fontHud = generator.generateFont(parameter);
 		parameter.size = 15;
 		parameter.borderWidth = 1;
 		fontMonologue = generator.generateFont(parameter);
