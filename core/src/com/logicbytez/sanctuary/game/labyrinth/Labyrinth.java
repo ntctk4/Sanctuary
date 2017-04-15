@@ -205,7 +205,7 @@ public class Labyrinth{
 								}
 								game.getEntities().addAll(eidolons);
 							}
-							parentRoom.setDanger();
+							parentRoom.setDanger(true);
 							wave.setRoom(parentRoom);
 						}
 					}else{
