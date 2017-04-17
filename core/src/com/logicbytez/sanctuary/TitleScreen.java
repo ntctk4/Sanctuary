@@ -67,7 +67,7 @@ public class TitleScreen implements Screen{
 			players.add(new Player(alone, false, game.gameScreen));
 			players.get(1).setGamePad(new Gamepad(controllers.first(), players.get(1)));
 		}
-		System.out.println("show");
+		
 		stage.getRoot().setColor(1, 1, 1, 0);
 		stage.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.run(new Runnable() {
 			@Override
