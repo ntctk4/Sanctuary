@@ -44,6 +44,7 @@ public class GameScreen implements Screen{
 	private SpriteBatch batch;
 	private Touchpad touchPads;
 	private Vector2 cameraCenter, view;
+	private boolean leavingGameScreen = false;
 
 	//receives objects from the main class
 	public GameScreen(Main game){
@@ -60,6 +61,7 @@ public class GameScreen implements Screen{
 	//initializes the rest of the objects
 	public void show(){
 		batch.setColor(1, 1, 1, 0);
+		leavingGameScreen = false;
 		shader = Assets.vignette;
 		batch.setShader(shader);
 		boxRenderer = new ShapeRenderer();
@@ -98,26 +100,28 @@ public class GameScreen implements Screen{
 			}
 		});
 		draw(delta);
-		if(fadeInTimer < 1){
-			fadeInTimer += delta;
-			if(fadeInTimer > 1){
-				fadeInTimer = 1;
+		if(!leavingGameScreen) {
+			if(fadeInTimer < 1){
+				fadeInTimer += delta;
+				if(fadeInTimer > 1){
+					fadeInTimer = 1;
+				}
+				batch.setColor(fadeInTimer - fadeOutTimer, fadeInTimer - fadeOutTimer, fadeInTimer - fadeOutTimer, 1);
 			}
-			batch.setColor(fadeInTimer - fadeOutTimer, fadeInTimer - fadeOutTimer, fadeInTimer - fadeOutTimer, 1);
-		}
-		if(fadeOutTimer > 0){
-			if(fadeOutTimer > 2){
-				fadeOutTimer = 2;
+			if(fadeOutTimer > 0){
+				if(fadeOutTimer > 2){
+					fadeOutTimer = 2;
+				}
+				batch.setColor(1-fadeOutTimer/2, 1-fadeOutTimer/2, 1-fadeOutTimer/2, 1);
 			}
-			batch.setColor(1-fadeOutTimer/2, 1-fadeOutTimer/2, 1-fadeOutTimer/2, 1);
-		}
-		for(Entity entity : entities){
-			entity.update(delta);
-		}
-		if(players.size > 1){
-			if(players.first().getHealth() > 0 && players.get(1).getHealth() > 0){
-				for(Player player : players){
-					player.contain(camera, view);
+			for(Entity entity : entities){
+				entity.update(delta);
+			}
+			if(players.size > 1){
+				if(players.first().getHealth() > 0 && players.get(1).getHealth() > 0){
+					for(Player player : players){
+						player.contain(camera, view);
+					}
 				}
 			}
 		}
@@ -170,6 +174,7 @@ public class GameScreen implements Screen{
 			batch.setColor(1, 1, 1, 1);
 		}
 		batch.setProjectionMatrix(display.combined);
+		hud.update(delta);
 		if(paused){
 			pauseScreen.update();
 		}else if(players.first().getHealth() <= 0){
@@ -182,7 +187,6 @@ public class GameScreen implements Screen{
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
 		}
-		hud.update(delta);
 		if(testing){
 			testing();
 		}else{
@@ -299,9 +303,9 @@ public class GameScreen implements Screen{
 		fadeOutTimer += delta/2;
 		
 		if(isWon) {
-			displayString = "congratulations, you've defeated\n  the eidolon once and for all";
+			displayString = "congratulations, you've defeated\n    the eidolon once and for all";
 		} else {
-			displayString = "you died!\n\ngame over";
+			displayString = "  you died!\n\ngame over";
 		}
 		
 		layout = new GlyphLayout(Assets.font25, displayString);
@@ -317,11 +321,14 @@ public class GameScreen implements Screen{
 	}
 
 	public void exit(){
+		leavingGameScreen = true;
 		// exit function needs to do a lot more... i.e. destroy everything and start over.
 		Assets.font50.setColor(1, 1, 1, 1);
 		Assets.font25.setColor(1, 1, 1, 1);
+		fadeInTimer = 0;
 		fadeOutTimer = 0;
 		batch.setColor(1, 1, 1, 1);
+		batch.setShader(null);
 		game.setScreen(game.splashScreen);
 	}
 

@@ -56,6 +56,7 @@ public class TitleScreen implements Screen{
 	@Override
 	public void show(){
 		Gdx.app.setLogLevel(Application.LOG_ERROR);
+		shown = false;
 		controllers = Controllers.getControllers();
 		//testing stuff below here
 		boolean alone = true;

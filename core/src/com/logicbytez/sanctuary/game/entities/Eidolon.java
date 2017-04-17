@@ -54,7 +54,7 @@ public class Eidolon extends Being{
 					door.takeDamage(attackPower);
 				}*/
 				//track Eidolon and attack door/altar instead of player(s)
-			}else{
+			}else if(game.getPlayers().size > 0){
 				nearestPlayer = game.getPlayers().first();
 				if(game.getPlayers().size > 1 && game.getPlayers().get(1).getHealth() > 0){
 					if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(game.getPlayers().get(1))){

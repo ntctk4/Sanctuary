@@ -61,6 +61,9 @@ public class SplashScreen implements Screen {
 	@Override
 	public void show() {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
+		stateTime = 0;
+		timeToTransition = false;
+		transitionStarted = false;
 		stage.getRoot().setColor(1, 1, 1, 0);
 		stage.addAction(Actions.fadeIn(0.5f));
 	}
