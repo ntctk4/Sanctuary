@@ -14,12 +14,14 @@ public class Player extends Being{
 	private Gamepad gamePad;
 	private HealthIndicator healthIndicator;
 	private Touchpad touchpad;
+	
+	private float accumulator = 0;
 
 	//creates one of the players
 	public Player(boolean alone, boolean first, GameScreen game){
 		super(game);
 		attackPower = 1;
-		health = maxHealth = 100;
+		health = maxHealth = 50;
 		speed = 100;
 		if(first){
 			animationAttack = Assets.animate(7, 2, 1, Assets.texture_PlayerBlue);
@@ -60,6 +62,11 @@ public class Player extends Being{
 		}
 		if(health > 0){
 			super.update(delta);
+		}
+		// regenerate 1 hp/s
+		if(health > 0 && health < maxHealth && (accumulator += delta) > 1){
+			health++;
+			accumulator--;
 		}
 		healthIndicator.update(delta);
 	}
