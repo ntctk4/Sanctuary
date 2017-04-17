@@ -5,7 +5,6 @@ import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.Entity;
-import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
 
 public class Orb extends Entity{
 	private int speed;
