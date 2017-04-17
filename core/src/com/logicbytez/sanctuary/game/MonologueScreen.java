@@ -68,7 +68,6 @@ public class MonologueScreen implements Screen {
 				@Override
 				public void run() {
 					game.setScreen(game.gameScreen);
-					dispose();
 				}
 			})));
 

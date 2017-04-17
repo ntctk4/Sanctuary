@@ -67,7 +67,7 @@ public class TitleScreen implements Screen{
 			players.add(new Player(alone, false, game.gameScreen));
 			players.get(1).setGamePad(new Gamepad(controllers.first(), players.get(1)));
 		}
-		
+		System.out.println("show");
 		stage.getRoot().setColor(1, 1, 1, 0);
 		stage.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.run(new Runnable() {
 			@Override
@@ -86,7 +86,6 @@ public class TitleScreen implements Screen{
 				@Override
 				public void run() {
 					game.setScreen(game.monologueScreen);
-					dispose();
 				}
 			})));
 	}
@@ -102,7 +101,6 @@ public class TitleScreen implements Screen{
 		
 		//uncomment to skip title/monologue
 //		game.setScreen(game.gameScreen);
-//		dispose();
 	}
 
 	@Override

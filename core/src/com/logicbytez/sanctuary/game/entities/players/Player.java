@@ -19,7 +19,7 @@ public class Player extends Being{
 	public Player(boolean alone, boolean first, GameScreen game){
 		super(game);
 		attackPower = 1;
-		health = maxHealth = 50;
+		health = maxHealth = 100;
 		speed = 100;
 		if(first){
 			animationAttack = Assets.animate(7, 2, 1, Assets.texture_PlayerBlue);

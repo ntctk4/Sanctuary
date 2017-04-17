@@ -299,29 +299,30 @@ public class GameScreen implements Screen{
 		fadeOutTimer += delta/2;
 		
 		if(isWon) {
-			displayString = "game won";
+			displayString = "congratulations, you've defeated\n  the eidolon once and for all";
 		} else {
-			displayString = "game over";
+			displayString = "you died!\n\ngame over";
 		}
 		
-		layout = new GlyphLayout(Assets.font50, displayString);
+		layout = new GlyphLayout(Assets.font25, displayString);
 		Assets.font50.setColor(1, 1, 1, 1 - fadeOutTimer/2);
-		Assets.fontHud.setColor(1, 1, 1, 1 - fadeOutTimer/2); // fade out the HUD font as well
-		Assets.font50.draw(batch, displayString, -layout.width/2, layout.height/2);
+		Assets.font25.setColor(1, 1, 1, 1 - fadeOutTimer/2); // fade out the HUD font as well
+		Assets.font25.draw(batch, displayString, -layout.width/2, layout.height/2);
 		stopped = true;
 		touchScreen = false;
 		
 		if(fadeOutTimer >= 2) {
-			Assets.font50.setColor(1, 1, 1, 1);
-			Assets.fontHud.setColor(1, 1, 1, 1);
-			fadeOutTimer = 0;
 			exit();
 		}
 	}
 
 	public void exit(){
 		// exit function needs to do a lot more... i.e. destroy everything and start over.
-		game.setScreen(game.titleScreen);
+		Assets.font50.setColor(1, 1, 1, 1);
+		Assets.font25.setColor(1, 1, 1, 1);
+		fadeOutTimer = 0;
+		batch.setColor(1, 1, 1, 1);
+		game.setScreen(game.splashScreen);
 	}
 
 	//returns the activities for beings

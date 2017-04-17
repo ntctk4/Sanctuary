@@ -45,5 +45,7 @@ public class Main extends Game{
 		batch.dispose();
 		gameScreen.dispose();
 		titleScreen.dispose();
+		splashScreen.dispose();
+		monologueScreen.dispose();
 	}
 }
