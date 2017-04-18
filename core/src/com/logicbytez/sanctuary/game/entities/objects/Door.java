@@ -53,34 +53,25 @@ public class Door extends Entity{
 
 	//begins opening the door
 	public void open(){
-		boolean canEnter = true;
+		boolean canEnter = false;
 		switch(direction){
 		case UP:
-			if(!game.getLabyrinth().canEnter(0, 1)){
-				System.out.println("UP");
-				game.getHud().displayMessage("Not Enough Light Crystals");
-				canEnter = false;
-			}
+			canEnter = game.getLabyrinth().canEnter(0, 1);
+			break;
 		case RIGHT:
-			if(!game.getLabyrinth().canEnter(1, 0)){
-				System.out.println("RIGHT");
-				game.getHud().displayMessage("Not Enough Light Crystals");
-				canEnter = false;
-			}
+			canEnter = game.getLabyrinth().canEnter(1, 0);
+			break;
 		case DOWN:
-			if(!game.getLabyrinth().canEnter(0, -1)){
-				System.out.println("DOWN");
-				game.getHud().displayMessage("Not Enough Light Crystals");
-				canEnter = false;
-			}
+			canEnter = game.getLabyrinth().canEnter(0, -1);
+			break;
 		case LEFT:
-			if(!game.getLabyrinth().canEnter(-1, 0)){
-				System.out.println("LEFT");
-				game.getHud().displayMessage("Not Enough Light Crystals");
-				canEnter = false;
-			}
+			canEnter = game.getLabyrinth().canEnter(-1, 0);
+			break;
 		}
-		if(!closing && canEnter){
+		if(!canEnter){
+			game.getHud().displayMessage("Not Enough Light Crystals");
+		}
+		else if(!closing){
 			Assets.sound_Door.play();
 			game.shakeScreen(.5f, 5);
 			opening = true;
