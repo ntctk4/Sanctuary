@@ -82,9 +82,9 @@ pad_straight
   index: -1
 eidolon
   rotate: false
-  xy: 444, 146
-  size: 63, 48
-  orig: 63, 48
+  xy: 920, 207
+  size: 91, 48
+  orig: 91, 48
   offset: 0, 0
   index: -1
 pause_bar
@@ -96,92 +96,99 @@ pause_bar
   index: -1
 pedestal_crystal_light
   rotate: false
-  xy: 920, 191
+  xy: 920, 141
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-obelisk
-  rotate: false
-  xy: 920, 141
-  size: 64, 48
-  orig: 64, 48
-  offset: 0, 0
-  index: -1
 hud_sunstone
   rotate: false
-  xy: 444, 95
+  xy: 444, 145
   size: 58, 49
   orig: 58, 49
   offset: 0, 0
   index: -1
-pedestal_stone
+obelisk
   rotate: false
-  xy: 504, 94
-  size: 105, 24
-  orig: 105, 24
+  xy: 227, 46
+  size: 64, 48
+  orig: 64, 48
   offset: 0, 0
   index: -1
 player_blue
   rotate: false
-  xy: 611, 78
+  xy: 207, 4
   size: 105, 40
   orig: 105, 40
   offset: 0, 0
   index: -1
 player_red
   rotate: false
-  xy: 718, 78
+  xy: 314, 17
   size: 105, 40
   orig: 105, 40
   offset: 0, 0
   index: -1
-statue
-  rotate: false
-  xy: 986, 191
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: -1
 pillar
   rotate: false
-  xy: 825, 70
+  xy: 444, 95
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
+pedestal_stone
+  rotate: false
+  xy: 494, 94
+  size: 105, 24
+  orig: 105, 24
+  offset: 0, 0
+  index: -1
+statue
+  rotate: false
+  xy: 986, 141
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
 column
   rotate: false
-  xy: 207, 10
+  xy: 421, 9
   size: 16, 48
   orig: 16, 48
   offset: 0, 0
   index: -1
 pedestal_crystal
   rotate: false
-  xy: 227, 70
+  xy: 299, 205
   size: 30, 24
   orig: 30, 24
   offset: 0, 0
   index: -1
+teleport_bar
+  rotate: false
+  xy: 1, 12
+  size: 42, 5
+  orig: 42, 5
+  offset: 0, 0
+  index: -1
 gravestone
   rotate: false
-  xy: 299, 217
+  xy: 293, 82
   size: 12, 12
   orig: 12, 12
   offset: 0, 0
   index: -1
-health_indicator
-  rotate: false
-  xy: 207, 1
-  size: 7, 7
-  orig: 7, 7
-  offset: 0, 0
-  index: -1
 orb
   rotate: false
-  xy: 1, 7
+  xy: 1013, 245
   size: 10, 10
   orig: 10, 10
+  offset: 0, 0
+  index: -1
+health_indicator
+  rotate: false
+  xy: 299, 196
+  size: 7, 7
+  orig: 7, 7
   offset: 0, 0
   index: -1
