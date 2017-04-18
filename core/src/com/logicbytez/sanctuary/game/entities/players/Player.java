@@ -14,7 +14,6 @@ public class Player extends Being{
 	private Gamepad gamePad;
 	private HealthIndicator healthIndicator;
 	private Touchpad touchpad;
-	
 	private float accumulator = 0;
 
 	//creates one of the players
@@ -164,8 +163,14 @@ public class Player extends Being{
 			sprite.setRegion(Assets.texture_Gravestone);
 		}
 	}
-	
-	public GameScreen getGame() {
+
+	//gets the game object
+	public GameScreen getGame(){
 		return game;
+	}
+
+	//sets the player's health to full
+	public void setFullHealth(){
+		health = maxHealth;
 	}
 }

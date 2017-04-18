@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.logicbytez.sanctuary.Assets;
 import com.logicbytez.sanctuary.game.GameScreen;
 import com.logicbytez.sanctuary.game.entities.Entity;
+import com.logicbytez.sanctuary.game.entities.players.Player;
 
 public class Pedestal_Crystal extends Entity{
 	private boolean crystal = true;
@@ -30,6 +31,9 @@ public class Pedestal_Crystal extends Entity{
 			game.getHud().addCrystal(true);
 			light = null;
 			sprite.setRegion(animation.getKeyFrame(1));
+			for(Player player : game.getPlayers()){
+				player.setFullHealth();
+			}
 		}
 	}
 

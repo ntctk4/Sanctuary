@@ -325,4 +325,13 @@ public class Labyrinth{
 	public Door getDoor(){
 		return door;
 	}
+
+	public boolean canEnter(int x, int y){
+		Vector2 currentLocation = currentRoom.getLocation();
+		Room room = layout[(int)currentLocation.x + x][(int)currentLocation.y + y];
+		if(antechamber != room || MAX_CRYSTALS == game.getHud().getCrystals()){
+			return true;
+		}
+		return false;
+	}
 }
