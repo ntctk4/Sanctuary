@@ -45,7 +45,7 @@ public class HeadUpDisplay{
 		gemWidth = Assets.texture_HudSunstone.getRegionWidth();
 	}
 	
-	private void updateHourglass(float delta) {
+	private void updateHourglass() {
 		current_Hourglass = hourglass.getKeyFrame(stateTime);
 		current_Sand = sand.getKeyFrame(stateTime);
 	}
@@ -68,7 +68,7 @@ public class HeadUpDisplay{
 			stateTime += delta;
 			if(stateTime <= TIMER) {
 				// hourglass is running
-				updateHourglass(delta);
+				updateHourglass();
 				batch.draw(current_Hourglass, view.x - 38, view.y - 59);
 				batch.draw(current_Sand, view.x - 38, view.y - 59);
 			}
@@ -116,5 +116,9 @@ public class HeadUpDisplay{
 	//returns amount of player sunstones
 	public int getStones(){
 		return stones;
+	}
+	
+	public void displayMessage(String str) {
+		messenger.displayMessage(str);
 	}
 }

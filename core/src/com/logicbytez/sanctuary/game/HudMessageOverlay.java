@@ -66,4 +66,15 @@ public class HudMessageOverlay {
 			}
 		})));
 	}
+	
+	public void displayMessage(String str) {
+		messageLabel.setText(str);
+		stage.getRoot().setColor(1, 1, 1, 0);
+		stage.addAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(5f), Actions.fadeOut(1f), Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				messageLabel.setText("");
+			}
+		})));
+	}
 }
