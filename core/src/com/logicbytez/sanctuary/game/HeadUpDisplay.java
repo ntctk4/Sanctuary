@@ -46,7 +46,6 @@ public class HeadUpDisplay{
 	}
 	
 	private void updateHourglass(float delta) {
-		stateTime += delta;
 		current_Hourglass = hourglass.getKeyFrame(stateTime);
 		current_Sand = sand.getKeyFrame(stateTime);
 	}
@@ -65,27 +64,28 @@ public class HeadUpDisplay{
 			   String.valueOf(Labyrinth.MAX_CRYSTALS),
 			   -view.x + gemWidth / 2 - 17, view.y - stoneHeight - crystalHeight / 2 + 6);
 		
-		if(stateTime <= TIMER) {
-			// hourglass is running
-			if(!game.isPaused())
+		if(!game.isPaused()) {
+			stateTime += delta;
+			if(stateTime <= TIMER) {
+				// hourglass is running
 				updateHourglass(delta);
+				batch.draw(current_Hourglass, view.x - 38, view.y - 59);
+				batch.draw(current_Sand, view.x - 38, view.y - 59);
+			}
+			else if (!wave_launched){
+				// launch wave
+				messenger.notifyWave();;
+				game.getLabyrinth().activatePortal();
+				wave_launched = true;
+			}
 			
-			batch.draw(current_Hourglass, view.x - 38, view.y - 59);
-			batch.draw(current_Sand, view.x - 38, view.y - 59);
+			if(stateTime > TIMER + DELAY) {
+				// restart the hourglass
+				stateTime = 0;
+				wave_launched = false;
+			}
 		}
-		else if (!wave_launched){
-			// launch wave
-			messenger.notifyWave();;
-			game.getLabyrinth().activatePortal();
-			wave_launched = true;
-		}
-		
-		if(stateTime > TIMER + DELAY) {
-			// restart the hourglass
-			stateTime = 0;
-			wave_launched = false;
-		}
-		
+
 		if(crystals == Labyrinth.MAX_CRYSTALS && !notifiedCrystals) {
 			messenger.notifyCrystals();
 			notifiedCrystals = true;
