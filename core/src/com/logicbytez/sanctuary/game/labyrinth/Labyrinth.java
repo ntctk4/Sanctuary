@@ -183,7 +183,7 @@ public class Labyrinth{
 				if(eidolonTimer >= 10){
 					eidolonTimer = 0;
 					Array<Eidolon> eidolons = wave.getEidolons();
-					if(eidolons.size != 0){
+					if(eidolons.size != 0){ //MOVE THIS BELOW DEAD EIDOLON CODE
 						if(parentRoom != null && currentRoom != eidolonRoom){
 							//move eidolons to next room
 							ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();

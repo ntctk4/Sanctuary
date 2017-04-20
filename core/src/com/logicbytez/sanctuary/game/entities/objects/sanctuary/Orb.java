@@ -41,7 +41,7 @@ public class Orb extends Entity{
 		dir = new Vector2();
 		orbSpeed = new Vector2();
 		position = new Vector2();
-		orbSpeed.x = orbSpeed.y = 10;
+		orbSpeed.x = orbSpeed.y = 50;
 		velocity.x = 1;
 		velocity.y = -1;
 		fired = false;
