@@ -171,18 +171,18 @@ teleport_bar
   orig: 42, 5
   offset: 0, 0
   index: -1
-gravestone
-  rotate: false
-  xy: 293, 82
-  size: 12, 12
-  orig: 12, 12
-  offset: 0, 0
-  index: -1
 orb
   rotate: false
   xy: 1013, 245
   size: 10, 10
   orig: 10, 10
+  offset: 0, 0
+  index: -1
+gravestone
+  rotate: false
+  xy: 207, 46
+  size: 5, 12
+  orig: 5, 12
   offset: 0, 0
   index: -1
 health_indicator
