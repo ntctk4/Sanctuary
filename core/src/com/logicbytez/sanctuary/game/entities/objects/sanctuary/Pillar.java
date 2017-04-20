@@ -32,7 +32,8 @@ public class Pillar extends Entity{
 		orbTimer = 0;
 	}
 
-	public void update(float delta){	
+	public void update(float delta){
+		//System.out.println(orbTimer);
 		if(game.getLabyrinth().getCurrentRoom().getDanger()){
 			orbTimer += delta;
 			if(orbTimer > (10 /(stonesInserted+1))){
@@ -52,11 +53,15 @@ public class Pillar extends Entity{
 			object.getProperties().put("Type", ++stonesInserted);
 			sprite.setRegion(animation.getKeyFrame(stonesInserted));
 			
-			if(stonesInserted == 2)
+			if(stonesInserted == 1)
 			{
 				//spawnOrb();
 				game.getLabyrinth().getCurrentRoom().setDanger(true);
 				spawnEidolon();
+//				for(Entity entity: game.getLabyrinth().getCurrentRoom().getEntities())
+//				{
+//					System.out.println(entity.getClass().toString());
+//				}
 			}
 		}
 	}

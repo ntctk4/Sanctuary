@@ -15,6 +15,7 @@ public class Orb extends Entity{
 	private Vector2 orbSpeed;
 	private int eidolonCount = 0;
 	private boolean fired;
+	private boolean hit;
 
 	public Orb(int speed, GameScreen game, Eidolon target, Sprite pillarSprite){
 		super(game);
@@ -36,11 +37,12 @@ public class Orb extends Entity{
 		dir = new Vector2();
 		orbSpeed = new Vector2();
 		position = new Vector2();
-		orbSpeed.x = .25f;
-		orbSpeed.y = .25f;
+		orbSpeed.x = 1.25f;
+		orbSpeed.y = 1.25f;
 		velocity.x = 1;
 		velocity.y = -1;
 		fired = false;
+		hit = false;
 		
 	}
 
@@ -48,37 +50,51 @@ public class Orb extends Entity{
 		if(!fired){
 			position.set(box.x, box.y);
 			for(Entity entity1 : game.getLabyrinth().getCurrentRoom().getEntities()){
+				//System.out.println(entity1.getClass().toString());
 				if(entity1.getClass() == Eidolon.class){
 					dir.x = entity1.getBox().x;
 					dir.y = entity1.getBox().y;
 					dir.sub(position).nor();
+					break;
 				}
 			}
 			velocity.set(dir).scl(orbSpeed);
 			fired = true;
 		}
-			sprite.translate(velocity.x, velocity.y);
+		sprite.translate(velocity.x, velocity.y);
 
 		box.x = sprite.getX();
 		box.y = sprite.getY();
 		//move sprite with velocity
-		for(Entity entity : game.getLabyrinth().getCurrentRoom().getEntities()) {
-			if(box.overlaps(entity.getBox()) && entity.getClass() == Eidolon.class){
-				Assets.sound_Crystal.play();
-				Eidolon enemy = (Eidolon)entity;
-				enemy.takeDamage(3);
-				game.getLabyrinth().getCurrentRoom().getEntities().removeValue(entity, true);
-				fired = false;
-				break;
+		if(!hit){
+			for(Entity entity : game.getLabyrinth().getCurrentRoom().getEntities()) {
+				if(box.overlaps(entity.getBox()) && entity.getClass() == Eidolon.class){
+					Eidolon enemy = (Eidolon)entity;
+					if(enemy.getHealth() > 0){
+						Assets.sound_Crystal.play();
+						enemy.takeDamage(3);
+						game.getLabyrinth().getCurrentRoom().getEntities().removeValue(entity, true);
+						game.getLabyrinth().getCurrentRoom().getEntities().removeValue(this, true);
+						hit = true;
+						//sprite.setAlpha(0);
+						//fired = false;
+						break;
+					}
+				}
 			}
 		}
 		for(Entity entity : game.getLabyrinth().getCurrentRoom().getEntities()) {
 			if(entity.getClass() == Eidolon.class)
-				eidolonCount++;
+			{
+				Eidolon enemy = (Eidolon)entity;
+				//System.out.println(enemy.getHealth());
+				if(enemy.getHealth() != 0)
+					eidolonCount++;
+			}
 		}
 		if(eidolonCount == 0)
 			game.getLabyrinth().getCurrentRoom().setDanger(false);
 		eidolonCount = 0;
-		game.getLabyrinth().getCurrentRoom().getEntities().removeValue(this, true);
+		//game.getLabyrinth().getCurrentRoom().getEntities().removeValue(this, true);
 	}
 }

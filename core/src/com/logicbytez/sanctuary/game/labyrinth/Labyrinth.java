@@ -22,7 +22,7 @@ public class Labyrinth{
 	private boolean activated;
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = MAX_CRYSTALS, roomAmount = 10, stoneAmount = 2;
+	private int crystalAmount = MAX_CRYSTALS, roomAmount = 10, stoneAmount = 2, sanctuaryX = 0, sanctuaryY = 0;
 	private float eidolonTimer;
 	private Altar altar;
 	private Array<Entity> entities;
@@ -163,6 +163,7 @@ public class Labyrinth{
 					if(entryway == eidolonRoom || sanctuary == eidolonRoom){
 						//persistent rooms
 						for(Eidolon eidolon : wave.getEidolons()){
+							this.getCurrentRoom().addEntity(eidolon);
 							eidolon.setPersistence(true);
 							eidolon.update(delta);
 						}
@@ -218,6 +219,7 @@ public class Labyrinth{
 
 	//changes the current map to a new one
 	public void updateCurrentRoom(int x, int y){
+		sanctuaryLocation(-x, -y);
 		if(x != 0 || y != 0){
 			Vector2 currentLocation = currentRoom.getLocation();
 			currentRoom = layout[(int)currentLocation.x + x][(int)currentLocation.y + y];
@@ -333,5 +335,18 @@ public class Labyrinth{
 			return true;
 		}
 		return false;
+	}
+	
+	public void sanctuaryLocation(int x, int y){
+		this.sanctuaryX += x;
+		this.sanctuaryY += y;
+	}
+	
+	public int getSanctuaryX(){
+		return this.sanctuaryX;
+	}
+	
+	public int getSanctuaryY(){
+		return this.sanctuaryY;
 	}
 }
