@@ -183,19 +183,23 @@ public class Labyrinth{
 				if(eidolonTimer >= 10){
 					eidolonTimer = 0;
 					Array<Eidolon> eidolons = wave.getEidolons();
-					ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
-					while(itEidolons.hasNext()){
-						Eidolon eidolon = itEidolons.next();
-						if(eidolon.getHealth() <= 0){
-							eidolonRoom.addEntity(eidolon);
-							itEidolons.remove();
-						}else if(parentRoom != null && eidolonRoom != currentRoom){
-							eidolon.setPosition(eidolonRoom.getSide(false));
-						}
-					}
 					if(eidolons.size != 0){
 						if(parentRoom != null && currentRoom != eidolonRoom){
+							//move eidolons to next room
+							ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
+							while(itEidolons.hasNext()){
+								Eidolon eidolon = itEidolons.next();
+								if(eidolon.getHealth() <= 0){
+									//Eidolon is dead
+									eidolonRoom.addEntity(eidolon);
+									itEidolons.remove();
+								}else{
+									//update eidolon position
+									eidolon.setPosition(eidolonRoom.getSide(false));
+								}
+							}
 							if(parentRoom.equals(currentRoom)){
+								//move eidolons to players' current room
 								for(Entity entity : game.getEntities()){
 									if(entity.getClass() == Door.class){
 										Door door = (Door)entity;
@@ -210,6 +214,7 @@ public class Labyrinth{
 							wave.setRoom(parentRoom);
 						}
 					}else{
+						//remove empty wave
 						itWaves.remove();
 					}
 				}

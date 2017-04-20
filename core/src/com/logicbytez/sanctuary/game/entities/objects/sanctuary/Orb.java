@@ -37,8 +37,7 @@ public class Orb extends Entity{
 		dir = new Vector2();
 		orbSpeed = new Vector2();
 		position = new Vector2();
-		orbSpeed.x = 1.25f;
-		orbSpeed.y = 1.25f;
+		orbSpeed.x = orbSpeed.y = 10;
 		velocity.x = 1;
 		velocity.y = -1;
 		fired = false;
@@ -58,7 +57,7 @@ public class Orb extends Entity{
 					break;
 				}
 			}
-			velocity.set(dir).scl(orbSpeed);
+			velocity.set(dir).scl(orbSpeed).scl(delta);
 			fired = true;
 		}
 		sprite.translate(velocity.x, velocity.y);
