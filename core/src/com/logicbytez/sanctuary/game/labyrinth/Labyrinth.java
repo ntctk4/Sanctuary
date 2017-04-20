@@ -159,7 +159,7 @@ public class Labyrinth{
 				Room eidolonRoom = wave.getRoom();
 				Room parentRoom = wave.getRoom().getParent();
 				//sanctuary should be persistent if player is in entryway and vice-versa
-				if(eidolonRoom != currentRoom){
+				/*if(eidolonRoom != currentRoom){
 					if(entryway == eidolonRoom || sanctuary == eidolonRoom){
 						//persistent rooms
 						for(Eidolon eidolon : wave.getEidolons()){
@@ -177,7 +177,7 @@ public class Labyrinth{
 					for(Eidolon eidolon : wave.getEidolons()){
 						eidolon.setPersistence(false);
 					}
-				}
+				}*/
 				//non-persistent rooms
 				eidolonTimer += delta;
 				if(eidolonTimer >= 10){
