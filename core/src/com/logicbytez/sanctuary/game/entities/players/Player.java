@@ -102,7 +102,6 @@ public class Player extends Being{
 				healthIndicator.set(health, maxHealth);
 				break;
 			case Gamepad.Y:
-				System.out.println("Y");
 				if(game.getLabyrinth().getSanctuaryX() != 0 || game.getLabyrinth().getSanctuaryY() != 0){
 					game.getLabyrinth().updateCurrentRoom(game.getLabyrinth().getSanctuaryX(), game.getLabyrinth().getSanctuaryY());
 					sprite.setPosition(144 - sprite.getWidth() / 2, 160 - sprite.getHeight() / 2 - sprite.getWidth());
