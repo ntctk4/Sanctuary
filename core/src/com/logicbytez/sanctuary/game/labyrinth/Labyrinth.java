@@ -189,12 +189,12 @@ public class Labyrinth{
 						if(eidolon.getHealth() <= 0){
 							eidolonRoom.addEntity(eidolon);
 							itEidolons.remove();
-						}else if(parentRoom != null){
+						}else if(parentRoom != null && eidolonRoom != currentRoom){
 							eidolon.setPosition(eidolonRoom.getSide(false));
 						}
 					}
 					if(eidolons.size != 0){
-						if(parentRoom != null){
+						if(parentRoom != null && currentRoom != eidolonRoom){
 							if(parentRoom.equals(currentRoom)){
 								for(Entity entity : game.getEntities()){
 									if(entity.getClass() == Door.class){
