@@ -13,6 +13,7 @@ public class Pillar extends Entity{
 	private float orbTimer;
 	private Array<Orb> orbs;
 	private MapObject object;
+	private Orb orb;
 	//temp
 	Eidolon eidolon;
 	
@@ -57,18 +58,13 @@ public class Pillar extends Entity{
 			{
 				//spawnOrb();
 				game.getLabyrinth().getCurrentRoom().setDanger(true);
-				spawnEidolon();
-//				for(Entity entity: game.getLabyrinth().getCurrentRoom().getEntities())
-//				{
-//					System.out.println(entity.getClass().toString());
-//				}
 			}
 		}
 	}
 
 	public void spawnOrb(){
-		//Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
-		Orb orb = new Orb(stonesInserted, game, eidolon, sprite);
+		//So there's no error, this should be the nearest enemy!
+		this.orb = new Orb(stonesInserted, game, eidolon, sprite);
 		orbs.add(orb);
 		game.getLabyrinth().getCurrentRoom().getEntities().add(orb);
 		game.getEntities().add(orb);
@@ -76,7 +72,6 @@ public class Pillar extends Entity{
 	
 	public void spawnEidolon(){
 		Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
-		game.getLabyrinth().getCurrentRoom().getEntities().add(eidolon);
 		game.getEntities().add(eidolon);
 	}
 }
