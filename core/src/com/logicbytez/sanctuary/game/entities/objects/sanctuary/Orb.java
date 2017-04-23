@@ -7,24 +7,12 @@ import com.logicbytez.sanctuary.game.entities.Eidolon;
 import com.logicbytez.sanctuary.game.entities.Entity;
 
 public class Orb extends Entity{
-	private int speed;
-	private Eidolon target; //either use this, or loop through all entities(enemies) in the room
-	private Vector2 velocity;
-	private Vector2 dir;
-	private Vector2 position;
-	private Vector2 orbSpeed;
+	private boolean fired, hit;
 	private int eidolonCount = 0;
-	private boolean fired;
-	private boolean hit;
-	private float pillarX;
-	private float pillarY;
+	private Vector2 dir, orbSpeed, position, velocity;
 
 	public Orb(int speed, GameScreen game, Eidolon target, Sprite pillarSprite){
 		super(game);
-		this.speed = speed;
-		this.target = target;
-		this.pillarX = pillarSprite.getX();
-		this.pillarY = pillarSprite.getY();
 		impede = false;
 		animation = Assets.animate(1, 1, 0, Assets.texture_Orb);
 		sprite = new Sprite(animation.getKeyFrame(0));
@@ -37,16 +25,10 @@ public class Orb extends Entity{
 		//velocity will essentially be a ratio between x and y in relation to the enemy's distance from the pillar
 		//For example, y=1 and x=.5 means that the enemy is twice as far vertically than it is horizontally
 		//then multiply velocity by speed, which depends on how many sunstones are in the pillar that created this orb
-		velocity = new Vector2();
+		velocity = new Vector2(1, -1);
 		dir = new Vector2();
-		orbSpeed = new Vector2();
+		orbSpeed = new Vector2(100, 100);
 		position = new Vector2();
-		orbSpeed.x = orbSpeed.y = 50;
-		velocity.x = 1;
-		velocity.y = -1;
-		fired = false;
-		hit = false;
-		
 	}
 
 	public void update(float delta){

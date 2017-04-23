@@ -26,7 +26,7 @@ import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.input.Touchpad;
 
 public class GameScreen implements Screen{
-	private boolean paused, stopped, testing, touchScreen;
+	private boolean leavingGameScreen = false, paused, stopped, testing, touchScreen;
 	private float fadeInTimer, fadeOutTimer, shakeTimer;
 	private int shakeMagnitude;
 	private Activity activity;
@@ -44,17 +44,16 @@ public class GameScreen implements Screen{
 	private SpriteBatch batch;
 	private Touchpad touchPads;
 	private Vector2 cameraCenter, view;
-	private boolean leavingGameScreen = false;
 
 	//receives objects from the main class
 	public GameScreen(Main game){
 		this.game = game;
 		batch = game.batch;
+		this.pauseScreen = new PauseScreen(batch, this);
 		players = game.players;
 		testing = game.testing;
 		touchScreen = game.touchScreen;
 		view = game.view;
-		this.pauseScreen = new PauseScreen(batch, this);
 	}
 
 	@Override

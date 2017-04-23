@@ -20,7 +20,6 @@ public class Altar extends Entity{
 		collisionBox.fitInside(box);
 		sprite = new Sprite(animation.getKeyFrame(stonesInserted));
 		sprite.setPosition(box.x, box.y);
-		//sprite.setPosition(collisionBox.x, collisionBox.y);
 	}
 
 	//places a sunstone from the player into the sun altar
@@ -36,5 +35,11 @@ public class Altar extends Entity{
 	//returns the amount of sunstones inserted into it
 	public int getStonesInserted(){
 		return stonesInserted;
+	}
+
+	public void substractStone(){
+		Assets.sound_SunstoneShatter.play();
+		object.getProperties().put("Type", --stonesInserted);
+		sprite.setRegion(animation.getKeyFrame(stonesInserted));
 	}
 }

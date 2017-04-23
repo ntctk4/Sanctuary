@@ -12,7 +12,7 @@ import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.labyrinth.Room;
 
 public class Eidolon extends Being{
-	private boolean persistence, playerDirection, stuck, stuckDirection;
+	private boolean playerDirection, stuck, stuckDirection;
 	private int deathFrame = MathUtils.random(7);
 	private float colorTimer = 0;
 	private Animation<TextureRegion> animationDead;
@@ -47,50 +47,41 @@ public class Eidolon extends Being{
 				}
 				sprite.setColor(colorTimer, colorTimer, colorTimer, 1);
 			}
-			//persistence
-			if(persistence){
-				//game.getLabyrinth().getDoor();
-				/*if(follow(delta, door.getBox())){
-					door.takeDamage(attackPower);
-				}*/
-				//track Eidolon and attack door/altar instead of player(s)
-			}else if(game.getPlayers().size > 0){
-				nearestPlayer = game.getPlayers().first();
-				if(game.getPlayers().size > 1 && game.getPlayers().get(1).getHealth() > 0){
-					if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(game.getPlayers().get(1))){
-						nearestPlayer = game.getPlayers().get(1);
-					}
+			nearestPlayer = game.getPlayers().first();
+			if(game.getPlayers().size > 1 && game.getPlayers().get(1).getHealth() > 0){
+				if(nearestPlayer.getHealth() < 1 || distance(nearestPlayer) > distance(game.getPlayers().get(1))){
+					nearestPlayer = game.getPlayers().get(1);
 				}
-				if(follow(delta, nearestPlayer.getBox())){
-					nearestPlayer.takeDamage(attackPower);
+			}
+			if(follow(delta, nearestPlayer.getBox())){
+				nearestPlayer.takeDamage(attackPower);
+			}
+			if(!attacking && !stuck && (move.x == 0 || move.y == 0)){
+				if(stuckDirection = move.y == 0 ? true : false){
+					playerDirection = getCenter().y < nearestPlayer.getCenter().y ? true : false;
+				}else{
+					playerDirection = getCenter().x > nearestPlayer.getCenter().x ? true : false;
 				}
-				if(!attacking && !stuck && (move.x == 0 || move.y == 0)){
-					if(stuckDirection = move.y == 0 ? true : false){
-						playerDirection = getCenter().y < nearestPlayer.getCenter().y ? true : false;
+				stuck = true;
+			}
+			if(stuck){
+				center.x = sprite.getX() + sprite.getWidth() / 2;
+				center.y = sprite.getY() + sprite.getHeight() / 2;
+				if(stuckDirection){
+					if(center.x != oldPosition.x){
+						stuck = false;
+					}else if(playerDirection){
+						move.y = speed * delta;
 					}else{
-						playerDirection = getCenter().x > nearestPlayer.getCenter().x ? true : false;
+						move.y = -speed * delta;
 					}
-					stuck = true;
-				}
-				if(stuck){
-					center.x = sprite.getX() + sprite.getWidth() / 2;
-					center.y = sprite.getY() + sprite.getHeight() / 2;
-					if(stuckDirection){
-						if(center.x != oldPosition.x){
-							stuck = false;
-						}else if(playerDirection){
-							move.y = speed * delta;
-						}else{
-							move.y = -speed * delta;
-						}
+				}else{
+					if(center.y != oldPosition.y){
+						stuck = false;
+					}else if(playerDirection){
+						move.x = -speed * delta;
 					}else{
-						if(center.y != oldPosition.y){
-							stuck = false;
-						}else if(playerDirection){
-							move.x = -speed * delta;
-						}else{
-							move.x = speed * delta;
-						}
+						move.x = speed * delta;
 					}
 				}
 			}
@@ -178,9 +169,5 @@ public class Eidolon extends Being{
 			}
 			Assets.sound_EidolonHurt.setPitch(id, pitch);
 		}
-	}
-
-	public void setPersistence(boolean bool){
-		persistence = bool;
 	}
 }

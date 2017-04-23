@@ -53,41 +53,41 @@ public class Door extends Entity{
 
 	//begins opening the door
 	public void open(){
-		boolean canEnter = false;
-		switch(direction){
-		case UP:
-			canEnter = game.getLabyrinth().canEnter(0, 1);
-			break;
-		case RIGHT:
-			canEnter = game.getLabyrinth().canEnter(1, 0);
-			break;
-		case DOWN:
-			canEnter = game.getLabyrinth().canEnter(0, -1);
-			break;
-		case LEFT:
-			canEnter = game.getLabyrinth().canEnter(-1, 0);
-			break;
-		}
-		if(!canEnter){
-			game.getHud().displayMessage("Not Enough Light Crystals");
-		}
-		else if(!closing){
-			Assets.sound_Door.play();
-			game.shakeScreen(.5f, 5);
-			opening = true;
-			if(!activated){
-				game.switchStopped();
-				if(direction == Direction.LEFT){
-					players.first().setFacing(true);
-					if(players.size > 1){
-						players.get(1).setFacing(true);
-					}
-				}else if(direction == Direction.RIGHT){
-					players.first().setFacing(false);
-					if(players.size > 1){
-						players.get(1).setFacing(false);
+		if(!closing){
+			boolean canEnter = false;
+			switch(direction){
+			case UP:
+				canEnter = game.getLabyrinth().canEnter(0, 1);
+				break;
+			case RIGHT:
+				canEnter = game.getLabyrinth().canEnter(1, 0);
+				break;
+			case DOWN:
+				canEnter = game.getLabyrinth().canEnter(0, -1);
+				break;
+			case LEFT:
+				canEnter = game.getLabyrinth().canEnter(-1, 0);
+			}
+			if(activated || canEnter){
+				Assets.sound_Door.play();
+				game.shakeScreen(.5f, 5);
+				opening = true;
+				if(!activated){
+					game.switchStopped();
+					if(direction == Direction.LEFT){
+						players.first().setFacing(true);
+						if(players.size > 1){
+							players.get(1).setFacing(true);
+						}
+					}else if(direction == Direction.RIGHT){
+						players.first().setFacing(false);
+						if(players.size > 1){
+							players.get(1).setFacing(false);
+						}
 					}
 				}
+			}else{
+				game.getHud().displayMessage("Not Enough Light Crystals");
 			}
 		}
 	}

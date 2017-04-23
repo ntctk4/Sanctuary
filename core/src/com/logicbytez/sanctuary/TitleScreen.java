@@ -23,7 +23,6 @@ public class TitleScreen implements Screen{
 	private Array<Player> players;
 	private Array<Controller> controllers;
 	private Main game;
-	
 	private Viewport viewport;
 	private Stage stage;
 	
@@ -101,7 +100,7 @@ public class TitleScreen implements Screen{
 		stage.draw();
 		
 		//uncomment to skip title/monologue
-//		game.setScreen(game.gameScreen);
+		//game.setScreen(game.gameScreen);
 	}
 
 	@Override

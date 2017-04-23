@@ -74,4 +74,9 @@ public class Pillar extends Entity{
 		Eidolon eidolon = new Eidolon(game); //So there's no error, this should be the nearest enemy!
 		game.getEntities().add(eidolon);
 	}
+
+	//returns the amount of sunstones inserted into it
+	public int getStonesInserted(){
+		return stonesInserted;
+	}
 }

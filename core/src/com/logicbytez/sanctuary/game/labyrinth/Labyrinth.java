@@ -18,24 +18,23 @@ import com.logicbytez.sanctuary.game.entities.objects.sanctuary.Repository;
 import com.logicbytez.sanctuary.game.entities.objects.Pedestal_Stone;
 
 public class Labyrinth{
-	public static final int MAX_CRYSTALS = 2;
+	public static final int MAX_CRYSTALS = 5;
 	private boolean activated;
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
-	private final static int maxSize = 11, center = maxSize / 2;
-	private int crystalAmount = MAX_CRYSTALS, roomAmount = 10, stoneAmount = 2, sanctuaryX = 0, sanctuaryY = 0;
+	private final static int maxSize = 10, center = maxSize / 2;
+	private int crystalAmount = MAX_CRYSTALS, roomAmount = 25, stoneAmount = 5, sanctuaryX = 0, sanctuaryY = 0;
 	private float eidolonTimer;
 	private Altar altar;
 	private Array<Entity> entities;
 	private Array<Obelisk> obelisks;
 	private Array<Pedestal_Stone> pedestals;
-	private Array<Pillar> pillars;
+	private Array<Pillar> entrywayPillars, sanctuaryPillars;
 	private Array<Repository> repositories;
 	private Array<Room> rooms;
 	private Array<Wave> waves;
-	private Door door;
 	private GameScreen game;
 	private Portal portal;
-	private Room entryway, antechamber, currentRoom, sanctuary, layout[][];
+	private Room entryway, antechamber, currentRoom, firstHallway, sanctuary, layout[][];
 	private Vector2 roomSize;
 	private Wave latestWave;
 
@@ -46,7 +45,8 @@ public class Labyrinth{
 		int index = 2;
 		obelisks = new Array<Obelisk>(false, 4);
 		pedestals = new Array<Pedestal_Stone>(false, stoneAmount);
-		pillars = new Array<Pillar>(false, 4);
+		entrywayPillars = new Array<Pillar>(false, 2);
+		sanctuaryPillars = new Array<Pillar>(false, 4);
 		repositories = new Array<Repository>(false, 2);
 		waves = new Array<Wave>();
 		layout = new Room[maxSize][maxSize];
@@ -54,10 +54,8 @@ public class Labyrinth{
 		currentRoom.switchType(Room.Type.SANCTUARY);
 		sanctuary = currentRoom;
 		entryway = layout[center][center + 1] = new Room(center, center + 1, Room.DOWN, sanctuary);
-		Room firstHallway = layout[center][center + 2] = new Room(center, center + 2, Room.DOWN, entryway);
-		//Room firstHallway = createRoom(entryway);
+		firstHallway = layout[center][center + 2] = new Room(center, center + 2, Room.DOWN, entryway);
 		entryway.switchType(Room.Type.ENTRYWAY);
-		//Door door = new SanctuaryDoor(game);
 		roomAmount = Math.max(roomAmount - 3, 1);
 		rooms = new Array<Room>(false, roomAmount + 3);
 		rooms.addAll(currentRoom, entryway, firstHallway);
@@ -94,10 +92,10 @@ public class Labyrinth{
 			}
 		}
 		updateCurrentRoom(0, 0);
-		/*System.out.println(path.size);
+		//System.out.println(path.size);
 		System.out.println("Crystals Not Generated: " + stoneAmount);
 		System.out.println("Stones Not Generated: " + stoneAmount);
-		System.out.println("Rooms Not Generated: " + roomAmount + "Out Of" + rooms.size);*/
+		System.out.println("Rooms Not Generated: " + roomAmount + "Out Of" + rooms.size);
 	}
 
 	//adds a new room to an adjacent one
@@ -158,47 +156,65 @@ public class Labyrinth{
 			    Wave wave = itWaves.next();
 				Room eidolonRoom = wave.getRoom();
 				Room parentRoom = wave.getRoom().getParent();
-				//sanctuary should be persistent if player is in entryway and vice-versa
-				/*if(eidolonRoom != currentRoom){
-					if(entryway == eidolonRoom || sanctuary == eidolonRoom){
-						//persistent rooms
-						for(Eidolon eidolon : wave.getEidolons()){
-							this.getCurrentRoom().addEntity(eidolon);
-							eidolon.setPersistence(true);
-							eidolon.update(delta);
-						}
-						for(Entity entity : eidolonRoom.getEntities()){
-							//for magical pillars
-							entity.update(delta);
-						}
-					}
-				}else{
-					//change eidolon behavior when player isn't near
-					for(Eidolon eidolon : wave.getEidolons()){
-						eidolon.setPersistence(false);
-					}
-				}*/
-				//non-persistent rooms
 				eidolonTimer += delta;
 				if(eidolonTimer >= 10){
 					eidolonTimer = 0;
 					Array<Eidolon> eidolons = wave.getEidolons();
-					if(eidolons.size != 0){ //MOVE THIS BELOW DEAD EIDOLON CODE
-						if(parentRoom != null && currentRoom != eidolonRoom){
-							//move eidolons to next room
-							ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
-							while(itEidolons.hasNext()){
-								Eidolon eidolon = itEidolons.next();
-								if(eidolon.getHealth() <= 0){
-									//Eidolon is dead
-									eidolonRoom.addEntity(eidolon);
-									itEidolons.remove();
+					if(currentRoom != eidolonRoom){
+						//move eidolons to next room
+						ArrayIterator<Eidolon> itEidolons = (ArrayIterator<Eidolon>)eidolons.iterator();
+						while(itEidolons.hasNext()){
+							Eidolon eidolon = itEidolons.next();
+							if(eidolon.getHealth() <= 0){
+								//Eidolon is dead
+								eidolonRoom.addEntity(eidolon);
+								itEidolons.remove();
+							}else{
+								//update eidolon position
+								if(eidolonRoom == sanctuary){
+									eidolon.setPosition(Room.UP);
 								}else{
-									//update eidolon position
 									eidolon.setPosition(eidolonRoom.getSide(false));
 								}
 							}
-							if(parentRoom.equals(currentRoom)){
+						}
+						if(eidolons.size != 0){
+							int sunstones = 0;
+							for(Repository repository : repositories){
+								sunstones += repository.getStonesInserted();
+							}
+							if(parentRoom == sanctuary && sunstones > 0){
+								//take damage to sanctuary's door
+								System.out.println("Sanctuary Door is under attack!  Number: " + sunstones); //testing
+								if(repositories.get(0).getStonesInserted() > 0){
+									repositories.get(0).substractStone();
+								}else{
+									repositories.get(1).substractStone();
+								}
+								//kill some eidolons in the entryway
+								int pillarStones = 0;
+								for(Pillar pillar : entrywayPillars){
+									pillarStones = pillar.getStonesInserted() + 1;
+								}
+								wave.getEidolons().setSize(wave.getEidolons().size - MathUtils.random(pillarStones / 2, wave.getEidolons().size));
+							}else if(parentRoom == null && altar.getStonesInserted() > 0){
+								//move eidolons to altar & take damage to sun altar
+								System.out.println("Sun Altar is under attack!  Number: " + altar.getStonesInserted()); //testing
+								altar.substractStone();
+								//kill some eidolons in the sanctuary
+								int pillarStones = 0;
+								for(Pillar pillar : sanctuaryPillars){
+									pillarStones = pillar.getStonesInserted() + 1;
+								}
+								wave.getEidolons().setSize(wave.getEidolons().size - MathUtils.random(pillarStones / 2, wave.getEidolons().size));
+							}else if(parentRoom == null){
+								//game over
+								game.getPlayers().get(0).takeDamage(50);
+								if(game.getPlayers().size > 1){
+									game.getPlayers().get(1).takeDamage(50);
+								}
+								break;
+							}else if(currentRoom == parentRoom){
 								//move eidolons to players' current room
 								for(Entity entity : game.getEntities()){
 									if(entity.getClass() == Door.class){
@@ -209,13 +225,17 @@ public class Labyrinth{
 									}
 								}
 								game.getEntities().addAll(eidolons);
+								parentRoom.setDanger(true);
+								wave.setRoom(parentRoom);
+							}else{
+								//move eidolons to next room that players are not in
+								parentRoom.setDanger(true);
+								wave.setRoom(parentRoom);
 							}
-							parentRoom.setDanger(true);
-							wave.setRoom(parentRoom);
+						}else{
+							//remove empty wave
+							itWaves.remove();
 						}
-					}else{
-						//remove empty wave
-						itWaves.remove();
 					}
 				}
 			}
@@ -245,13 +265,17 @@ public class Labyrinth{
 						altar = new Altar(game, object);
 						currentRoom.addEntity(altar);
 					}
-				}else if(object.getName().equals("door")){ //check if its THE door, add THE door (In both Sanctuary & Adjacent Room)
+				}else if(object.getName().equals("door")){
 					entities.add(new Door(game, object));
 				}else if(object.getName().equals("pillar")){
 					if(!currentRoom.hasGenerated()){
 						Pillar pillar = new Pillar(game, object);
 						currentRoom.addEntity(pillar);
-						pillars.add(pillar);
+						if(currentRoom == sanctuary){
+							sanctuaryPillars.add(pillar);
+						}else{
+							entrywayPillars.add(pillar);
+						}
 					}
 				}else if(object.getName().equals("repository")){
 					if(!currentRoom.hasGenerated()){
@@ -309,7 +333,8 @@ public class Labyrinth{
 	public Altar getAltar(){
 		return altar;
 	}
-	
+
+	//returns the portal from the antechamber
 	public Portal getPortal(){
 		return portal;
 	}
@@ -327,10 +352,6 @@ public class Labyrinth{
 	//returns the size of every room
 	public Vector2 getRoomSize(){
 		return roomSize;
-	}
-
-	public Door getDoor(){
-		return door;
 	}
 
 	public boolean canEnter(int x, int y){

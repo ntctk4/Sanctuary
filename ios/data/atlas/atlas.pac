@@ -178,7 +178,7 @@ orb
   orig: 10, 10
   offset: 0, 0
   index: -1
-gravestone
+player_dead
   rotate: false
   xy: 207, 46
   size: 5, 12

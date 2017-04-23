@@ -163,7 +163,8 @@ public class Player extends Being{
 		game.shakeScreen(.25f, 50);
 		healthIndicator.set(health, maxHealth);
 		if(health <= 0){
-			sprite.setRegion(Assets.texture_Gravestone);
+			sprite.setRegion(Assets.texture_PlayerDead);
+			sprite.setSize(Assets.texture_PlayerDead.getRegionWidth(), Assets.texture_PlayerDead.getRegionHeight());
 		}
 	}
 
