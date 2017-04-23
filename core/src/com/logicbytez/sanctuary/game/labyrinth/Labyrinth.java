@@ -248,6 +248,11 @@ public class Labyrinth{
 		if(x != 0 || y != 0){
 			Vector2 currentLocation = currentRoom.getLocation();
 			currentRoom = layout[(int)currentLocation.x + x][(int)currentLocation.y + y];
+			if (currentRoom == antechamber) {
+				game.getHud().antechamberEntered();
+			}else{
+				game.getHud().antechamberLeft();
+			}
 			game.setTileRendererMap(currentRoom.getMap());
 			entities.clear();
 		}

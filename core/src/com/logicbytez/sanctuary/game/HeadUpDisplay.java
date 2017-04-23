@@ -19,6 +19,7 @@ public class HeadUpDisplay{
 	private Vector2 view;
 	private HudMessageOverlay messenger;
 	private boolean notifiedCrystals = false;
+	private boolean inAntechamber = false;
 	
 	private int stoneHeight;
 	private int crystalHeight;
@@ -64,7 +65,7 @@ public class HeadUpDisplay{
 			   String.valueOf(Labyrinth.MAX_CRYSTALS),
 			   -view.x + gemWidth / 2 - 17, view.y - stoneHeight - crystalHeight / 2 + 6);
 		
-		if(!game.isPaused()) {
+		if(!game.isPaused() && !inAntechamber) {
 			stateTime += delta;
 			if(stateTime <= TIMER) {
 				// hourglass is running
@@ -120,5 +121,13 @@ public class HeadUpDisplay{
 	
 	public void displayMessage(String str) {
 		messenger.displayMessage(str);
+	}
+	
+	public void antechamberEntered() {
+		inAntechamber = true;
+	}
+	
+	public void antechamberLeft() {
+		inAntechamber = false;
 	}
 }
