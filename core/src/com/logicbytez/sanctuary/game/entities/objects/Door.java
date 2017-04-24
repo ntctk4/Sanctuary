@@ -181,4 +181,9 @@ public class Door extends Entity{
 	public Direction getSide(){
 		return direction;
 	}
+
+	//checks if the door is already being used
+	public boolean isOpening(){
+		return opening;
+	}
 }

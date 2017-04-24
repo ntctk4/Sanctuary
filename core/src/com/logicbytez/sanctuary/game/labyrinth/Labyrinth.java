@@ -22,7 +22,7 @@ public class Labyrinth{
 	private boolean activated;
 	public final static int[] backgroundLayers = {0, 1}, foregroundLayer = {2};
 	private final static int maxSize = 10, center = maxSize / 2;
-	private int crystalAmount = MAX_CRYSTALS, roomAmount = 25, stoneAmount = 5, sanctuaryX = 0, sanctuaryY = 0;
+	private int crystalAmount = MAX_CRYSTALS, roomAmount = 35, stoneAmount = 5, sanctuaryX = 0, sanctuaryY = 0;
 	private float eidolonTimer;
 	private Altar altar;
 	private Array<Entity> entities;
@@ -92,10 +92,9 @@ public class Labyrinth{
 			}
 		}
 		updateCurrentRoom(0, 0);
-		//System.out.println(path.size);
-		System.out.println("Crystals Not Generated: " + stoneAmount);
+		/*System.out.println("Crystals Not Generated: " + stoneAmount);
 		System.out.println("Stones Not Generated: " + stoneAmount);
-		System.out.println("Rooms Not Generated: " + roomAmount + "Out Of" + rooms.size);
+		System.out.println("Rooms Not Generated: " + roomAmount + "Out Of" + rooms.size);*/
 	}
 
 	//adds a new room to an adjacent one
@@ -157,7 +156,7 @@ public class Labyrinth{
 				Room eidolonRoom = wave.getRoom();
 				Room parentRoom = wave.getRoom().getParent();
 				eidolonTimer += delta;
-				if(eidolonTimer >= 10){
+				if(eidolonTimer >= 5){
 					eidolonTimer = 0;
 					Array<Eidolon> eidolons = wave.getEidolons();
 					if(currentRoom != eidolonRoom){
@@ -185,7 +184,7 @@ public class Labyrinth{
 							}
 							if(parentRoom == sanctuary && sunstones > 0){
 								//take damage to sanctuary's door
-								System.out.println("Sanctuary Door is under attack!  Number: " + sunstones); //testing
+								//System.out.println("Sanctuary Door is under attack!  Number: " + sunstones); //testing
 								if(repositories.get(0).getStonesInserted() > 0){
 									repositories.get(0).substractStone();
 								}else{
@@ -199,7 +198,7 @@ public class Labyrinth{
 								wave.getEidolons().setSize(wave.getEidolons().size - MathUtils.random(pillarStones / 2, wave.getEidolons().size));
 							}else if(parentRoom == null && altar.getStonesInserted() > 0){
 								//move eidolons to altar & take damage to sun altar
-								System.out.println("Sun Altar is under attack!  Number: " + altar.getStonesInserted()); //testing
+								//System.out.println("Sun Altar is under attack!  Number: " + altar.getStonesInserted()); //testing
 								altar.substractStone();
 								//kill some eidolons in the sanctuary
 								int pillarStones = 0;
@@ -221,7 +220,9 @@ public class Labyrinth{
 									if(entity.getClass() == Door.class){
 										Door door = (Door)entity;
 										if(door.getSide().ordinal() == eidolonRoom.getSide(true)){
-											door.activate();
+											if(!door.isOpening()){
+												door.activate();
+											}
 										}
 									}
 								}
