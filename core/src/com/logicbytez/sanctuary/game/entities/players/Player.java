@@ -165,6 +165,10 @@ public class Player extends Being{
 		if(health <= 0){
 			sprite.setRegion(Assets.texture_PlayerDead);
 			sprite.setSize(Assets.texture_PlayerDead.getRegionWidth(), Assets.texture_PlayerDead.getRegionHeight());
+			if(game.getPlayers().size > 1){
+				game.getPlayers().removeValue(this, true);
+				game.getLabyrinth().getCurrentRoom().addEntity(this);
+			}
 		}
 	}
 

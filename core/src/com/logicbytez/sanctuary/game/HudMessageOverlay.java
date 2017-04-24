@@ -1,11 +1,11 @@
 package com.logicbytez.sanctuary.game;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.logicbytez.sanctuary.Assets;
 
 public class HudMessageOverlay {
@@ -14,8 +14,8 @@ public class HudMessageOverlay {
 	private Label messageLabel2;
 	private Table table;
 	
-	public HudMessageOverlay(Vector2 view) {
-		stage = new Stage();
+	public HudMessageOverlay(Vector2 view){
+		stage = new Stage(new StretchViewport(view.x * 4, view.y * 4));
 		Label.LabelStyle style = new Label.LabelStyle(Assets.font50, Color.WHITE);
 		messageLabel = new Label("", style);
 		messageLabel2 = new Label("", style);
