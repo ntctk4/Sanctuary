@@ -209,10 +209,11 @@ public class Labyrinth{
 								wave.getEidolons().setSize(wave.getEidolons().size - MathUtils.random(pillarStones / 2, wave.getEidolons().size));
 							}else if(parentRoom == null){
 								//game over
-								game.getPlayers().get(0).takeDamage(50);
-								if(game.getPlayers().size > 1){
-									game.getPlayers().get(1).takeDamage(50);
-								}
+								game.setAltarDestroyed();
+//								game.getPlayers().get(0).takeDamage(50);
+//								if(game.getPlayers().size > 1){
+//									game.getPlayers().get(1).takeDamage(50);
+//								}
 								break;
 							}else if(currentRoom == parentRoom){
 								//move eidolons to players' current room

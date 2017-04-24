@@ -26,7 +26,7 @@ import com.logicbytez.sanctuary.game.entities.players.Player;
 import com.logicbytez.sanctuary.game.input.Touchpad;
 
 public class GameScreen implements Screen{
-	private boolean leavingGameScreen = false, paused, stopped, testing, touchScreen;
+	private boolean leavingGameScreen = false, altarDestroyed = false, paused, stopped, testing, touchScreen;
 	private float fadeInTimer, fadeOutTimer, shakeTimer;
 	private int shakeMagnitude;
 	private Activity activity;
@@ -182,6 +182,8 @@ public class GameScreen implements Screen{
 			}
 		}else if(this.getLabyrinth().getPortal().getDestroyedObelisk() == 4){
 			endGame(true, delta);
+		}else if(altarDestroyed){
+			endGame(false, delta);
 		}else if(touchScreen){
 			touchPads.getSprite(true).draw(batch);
 			touchPads.getSprite(false).draw(batch);
@@ -304,7 +306,10 @@ public class GameScreen implements Screen{
 		if(isWon) {
 			displayString = "congratulations, you've defeated\n    the eidolon once and for all";
 		} else {
-			displayString = "  you died!\n\ngame over";
+			if(players.first().getHealth() <= 0)
+				displayString = "You Died";
+			else
+				displayString = "Sanctuary Destroyed";
 		}
 		
 		layout = new GlyphLayout(Assets.font25, displayString);
@@ -396,5 +401,10 @@ public class GameScreen implements Screen{
 	//flips the stopped boolean
 	public void switchStopped(){
 		stopped = !stopped;
+	}
+	
+	//sets altarDestroyed to true to signal game over
+	public void setAltarDestroyed(){
+		altarDestroyed = true;
 	}
 }
