@@ -59,6 +59,7 @@ public class GameScreen implements Screen{
 	@Override
 	//initializes the rest of the objects
 	public void show(){
+		altarDestroyed = false;
 		batch.setColor(1, 1, 1, 0);
 		leavingGameScreen = false;
 		shader = Assets.vignette;
